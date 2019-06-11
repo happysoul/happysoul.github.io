@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>NESASM</title>
+    <style>
+    html,body{font-size:14px; color:#444;} 
+    a {text-decoration: none; color:blue;}
+    a:hover{color:red;}
+    .main{margin:0 auto; width:960px;}
+    .box{border:1px solid #eee;}
+    </style>
+</head>
+
+<body>
+
+<div class="main">
+<p>【读取按键】
+</p><p>我们假设你要读取的是一个普通的方形NES手柄，而不是一些其他乱七八糟的东西。为了知道一个按键是否按下，你一次一键地读取0x4016（手柄1）或0x4017（手柄2）。如果按键按下，右边的bit0将被置位（1）。你用1同它相“与”，若结果不为0则跳转。在你读取任何内容之前，你需要先复位手柄（选通）。
+</p><p>【选通/复位】
+</p><p>为了选通/复位手柄，我们写入一个1然后一个0到0x4016（手柄1）或0x4017（手柄2）。可以这么搞：
+</p><p>lda #$01
+</p><p>sta $4016
+</p><p>lda #$00
+</p><p>sta $4016
+</p><p>对，就这样！之后可以真正读取手柄信息。
+</p><p>【读取顺序】
+</p><p>在对0x4016或0x4017进行的的每个读取操作，你获得了不同按键的状态，这些被读出按键的顺序为：
+</p><p>读取序号  |   对应按键
+</p><p>1.    A
+</p><p>2.    B
+</p><p>3.    SELECT
+</p><p>4.    START
+</p><p>5.    UP
+</p><p>6.    DOWN
+</p><p>7.    LEFT
+</p><p>8.    RIGHT
+</p><p>那么在我们搞些事情之前先学习一些条件和跳转指令怎么样？
+</p><p>【条件跳转】
+</p><p>我们在大多数指令中设置了一些特定“条件”，他们是：
+</p><p>EQ——EQual-Zero， 等于0
+</p><p>NE——Not Equal，不等于0
+</p><p>LT——Less Than，小于0
+</p><p>GT——Greater Than， 大于0
+</p><p>PL——Plus，正数
+</p><p>MI——Minus，负数
+</p><p>CC——Carry Clear，进位标志为0
+</p><p>CS——Carry Set，进位标志为1
+</p><p>VC——oVerflow Clear，溢出标志为0
+</p><p>VS——oVerflow Set， 溢出标志为1
+</p><p>这些条件会被大多数指令设置，甚至包括数据载入。所有这些条件都有一个分支指令。在条件码前加上“B”就构成了条件跳转指令，例如：
+</p><p>;假设有个标签叫做Loopto
+</p><p>beq Loopto;跳到Loopto如果上个比较结果为相等或者上条指令结果为0
+</p><p>bpl Loopto;跳到Loopto如果上次结果bit7为0
+</p><p>bmi Loopto;你懂的
+</p><p>我希望你已经发现规律了。我相信只有NE和EQ条件能被一个非比较指令影响。
+</p><p>以防万一你不知道，偷偷告诉你，一个label（标签）就是一个名称后面跟上冒号，例如
+</p><p>Loopto:
+</p><p>aslkdfj:
+</p><p>Hello_a:
+</p><p>我希望你懂了。记住：标签很好玩。
+</p><p>【读取按键的一个小栗子】
+</p><p>说够了。上代码：
+</p><p>    lda #$01    ; |
+</p><p>    sta $4016   ;  \
+</p><p>    lda #$00    ;   - 设置手柄用来读
+</p><p>    sta $4016   ; _/
+</p><p>    lda $4016  ; 读取按键A
+</p><p>    and #1     ; 判断是否按下
+</p><p>    bne WasDown  ; 按下就走
+</p><p>    ; 我不确定为什么是个BNE，但就是这样，所以就用吧！
+</p><p>    lda $4016  ; 读取按键B
+</p><p>    lda $4016  ; 读取按键SELECT
+</p><p>    lda $4016  ; 读取按键START
+</p><p>    and #1     ; 看看是否按下了？
+</p><p>    bne StartDown  ; 按下了，走起~
+</p><p>    lda $4016  ; UP
+</p><p>    lda $4016  ; DOWN
+</p><p>    lda $4016  ; LEFT
+</p><p>    lda $4016  ; RIGHT
+</p><p>    jmp NothingDown  ; 滚远点
+</p><p>StartDown:
+</p><p>    ; 开始了开始了
+</p><p>WasDown:
+</p><p>    ; AAAAAAAAAAAAAAAA
+</p><p>NothingDown:
+</p><p>    ; 啥都不干
+</p><p>希望你不认为这太难。
+</p><p>个人认为GBA是更容易编程的。所以对我而言，NES程序需要更多学习来搞明白。
+</p><p>【复习今天内容】
+</p><p>首先我想提一点，你可能知道我的GBA 汇编系列教程了，或许你也知道我的x86(DOS）汇编教程？在三门汇编语言中穿梭有时让人抓狂，所以如果你看到一些奇怪的或者错误，让我知道就行。谢谢。
+</p><p>按键检测不那么激情澎湃，但我可以告诉你后面更精彩。。。
+</p></div>
+</body>
+</html>

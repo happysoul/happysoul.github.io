@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>NESASM</title>
+    <style>
+    html,body{font-size:14px; color:#444;} 
+    a {text-decoration: none; color:blue;}
+    a:hover{color:red;}
+    .main{margin:0 auto; width:960px;}
+    .box{border:1px solid #eee;}
+    </style>
+</head>
+
+<body>
+
+<div class="main">
+<p>【VBlank？】
+</p><p>如果你不知道什么是VBlank， 那么假装我给了你一条鳟鱼；
+</p><p>如果你知道什么是VBlank，那么假装我给了你一条鳟鱼；
+</p><p>如果你不确定一条鳟鱼和NES有什么关系，那么假装我给了你一条鳟鱼；
+</p><p>既然我们房间里有一股想象中的鱼臭味，那么让我们学习更好的方式来与VBlank同步。
+</p><p>【我们怎么用它？】
+</p><p>首先我们有个标签，比如VBlank_Routine，无哦一我们把它放在段1的地址$FFFA处，就像这样：
+</p><p>    .bank 1
+</p><p>    .org $FFFA
+</p><p>    .dw VBlank_Routine ; VBlank中断向量
+</p><p>    .dw Start ; 复位向量
+</p><p>    .dw 0  ; 当BRK指令执行时的中断向量，改天再谈
+</p><p>    .bank 0
+</p><p>    .org $0000  ;保留一个变量VBlankOrNo
+</p><p>VBlankOrNo  .db 0
+</p><p>    .org $8000  ;code
+</p><p>VBlank_Routine:
+</p><p>    ;VBlank子程序开始
+</p><p>    inc VBlankOrNo
+</p><p>    ; 使变量VBlankOrNo增1
+</p><p>    rti  ; RTI 意思是中断返回 (Interrupt RETurn or ReTurn from Interrupt)
+</p><p>Start:
+</p><p>    ;主程序开始
+</p><p>    ;
+</p><p>;waitforvblank:  旧代码
+</p><p>;   lda $2002  旧代码
+</p><p>;   bpl waitforvblank 旧代码
+</p><p>;  新代码如下
+</p><p>WaitForVBlank:
+</p><p>    lda VBlankOrNo ; A = VBlankOrNO
+</p><p>    cmp #1         ; if A == 1 说明发生了VBlank
+</p><p>    bne WaitForVBlank ; 没有发生VBlank，循环
+</p><p>    dec VBlankOrNo ; 发生了VBlank，使变量VBlankOrNo减一，变为0
+</p><p>    ; 代码如旧
+</p><p>希望你懂了总体思想。
+</p><p>哦对了，别忘了将PPU控制寄存器中的“Generate VBlank Bit"设为1（我记得是bit7，可以复习第三天内容）。
+</p><p>修改后的代码比之前旧的循环更稳定。
+</p><p>晚安~
+</p></div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>NESASM</title>
+    <style>
+    html,body{font-size:14px; color:#444;} 
+    a {text-decoration: none; color:blue;}
+    a:hover{color:red;}
+    .main{margin:0 auto; width:960px;}
+    .box{border:1px solid #eee;}
+    </style>
+</head>
+
+<body>
+
+<div class="main">
+<p>【JSR？】
+</p><p>JSR代表Jump to SubRoutine，跳转到子程序，作用就是，嗯，跳转到子程序。JSR代表Jump to SubRoutine，跳转到子程序，作用就是，嗯，跳转到子程序。
+</p><p>【我们怎么用它？】
+</p><p>我们用它时只需要给出我们想跳转到的标签即可。例如：我们用它时只需要给出我们想跳转到的标签即可。例如：
+</p><p>    jsr OurSub
+</p><p>    ; 主程序
+</p><p>OurSub:
+</p><p>    ; 子程序
+</p><p>    ; 返回指令
+</p><p>【怎样返回？】
+</p><p>当然使用RTS（ReTurn from Subroutine）指令了！所以完整版代码应该为：
+</p><p>    jsr OurSub
+</p><p>    ; 主程序
+</p><p>OurSub:
+</p><p>    ;子程序
+</p><p>    rts  ; 返回到主程序
+</p><p>【更多】
+</p><p>记住一件事情，如果你正好想把一部分代码分离为单独的模块，那么上面描述的就够了。
+</p><p>【今日回顾】
+</p><p>子程序不得不说，否则中断你更不懂了。你不妨试试把我们前面讲过的几个功能模块分为若干子程序，代码会清晰很多~
+</p><p>编程愉快！
+</p></div>
+</body>
+</html>
