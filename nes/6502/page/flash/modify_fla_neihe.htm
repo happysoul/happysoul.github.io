@@ -1,0 +1,44 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><b><font size="4">//内核区闪存的修改</font></b></p>
+<p><b><font size="4">&nbsp; </font><font size="2">如果你没有看 非内核区 闪存的修改,请先去看看!</font></b></p>
+<p><font size="2"><b>&nbsp; 内核区闪存的修改,和非内核区的不同点有3处:</b></font></p>
+<p><font size="2"><b>&nbsp; 1.最开始要运行这样代码:</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp;&nbsp; LDA #$00</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp;&nbsp; STA $18</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp;&nbsp; 结束时,运行这样的代码:</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp;&nbsp; LDA #$1C</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp;&nbsp; STA $18</b></font></p>
+<p>　</p>
+<p><font size="2"><b>&nbsp;2.修改内核的代码也变了,变为下面这样:</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp; LDA #$AA</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp; STA $D555</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp; LDA #$55</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp; STA $AAAA</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp; LDA #$A0</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp; STA $D555</b></font></p>
+<p>　</p>
+<p><font size="2"><b>&nbsp;3.验证程序应该是这样</b></font></p>
+<p>　</p>
+<p><font size="2"><b>&nbsp; AA:&nbsp; LDA $C000</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND #$88</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CMP #$88</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BNE AA</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$F0</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STA $C000</b></font></p>
+<p>　</p>
+<p><font size="2"><b>&nbsp; 其他就是一样的了.</b></font></p>
+
+</body>
+
+</html>

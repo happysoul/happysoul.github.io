@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>NES ASM - Day 12</title>
+</head>
+<body bgcolor="lavender">
+<h1 align="center" style="color: LightCoral; width: 100%; filter:shadow()">Day 12 - VBlank And Interrupts</h1>
+<pre>
+
+
+</pre>
+<h2 align="center" style="color: LightCoral;"><b>VBlank?</b></h2>
+<p style="color: green;"><pre><b>
+	
+	If you don't know what VBlank is, pretend I'm hitting you with a trout. If
+you <i>do</i> know what VBlank is, pretend I'm hitting you with a trout. If you have
+no idea what a trout has to do with the NES, pretend I'm hitting you with a trout.
+
+	Now that we have an imaginary fish stench in the room, let's learn a better
+way to sync with VBlank.
+
+<h3 align="center" style="color: LightCoral;"><b>How do we use it?</b></h3>
+
+	First, we have a label, say 'VBlank_Routine', so we put it in the addresses
+in Bank 1 at $FFFA. Like so:
+
+	.bank 1
+	.org $FFFA
+	.dw VBlank_Routine ; address to execute on VBlank
+	.dw Start ; address to execute at RESET.
+	.dw 0  ; address to execute during a BRK instruction (Another Day, Another time).
+
+	.bank 0
+	.org $0000  ;variables
+VBlankOrNo  .db 0
+	.org $8000  ;code
+VBlank_Routine:
+	;start of function to execute on VBlank
+	inc VBlankOrNo
+	; add one (1) to VBlankOrNo, will be 1 if VBlank, 0 if not.
+	rti  ; RTI is (Interrupt RETurn or ReTurn from Interrupt)
+
+Start:
+	;start of main code
+	;blah some code
+;waitforvblank:  old code
+;	lda $2002  old code
+;	bpl waitforvblank old code
+;  the new code is :
+
+WaitForVBlank:
+	lda VBlankOrNo ; A = VBlankOrNO
+	cmp #1         ; if A == 1 then is VBlank
+	bne WaitForVBlank ; if not VBlank, then loop and do again
+	dec VBlankOrNo ; 1-- or VBlankOrNO - 1 . VBlankOrNo will be 0 again.
+
+	; blah, code as usual.
+
+
+I hope you get the general idea. I may have gotten something backwards or something,
+so if you know this is wrong, please tell me (I'm tired and may have not typed right!).
+
+UPDATE: Don't forget to set the "Generate VBlank bit" in one of the PPU Control ports!
+	(it's bit 7 of one of them, I think).
+
+<h3 align="center" style="color: LightCoral;"><b>This Day In Review</b></h3>
+
+	This method will, appearantely, be much more stable than our old loop.
+	
+	Greetings!,
+		-Mike H a.k.a GbaGuy
+
+<center><a href="nesasm.htm">Intro</a> - <a href="day13n.htm">Day 13</a></center>
+
+
+</b></pre></p>
+
+<br />
+<br />
+
+</body>
+</html>

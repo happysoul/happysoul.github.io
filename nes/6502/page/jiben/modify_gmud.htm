@@ -1,0 +1,228 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><b><font size="4">//</font><span lang="zh-cn"><font size="4">用NCTOOLS修改 
+黄金英雄坛说</font></span></b></p>
+<p>&nbsp; <span lang="zh-cn"><font size="2">
+大家一定很羡慕那些会修改游戏的朋友,其实学了汇编后,这些都是些雕虫小技,你完全可以</font></span></p>
+<p><span lang="zh-cn"><font size="2">做到,下面我们就来实现修改 黄金英雄坛&nbsp;&nbsp;&nbsp;</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 这里我修改的目的有三个：</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 1. 不需要攒够经验值，就可以向 独行大侠 请教</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2. 拜了一个师傅后，还可以拜另外的师傅，从而学习更多的武功</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 3. 搬一次石头，得10000经验值 和 10000潜能</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 这些修改其实是很简单的过程，下面我们来实现它们：</font></span></p>
+<p><font size="2">&nbsp; 1.<span lang="zh-cn">由于当你经验不足时，独行大侠 说 &quot;去去去,攒够经验再来吧!&quot;</span></font></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 所以我们根据这一线索,就可以找到相关的程序</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 我们进入 NCTOOLS,用 S C 命令查找 
+&quot;去去去&quot;</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; S C 4000BFFF040F,按 = 
+号,输入 &quot;去去去&quot;</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 在我的机子上,是在 0B 页码的地址 7BDC</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 
+我们应该知道,要显示这一文字,是要调用子程序的,而入口参数应该就是该段文字的开始地址</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 所以我们判断,应该有这样的程序,</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; LDA #$DC&nbsp;&nbsp;&nbsp; A9 
+DC</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; STA ??&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+85 ??</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; LDA #$7B&nbsp;&nbsp;&nbsp; A9 
+7B</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; STA ??&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+85 ??</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; </font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 我们输入&nbsp; S C 
+4000BFFF0B,输入查找内容 A9 DC 85</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 结果找到了,在地址7BC9</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BC9: A9 DC 85 A6 A9 7B 85 A7</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BD1: 20 D9 62 60</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 我们反汇编</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BC9: LDA #$DC</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BCB: STA $A6</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BCD: LDA #$7B</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BCF: STA $A7</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BD1: JSR $62D9</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BD4: RTS</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 
+这里我们应该知道,前面一定有条件跳转指令,当不满足某些条件时,程序才转到地址7BC9执行</font></span></p>
+<p><span lang="zh-cn"><font size="2">当满足条件时,独行大侠 才教你.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 我们往前面看,看到下面数据</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7B99: C9 07 D0 38 A9 03 85 82</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BA1: A9 00 85 83 A9 40 85 80</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BA9: A9 0D 85 81 AD B3 2E C5</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BB1: 83 D0 13 AD B2 2E C5 82</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BB9: D0 0C AD B1 2E C5 81 D0</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BC1: 05 AD B0 2E C5 80 B0 0C</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; <font color="#FF0000">7BC9: A9 
+DC 85 A6 A9 7B 85 A7</font></font></span><font color="#FF0000"></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BD1: 20 D9 62 60</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; </font></span></font>
+<span lang="zh-cn"><font size="2">我们反汇编下:</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7B99: CMP #$07</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7B9B: BNE $7BD5&nbsp; </font>
+</span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7B9D: LDA #$03&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;03送地址82</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7B9F: STA $82</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BA1: LDA #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;00送地址83</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BA3: STA $83</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BA5: LDA #$40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;40送地址80</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BA7: STA $80</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BA9: LDA #$0D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;0D送地址81</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BAB: STA $81</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BAD: LDA $2EB3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;地址2EB3的内容和地址83的内容比较</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BB0: CMP $83</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BB2: BNE $7BC7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;不同,则转 $7BC7</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BB4: LDA $2EB2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;地址2EB2的内容和地址82的内容比较</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BB7: CMP $82&nbsp;&nbsp;&nbsp;&nbsp;
+</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BB9: BNE $7BC7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;不同,转地址 7BC7</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BBB: LDA $2EB1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;地址2EB1的内容和地址81的内容比较</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BBE: CMP $81&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BC0: BNE $7BC7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;不同,转地址 7BC7</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BC2: LDA $2EB0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;地址2EB0的内容和地址80的内容比较</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BC5: CMP $80</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BC7: BCS $7BD5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;若地址2EB0的内容 &gt; 地址80的内容,转地址7BD5</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BC9: LDA #$DC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;这里就应该是显示&quot;去去去,攒够经验再来吧!&quot;</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BCB: STA $A6</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BCD: LDA #$7B</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BCF: STA $A7</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BD1: JSR $62D9</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 7BD4: RTS</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; </font></span></p>
+<font color="#FF0000">
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; </font></span></font>
+<span lang="zh-cn"><font size="2">我们知道,只有经验值到了 
+20万,独行大侠才教你基本工夫,我们通过计算器得知,20万用16进制表示是 00 03 0D 40</font></span></p>
+<p><span lang="zh-cn"><font size="2">这里地址2EB0-2EB3是经验值的地址,一共4个字节,所以经验值最大是 FF FF 
+FF FF,即10进制的4294967295,在这个程序里</font></span></p>
+<p><span lang="zh-cn"><font size="2">比较经验值是否 &gt; 20万,如果是,程序就转地址 
+7BD5,我们为了达到我们的目的,只要这样做</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;7B9D: JMP $7BD5</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 就可以,即无条件转到地址 
+7BD5,这样不管经验值是多少,都可以向独行大侠 请教了.</font></span></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="79%">
+  <tr>
+    <td width="40%">
+    <img border="0" src="../pic/gmud1.jpg" width="390" height="173"></td>
+    <td width="60%">
+    <img border="0" src="../pic/gmud2.jpg" width="386" height="170"></td>
+  </tr>
+</table>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">
+2.当你已经有师傅的时候,你再拜师傅,师傅就会说:&quot;你已另有名师,还想来我这儿偷师学艺吗?&quot;</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 这句话就是线索,我们就可以找到相关的程序.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 我们&nbsp; S C 4000BFFF040F</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+输入查找数据 &quot;你已另有名师&quot;</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+结果我们找到了,这里我是在 0B 页码的地址 802B</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 根据前面的经验,我们知道有这样的指令&nbsp; LDA #$2B&nbsp;&nbsp;
+</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+STA ??</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+LDA #$80</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+STA ??</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 我们找到机器码是&nbsp; A9 2B 85</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 然后我们查找&nbsp; S C 4000BFFF0B</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 输入查找数据 A9 2B 85,结果找到了,在0B 页码的地址 7B37</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 7B37: A9 2B 85 A6 A9 80 85 A7</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 7B3F: AD A9 2E C9 00 F0 07 CD</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 7B47: 91 2F F0 02 D0 28 A5 50</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; </font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 这里我一眼就能看出是改那里,但大家可能不懂机器码,所以也要反汇编</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 这里我建议大家还是学些机器码,要不这些字节在你眼里是数据,但在我的</font></span></p>
+<p><span lang="zh-cn"><font size="2">眼中却是程序,而且反汇编的时候,你由于不懂机器码,不知道从那里开始反汇编</font></span></p>
+<p><span lang="zh-cn"><font size="2">不能分辨出数据与代码.这里我们反汇编</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;7B37: LDA #$2B</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;7B39: STA $A6</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;7B3B: LDA #$80</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;7B3D: STA $A7</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;7B3F: LDA $2EA9</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;7B42: CMP #$00</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;7B44: BEQ $7B4D</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;7B46: CMP $2F91</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;7B49: BEQ $7B4D</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;7B4B: BNE $7B75</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;7B4D: LDA $50</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 这里我们看到,程序判断地址 
+2EA9的内容是不是0,如果是,说明你还没有师傅,那么就可以拜师</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;所以我们改这里为 </font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 7B3F: JMP $7B4D</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 机器码为 4C 4D 7B</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 就可以拜很多师傅,学很多东西了.</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">3. 那工地管事说&quot;你是干什么的,别在工地乱跑&quot;</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 我们就查找,结果我在 0D 页码地址7B45找到了</font></span></p>
+<p><img border="0" src="../pic/gmud3.jpg" width="386" height="176"></p>
+<p><span lang="zh-cn">&nbsp; 当你把石头搞丢了,工地管事说&quot;你真粗心一定是半路上把石料丢了&quot;,该文字开始地址 7B60</span></p>
+<p><span lang="zh-cn">&nbsp; 当你搬来了石头,工地管事说&quot;多谢你大老远把石料送过来,辛苦了&nbsp;&nbsp;&nbsp; 
+你被奖励了...&quot;,该文字开始地址 7B81</span></p>
+<p><span lang="zh-cn">&nbsp; 我们查找&nbsp; S C 4000 0D ,输入查找数据 A9 45 85,找到了,在地址 
+7A84</span></p>
+<p><img border="0" src="../pic/GMUD4.JPG" width="385" height="165"></p>
+<p><span lang="zh-cn">我们于是知道,当你和 工地管事说话,如果你没有接受搬石头任务,会执行地址7A84开始的程序</span></p>
+<p><span lang="zh-cn">当你搬了石头,会执行 7AB1那里的程序,因为那里有 A9 81 85,即 LDA #$81 STA ??</span></p>
+<p><span lang="zh-cn">所以我们直接在7A84那里写上&nbsp; JMP $7AB1,即 E C 7A84, 输入 4C B1 7A</span></p>
+<p><span lang="zh-cn">就可以了,你每次和工地管事说话,他都给你经验值和潜能,不过每次给的也太少了,我们可以</span></p>
+<p><span lang="zh-cn">修改的多一些,我们 V 7AB1,看到下面数据:</span></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="98%">
+  <tr>
+    <td width="32%">
+    <img border="0" src="../pic/gmud5.jpg" width="302" height="150"></td>
+    <td width="34%"><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </span><img border="0" src="../pic/gmud6.jpg" width="308" height="149"></td>
+    <td width="34%"><span lang="zh-cn">&nbsp; </span>
+    <img border="0" src="../pic/gmud7.jpg" width="292" height="146"></td>
+  </tr>
+</table>
+<p><span lang="zh-cn"><font size="2">&nbsp; 由于数据较多,我就不反汇编了,我直接告诉大家吧.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 
+前面我们已经知道,2EB0-2EB3是经验值地址,通过看这里程序,我们又知道 2ECF-2ED0 是潜能的地址</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 既然我们知道地址了,那么我们想怎么改都可以,用计算器算出 
+10000的十六进制是2710,那么我们只要修改</font></span></p>
+<p><span lang="zh-cn"><font size="2">地址 7B0A: AD B0 2E 69 10 8D B0 2E AD B1 2E 
+69 27 8D B1 2E EA EA</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 7B27: AD CF 2E 69 
+10 8D CF 2E AD D0 2E 69 27 8D D0 2E EA EA</font></span></p>
+<p><span lang="zh-cn"><font size="2">然后我们还需要修改信息,因为已经是10000了呀</font></span></p>
+<p><span lang="zh-cn"><font size="2">V 7B81</font></span></p>
+<p><span lang="zh-cn"><font size="2">按 输入法 ,输入&quot;Thank you! 
+你被奖励了1万经验值和潜能&quot;,然后后面多出的字用20代替</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;
+<img border="0" src="../pic/gmud8.jpg" width="379" height="161"></font></span></p>
+<p><span lang="zh-cn"><font size="2">我们进入GMUD,看看效果</font></span></p>
+<p><img border="0" src="../pic/gmud9.jpg" width="361" height="164"></p>
+<p><img border="0" src="../pic/gumd10.jpg" width="387" height="168"></p>
+<p>　</p>
+
+</body>
+
+</html>

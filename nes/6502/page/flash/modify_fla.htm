@@ -1,0 +1,539 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><b><font size="4">//非内核区闪存的修改</font></b></p>
+
+<p><b><font size="4">&nbsp; </font></b><font size="2">
+闪存的修改也包括内核区闪存的修改和非内核区闪存的修改，这里讨论内核区闪存的修改.</font></p>
+
+<p><font size="2">&nbsp;&nbsp; 要修改闪存区域的某个地址或某段地址的内容，首先必须保证该个地址或该段地址的内容为 FF</font></p>
+
+<p><font size="2">如果不是，那么必须擦除该个地址或该段地址所在的闪存块.</font></p>
+
+<p><font size="2">&nbsp; 如图1：</font></p>
+
+<p><img border="0" src="../pic/modify1.jpg" width="288" height="142"></p>
+
+<p>&nbsp; <font size="2">这里由于地址4010-4017内容是 FF，所以这里我们就修改0E页码地址4010 -地址 4017的内容为 
+00 01 02 03 04 05 06 07</font></p>
+
+<p><font size="2">但是大家要注意的是，我这里的0E页码是没有被系统占用的，大家实验的时候，先找块没有被系统用的页码，然后才可以实验</font></p>
+
+<p><font size="2">程序如下：</font></p>
+
+<p><font size="2">&nbsp;&nbsp;&nbsp; A 2000</font></p>
+
+<p>　</p>
+
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2000:SEI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//设置中断标志</font></p>
+
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2001:LDA $00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//保护地址00 0A 0D 的内容,方法是先压入堆栈</font></p>
+
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2003:PHA</font></p>
+
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2004:LDA $0A</font></p>
+
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2006:PHA</font></p>
+
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2007:LDA $0D</font></p>
+
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2009:PHA</font></p>
+
+<p><font size="2">&nbsp;&nbsp;&nbsp; 200A:LDA $0A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址0A的最高位置 0</font></p>
+
+<p><font size="2">&nbsp;&nbsp;&nbsp; 200C:AND #$7F</font></p>
+
+<p><font size="2">&nbsp;&nbsp;&nbsp; 200E:STA $0A</font></p>
+
+<p>　</p>
+
+<p><font size="2"><span lang="en-us">&nbsp;&nbsp;&nbsp; 2010:LDA #$10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//</span>这里把目标地址的高8位送地址 41， 低8位送地址 40</font></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 2012:STA $40</font></span></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 2014:LDA #$40</font></span></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 2016:STA $41</font></span></p>
+
+<p>　</p>
+
+<p><font size="2"><span lang="en-us">&nbsp;&nbsp;&nbsp; 2018:LDA #$0E</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//把页码数送寄存器A</font></p>
+
+<p><font size="2"><span lang="en-us">&nbsp;&nbsp;&nbsp; 201A:STA $00</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//切换到了 09 页码了</font></p>
+
+<p>　</p>
+
+<p><font size="2"><span lang="en-us">&nbsp;&nbsp;&nbsp; 201C:LDY #$00</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//X，Y寄存器初始化均为 00</font></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 201E:LDX #$00</font></span></p>
+
+<p>　</p>
+
+<p><font size="2"><span lang="en-us">&nbsp;&nbsp;&nbsp; 2020:TXA</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器 X的内容送 A</font></p>
+
+<p><font size="2"><span lang="en-us">&nbsp;&nbsp;&nbsp; 2021:PHA</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//A 的内容送堆栈</font></p>
+
+<p>　</p>
+
+<p><font size="2"><span lang="en-us">&nbsp;&nbsp;&nbsp; 2022:LDA #$AA </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//这里就是 修改闪存的 代码了，大家不能改，照着抄</font></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 2024:STA $5555</font></span></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 2027:LDA #$55</font></span></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 2029:STA $AAAA</font></span></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 202C:LDA #$A0</font></span></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 202E:STA $5555</font></span></p>
+
+<p>　</p>
+
+<p><font size="2"><span lang="en-us">&nbsp;&nbsp;&nbsp; 2031:PLA</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//把原来压入堆栈 的&nbsp; X 的内容弹出堆栈，并送寄存器A</font></p>
+
+<p><font size="2"><span lang="en-us">&nbsp;&nbsp;&nbsp; 2032:STA ($40),Y</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器 A 的内容送以 地址 40的内容为低8位，41的内容为高8位的16地址，实现修改闪存</font></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; </font></span></p>
+
+<p><font size="2"><span lang="en-us">&nbsp;&nbsp;&nbsp; 2034:LDA $8000</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//这段代码是检测是否修改成功，大家不要变</font></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 2037:AND #$88</font></span></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 2039:CMP #$88</font></span></p>
+
+<p><font size="2"><span lang="en-us">&nbsp;&nbsp;&nbsp; 203B:BNE $2034</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//这里是可能要变的，反正是跳转到 LDA ＄８０００那里的地址</font></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 203D:LDA #$F0</font></span></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 203F:STA $8000</font></span></p>
+
+<p>　</p>
+
+<p><font size="2"><span lang="en-us">&nbsp;&nbsp;&nbsp; 2042:CPX #$07</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器X的内容为07 吗,如果是,那就说明全部修改完了,转结束</font></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 2044:BCS $2050</font></span></p>
+
+<p><font size="2"><span lang="en-us">&nbsp;&nbsp;&nbsp; 2046:INX</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//没有,那么,寄存器X的内容加1</font></p>
+
+<p><font size="2"><span lang="en-us">&nbsp;&nbsp;&nbsp; 2047:INC $40</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址40的内容加1,为写入下一个地址做准备 </font></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 2049:BNE $204D</font></span></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 204B:INC $41</font></span></p>
+
+<p><font size="2"><span lang="en-us">&nbsp;&nbsp;&nbsp; 204D:JMP $2020</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//继续开始修改闪存</font></p>
+
+<p>　</p>
+
+<p><font size="2"><span lang="en-us">&nbsp;&nbsp;&nbsp; 2050:CLI</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//程序结束</font></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 2051:PLA</font></span></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 2052:STA $0D</font></span></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 2054:PLA</font></span></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 2055:STA $0A</font></span></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 2057:PLA</font></span></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 2058:STA $00</font></span></p>
+
+<p><span lang="en-us"><font size="2">&nbsp;&nbsp;&nbsp; 205A:RTS</font></span></p>
+
+<p><font size="2">&nbsp; 然后我们&nbsp; G 2000</font></p>
+
+<p><font size="2">&nbsp; 再 D 4000 0E,发现已经修改成功,如图2:</font></p>
+
+<p><img border="0" src="../pic/modify2.jpg" width="298" height="141"></p>
+
+<p>&nbsp; <b><font size="2">这里要提醒大家的是,在运行 修改闪存代码前,请将要修改的数据压入堆栈,然后运行完 修改闪存代码后</font></b></p>
+
+<p><b><font size="2">把压入堆栈的数据弹出,而且必须采用 后变址Y间接寻址方式,将数据写入 闪存地址,这里不支持 直接X变址 和 直接Y变址</font></b></p>
+
+<p><b><font size="2">但还支持 直接寻址,不过我们一般就是用 后变址Y间接寻址 方式</font></b></p>
+
+<p>　</p>
+
+<p><font size="2"><b>&nbsp; </b>前面的程序比较的简单,因为闪存地址的内容已经是 
+FF,所以我们不需要擦除闪存,不过下面我们要修改一段内容不为 FF 的闪存地址的</font></p>
+
+<p><font size="2">内容为 00 01 02 03 04 05 06 07,那么我们应该怎么做,请看我们分析:</font></p>
+
+<p><font size="2">&nbsp; 假如我们要修改 图 2 的地址4018-401F 的内容为 00 01 02 03 04 05 06 07</font></p>
+
+<p><font size="2">&nbsp; 由于地址 4018-401F 的内容不为 FF,所以我们要先擦除 该段地址所处的闪存块,很明显,处与 01 
+闪存块,那么我们就需要先擦除</font></p>
+
+<p><font size="2">地址 4000-47FF 的内容全部为 FF,<b>那么就出现一个问题,我们这样做,势必会破坏其他地址的内容啊?</b></font></p>
+
+<p><font size="2">&nbsp; 所以我们需要先保护地址4000-47FF的内容,在 NC1020中,我们可以这样做:</font></p>
+
+<p>　</p>
+
+<p><font size="2">&nbsp; 1.先把 地址 4000-47FF的内容 发送到 地址 3000-37FF</font></p>
+
+<p><font size="2">&nbsp; 2.把 00 01 02 03 04 05 06 07 发送到地址&nbsp; 3018-301F,<b>注意,这里是3018-301F</b></font></p>
+
+<p><font size="2">&nbsp; 3.擦除 地址 4000-47FF</font></p>
+
+<p><font size="2">&nbsp; 4.把地址 3000-37FF 的内容 送地址 4000-47FF</font></p>
+
+<p><font size="2">&nbsp; 5.修改完毕,OK!</font></p>
+
+<p>　</p>
+
+<p><font size="2">&nbsp; 
+由于上面有大量的数据传送程序,我们先来编写一个数据传输的子程序,可以实现任意地址数据之间的传输,这个子程序也被广泛</font></p>
+
+<p><font size="2">用于我的 XASM,NCTOOLS等DEBUG工具中.</font></p>
+
+<p><font size="2">&nbsp; 我这里是这样规定的:</font></p>
+
+<p><font size="2">&nbsp; 地址 40 41&nbsp;&nbsp;&nbsp;&nbsp; 源开始的地址</font></p>
+
+<p><font size="2">&nbsp; 地址 42 43&nbsp;&nbsp;&nbsp;&nbsp; 源结束地址</font></p>
+
+<p><font size="2">&nbsp; 地址 44 45&nbsp;&nbsp;&nbsp;&nbsp; 目标开始地址</font></p>
+
+<p><font size="2">&nbsp; 地址 46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 源页码,若是 
+RAM,页码为 FF</font></p>
+
+<p><font size="2">&nbsp; 地址 47&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 目标页码,若是 
+RAM,页码为 FF</font></p>
+
+<p>　</p>
+
+<p><font size="2">&nbsp; A 2000</font></p>
+
+<p><font size="2">&nbsp; 2000:SEI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//这里设置中断标志,保护地址 0D 0A 00的内容</font></p>
+
+<p><font size="2">&nbsp; 2001:LDA $00</font></p>
+
+<p><font size="2">&nbsp; 2003:PHA</font></p>
+
+<p><font size="2">&nbsp; 2004:LDA $0A</font></p>
+
+<p><font size="2">&nbsp; 2006:PHA</font></p>
+
+<p><font size="2">&nbsp; 2007:LDA $0D</font></p>
+
+<p><font size="2">&nbsp; 2009:PHA</font></p>
+
+<p><font size="2">&nbsp; 200A:LDA $0A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//保证地址OA 最高位为 0</font></p>
+
+<p><font size="2">&nbsp; 200C:AND #$7F</font></p>
+
+<p><font size="2">&nbsp; 200E:STA $0A</font></p>
+
+<p>　</p>
+
+<p><font size="2">&nbsp; 2010:LDY #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //寄存器 
+Y的内容为00,因为后面要用到的 后变址Y间接寻址 要求 (Y)=00</font></p>
+
+<p>　</p>
+
+<p><font size="2">&nbsp; 2012:LDA $46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //这里 
+切换到 源页码</font></p>
+
+<p><font size="2">&nbsp; 2014:STA $00</font></p>
+
+<p><font size="2">&nbsp; 2016:LDA ($40),Y&nbsp;&nbsp;&nbsp;&nbsp; 
+//读取源页码的相应地址数据到 寄存器 A</font></p>
+
+<p><font size="2">&nbsp; 2018:PHA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器A的内容压入堆栈,准备写入 目标页码的闪存</font></p>
+
+<p>　</p>
+
+<p><font size="2">&nbsp; 2019:LDA $47&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//目标页码 数是放在地址47,这里如果地址47的内容 大于&nbsp; 10,那说明目标地址所在区域为 RAM</font></p>
+
+<p><font size="2">&nbsp; 201B:CMP #$10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+那么就不需要运行 修改闪存 的代码</font></p>
+
+<p><font size="2">&nbsp; 201D:BCS $2048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//若页码数 &gt;10,那么转地址 2048,可以直接把数据写入目标地址</font></p>
+
+<p><font size="2">&nbsp; 201F:STA $00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//那么说明目标地址处于闪存 或者 00页码</font></p>
+
+<p><font size="2">&nbsp; 2021:CMP #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//如果是 00 页码,由于地址 4000-7FFF也是 RAM,所以也可以直接写入</font></p>
+
+<p><font size="2">&nbsp; 2023:BEQ $2048&nbsp;&nbsp;&nbsp;&nbsp; </font></p>
+
+<p><font size="2">&nbsp; 2025:LDA #$AA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//这里就是&nbsp; 写闪存的 代码,不能变</font></p>
+
+<p><font size="2">&nbsp; 2027:STA $5555</font></p>
+
+<p><font size="2">&nbsp; 202A:LDA #$55</font></p>
+
+<p><font size="2">&nbsp; 202C:STA $AAAA</font></p>
+
+<p><font size="2">&nbsp; 202F:LDA #$A0</font></p>
+
+<p><font size="2">&nbsp; 2031:STA $5555</font></p>
+
+<p>　</p>
+
+<p><font size="2">&nbsp; 2034:PLA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//把压入堆栈的数据出栈,写入 目标闪存</font></p>
+
+<p><font size="2">&nbsp; 2035:STA ($44),Y</font></p>
+
+<p>　</p>
+
+<p><font size="2">&nbsp; 2037:LDA $8000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //检测 
+是否已经 修改 完毕,和前面的一样</font></p>
+
+<p><font size="2">&nbsp; 203A:AND #$88</font></p>
+
+<p><font size="2">&nbsp; 203C:CMP #$88</font></p>
+
+<p><font size="2">&nbsp; 203E:BNE $2037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font></p>
+
+<p><font size="2">&nbsp; 2040:LDA #$F0</font></p>
+
+<p><font size="2">&nbsp; 2042:STA $8000</font></p>
+
+<p><font size="2">&nbsp; 2045:JMP $204B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//跳过下面的两行代码</font></p>
+
+<p>　</p>
+
+<p><font size="2">&nbsp; 2048:PLA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//这里当目标地址 是RAM,直接把数据写入</font></p>
+
+<p><font size="2">&nbsp; 2049:STA ($44),Y</font></p>
+
+<p>　</p>
+
+<p><font size="2">&nbsp; 204B:LDA $40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//把地址40 41的内容和地址 42 43的数据比较,如果相同,说明数据全部发送完毕</font></p>
+
+<p><font size="2">&nbsp; 204D:CMP $42</font></p>
+
+<p><font size="2">&nbsp; 204F:BNE $2062</font></p>
+
+<p><font size="2">&nbsp; 2051:LDA $41</font></p>
+
+<p><font size="2">&nbsp; 2053:CMP $43</font></p>
+
+<p><font size="2">&nbsp; 2055:BNE $2062</font></p>
+
+<p><font size="2">&nbsp; </font></p>
+
+<p><font size="2">&nbsp; 2057:CLI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//如果地址 40 41的内容和地址 42 43的内容相同,程序结束</font></p>
+
+<p><font size="2">&nbsp; 2058:PLA</font></p>
+
+<p><font size="2">&nbsp; 2059:STA $0D</font></p>
+
+<p><font size="2">&nbsp; 205B:PLA</font></p>
+
+<p><font size="2">&nbsp; 205C:STA $0A</font></p>
+
+<p><font size="2">&nbsp; 205E:PLA</font></p>
+
+<p><font size="2">&nbsp; 205F:STA $00</font></p>
+
+<p><font size="2">&nbsp; 2061:RTS</font></p>
+
+<p>　</p>
+
+<p><font size="2">&nbsp; 2062:INC $40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址40, 44的内容加1,为读取和写入 下一字节做 准备</font></p>
+
+<p><font size="2">&nbsp; 2064:BNE $2069</font></p>
+
+<p><font size="2">&nbsp; 2066:INC $41</font></p>
+
+<p><font size="2">&nbsp; 2068:INC $44</font></p>
+
+<p><font size="2">&nbsp; 206A:BNE $206F</font></p>
+
+<p><font size="2">&nbsp; 206C:INC $45</font></p>
+
+<p><font size="2">&nbsp; 206E:JMP $2012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//继续转地址2012</font></p>
+
+<p>　</p>
+
+<p><font size="2">&nbsp; 有了前面的基础,我想上面的程序大家应该可以看懂吧!</font></p>
+
+<p><font size="2">&nbsp; 在前面的擦除闪存 教程中,已经介绍了擦除任意连续闪存块的子程序,现在我们派上用场了,程序如下:</font></p>
+
+<p><font size="2">&nbsp; </font></p>
+
+<p><font size="2">&nbsp; 2100:SEI</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 2101:LDA $00</font></p>
+<p><font size="2">&nbsp; 2103:PHA</font></p>
+<p><font size="2">&nbsp; 2104:LDA $0A</font></p>
+<p><font size="2">&nbsp; 2106:PHA</font></p>
+<p><font size="2">&nbsp; 2107:LDA $0D</font></p>
+<p><font size="2">&nbsp; 2109:PHA</font></p>
+<p><font size="2">&nbsp; 210A:LDA $0A</font></p>
+<p><font size="2">&nbsp; 210C:AND #$7F</font></p>
+<p><font size="2">&nbsp; 210E:STA $0A</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; <b>2110:LDA $F4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//这里读取地址F4的内容作为页码,在调用这个子程序前,要先把页码送地址F4</b></font></p>
+<p><b><font size="2">&nbsp; 2112:STA $00</font></b></p>
+<p>　</p>
+<p><font size="2">&nbsp; 2114:LDA #$F0&nbsp;&nbsp;&nbsp; 
+//下面的代码就是擦除闪存的代码,是不能变的,大家也别问为什么是这样的代码,照抄就是!!!</font></p>
+<p><font size="2">&nbsp; 2116:STA $8000 </font></p>
+<p><font size="2">&nbsp; 2119:LDA #$AA</font></p>
+<p><font size="2">&nbsp; 211B:STA $5555</font></p>
+<p><font size="2">&nbsp; 211E:LDA #$55</font></p>
+<p><font size="2">&nbsp; 2120:STA $AAAA</font></p>
+<p><font size="2">&nbsp; 2123:LDA #$80</font></p>
+<p><font size="2">&nbsp; 2125:STA $5555</font></p>
+<p><font size="2">&nbsp; 2128:LDA #$AA</font></p>
+<p><font size="2">&nbsp; 212A:STA $5555</font></p>
+<p><font size="2">&nbsp; 212D:LDA #$55</font></p>
+<p><font size="2">&nbsp; 212F:STA $AAAA</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; <b>2132:LDY #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器Y的内容 = 0</b></font></p>
+<p><b><font size="2">&nbsp; 2134:LDA #$30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址 F0为块头地址低8位, F1为块头地址高8位,然后把立即数30送块头地址</font></b></p>
+<p><b><font size="2">&nbsp; 2136:STA ($F0),Y</font></b></p>
+<p>　</p>
+<p><font size="2">&nbsp; 2138:LDA $8000&nbsp;&nbsp;&nbsp; //这段代码是固定的,大家照抄!!</font></p>
+<p><font size="2">&nbsp; 213B:AND #$88</font></p>
+<p><font size="2">&nbsp; 213D:CMP #$88</font></p>
+<p><font size="2">&nbsp; <b>213F:BNE $2138&nbsp;&nbsp;&nbsp; 
+//注意,这里是变化的,因为代码开始执行地址是不同的,不要这个也照抄,那就完了!!反正是跳转到 LDA $8000 那个地址</b></font></p>
+<p><font size="2">&nbsp; 2141:LDA #$F0</font></p>
+<p><font size="2">&nbsp; 2143:STA $8000</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; <b>2146:LDA $F1&nbsp;&nbsp;&nbsp;&nbsp; 
+//由于是擦除连续的闪存块,所以这里要检查是不是已经全部擦除完毕,方法是把地址F1的内容和地址F3比较</b></font></p>
+<p><b><font size="2">&nbsp; 2148:CMP $F3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+如果相同,则说明已经擦除完,转地址2152,准备结束程序</font></b></p>
+<p><b><font size="2">&nbsp; 214A:BEQ $2154</font></b></p>
+<p><b><font size="2">&nbsp; 214C:CLC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//如不同, 地址 F1的内容加 8,请想想为什么是加 8</font></b></p>
+<p><b><font size="2">&nbsp; 214D:ADC #$08</font></b></p>
+<p><font size="2"><b>&nbsp; 214F:STA $F1</b></font></p>
+<p><b><font size="2">&nbsp; 2151:JMP $2114&nbsp;&nbsp; //继续擦除下一闪存块</font></b></p>
+<p><font size="2">&nbsp; </font></p>
+<p><font size="2">&nbsp; 2154:CLI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//清除中断标志,恢复被保护的地址内容,程序结束</font></p>
+<p><font size="2">&nbsp; 2155:PLA</font></p>
+<p><font size="2">&nbsp; 2156:STA $0D</font></p>
+<p><font size="2">&nbsp; 2158:PLA</font></p>
+<p><font size="2">&nbsp; 2159:STA $0A</font></p>
+<p><font size="2">&nbsp; 215B:PLA</font></p>
+<p><font size="2">&nbsp; 215C:STA $00</font></p>
+<p><font size="2">&nbsp; 215E:RTS</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 现在我们可以很容易的实现修改闪存了,下面我们就实现 修改 0E 页码 的4018-401F 的内容为 00 
+01 02 03 04 05 06 07</font></p>
+<p><font size="2">&nbsp; A 220B</font></p>
+<p><font size="2">&nbsp; 220B:LDA #$00</font></p>
+<p><font size="2">&nbsp; 220D:STA $40</font></p>
+<p><font size="2">&nbsp; 220F:LDA #$40</font></p>
+<p><font size="2">&nbsp; 2211:STA $41</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 2213:LDA #$FF</font></p>
+<p><font size="2">&nbsp; 2215:STA $42</font></p>
+<p><font size="2">&nbsp; 2217:LDA #$47</font></p>
+<p><font size="2">&nbsp; 2219:STA $43</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 221B:LDA #$00</font></p>
+<p><font size="2">&nbsp; 221D:STA $44</font></p>
+<p><font size="2">&nbsp; 221F:LDA #$30</font></p>
+<p><font size="2">&nbsp; 2221:STA $45</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 2223:LDA #$0E</font></p>
+<p><font size="2">&nbsp; 2225:STA $46</font></p>
+<p><font size="2">&nbsp; 2227:LDA #$FF</font></p>
+<p><font size="2">&nbsp; 2229:STA $47</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 222B:JSR $2000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//实现了将0E页码地址4000-47FF 送地址3000-37FF</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 222E:LDA #$00</font></p>
+<p><font size="2">&nbsp; 2230:STA $F0</font></p>
+<p><font size="2">&nbsp; 2232:LDA #$40</font></p>
+<p><font size="2">&nbsp; 2234:STA $F1</font></p>
+<p><font size="2">&nbsp; 2236:LDA #$00</font></p>
+<p><font size="2">&nbsp; 2238:STA $F2</font></p>
+<p><font size="2">&nbsp; 223A:LDA #$40</font></p>
+<p><font size="2">&nbsp; 223C:STA $F3</font></p>
+<p><font size="2">&nbsp; 223E:LDA #$0E</font></p>
+<p><font size="2">&nbsp; 2240:STA $F4</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 2242:JSR $2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//实现 擦除 0E 页码 4000-47FF</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 2245:LDX #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//实现将 0 1 2 3 4 5 6 7 写入地址 3018-301F</font></p>
+<p><font size="2">&nbsp; 2247:TXA</font></p>
+<p><font size="2">&nbsp; 2248:STA $3018,X</font></p>
+<p><font size="2">&nbsp; 224B:INX</font></p>
+<p><font size="2">&nbsp; 224D:CPX #$08</font></p>
+<p><font size="2">&nbsp; 224F:BNE $2247</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 2251:LDA #$00</font></p>
+<p><font size="2">&nbsp; 2252:STA $40</font></p>
+<p><font size="2">&nbsp; 2254:LDA #$30</font></p>
+<p><font size="2">&nbsp; 2256:STA $41</font></p>
+<p><font size="2">&nbsp; 2258:LDA #$FF</font></p>
+<p><font size="2">&nbsp; 225A:STA $42</font></p>
+<p><font size="2">&nbsp; 225C:LDA #$37</font></p>
+<p><font size="2">&nbsp; 225E:STA $43</font></p>
+<p><font size="2">&nbsp; 2260:LDA #$00</font></p>
+<p><font size="2">&nbsp; 2262:STA $44</font></p>
+<p><font size="2">&nbsp; 2264:LDA #$40</font></p>
+<p><font size="2">&nbsp; 2266:STA $45</font></p>
+<p><font size="2">&nbsp; 2268:LDA #$FF</font></p>
+<p><font size="2">&nbsp; 226A:STA $46</font></p>
+<p><font size="2">&nbsp; 226C:LDA #$0E</font></p>
+<p><font size="2">&nbsp; 226E:STA $47</font></p>
+<p><font size="2">&nbsp; </font></p>
+<p><font size="2">&nbsp; 2270:JSR $2000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//实现将地址 3000-37FF 送0E 页码 4000-47FF</font></p>
+<p><font size="2">&nbsp; 2273:RTS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//结束</font></p>
+
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+;macro
+INT: .MACRO INT_PARAM
+     .DB $00
+     .DW INT_PARAM
+     .ENDM
+     
+CALL: .MACRO CALL_PARAM
+      JSR CALL_PARAM
+      .ENDM
+     
+PUSH_XY: .MACRO 
+          TXA
+          PHA
+          TYA
+          PHA
+          .ENDM
+          
+POP_XY:  .MACRO
+          PLA
+          TAY
+          PLA
+          TAX
+          .ENDM
+          
+PUSH_PAGE: .MACRO
+           LDA $00
+           PHA
+           LDA $0A
+           PHA
+           LDA $0D
+           PHA
+           .ENDM
+           
+POP_PAGE:  .MACRO
+           PLA
+           STA $0D
+           PLA
+           STA $0A
+           PLA
+           STA $00
+           .ENDM
+           
+JZ:        .MACRO JZ_PARAM
+           BEQ JZ_PARAM
+           .ENDM
+           
+JNZ:       .MACRO JNZ_PARAM
+           BNE JNZ_PARAM
+           .ENDM
+           
+JC:        .MACRO JC_PARAM
+           BCS JC_PARAM
+           .ENDM
+           
+JNC:       .MACRO JNC_PARAM
+           BCC JNC_PARAM
+           .ENDM
+           
+JO:        .MACRO JO_PARAM
+           BVS JO_PARAM
+           .ENDM
+           
+JNO:       .MACRO JNO_PARAM
+           BVC JNO_PARAM
+           .ENDM
+           
+JS:        .MACRO JS_PARAM
+           BMI JS_PARAM
+           .ENDM
+           
+JNS:       .MACRO JNS_PARAM
+           BPL JNS_PARAM
+           .ENDM
+           
+PRINT_ALL:    .MACRO PRINT_ALL_PARAM
+              LDX #$9C
+PRINT_ALL_L1: LDA PRINT_ALL_PARAM - 1,X
+              STA LCD_BUFFER - 1,X
+              DEX
+              JNZ PRINT_ALL_L1
+              .ENDM
+              
+           
+           
+           
+           
+          
+           
+           
+           
+          
+         
+     
+     
+     
+     

@@ -1,0 +1,32 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p>/<span lang="zh-cn">/中断指令</span></p>
+<p><span lang="zh-cn">&nbsp; 在文曲星内部大量使用了这种指令,该指令占三个字节.</span></p>
+<p><span lang="zh-cn">&nbsp; 操作符为 INT,机器码为 00</span></p>
+<p><span lang="zh-cn">&nbsp; 例如 INT $8A01</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INT $C001</span></p>
+<p><span lang="zh-cn">&nbsp; 那么INT $8A01是执行那里的程序呢?首先8A 是页码,01是字偏移量</span></p>
+<p><span lang="zh-cn">&nbsp; 我们先转到8A页码,看到下面的数据</span></p>
+<p><span lang="zh-cn">&nbsp;
+<img border="0" src="../pic/intrer.jpg" width="382" height="168"></span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 这里我们先要切换到8A页码,然后根据01,知道执行地址是 
+4085,因为60EA不算,从8540开始算偏移1</span></p>
+<p><span lang="zh-cn">5549 算偏移2,所以 INT $8A02就是执行地址 4955,大家可以自己算.</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 这里的 INT $C001就不是转到C0页码了,而是当地址(0A) = 
+00时,C000-DFFF那里算</span></p>
+<p><img border="0" src="../pic/inter2.jpg" width="381" height="164"></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 这里INT $C001 就是执行C059</span></p>
+
+</body>
+
+</html>

@@ -1,0 +1,132 @@
+<html>
+<head>
+<title>NES ASM - Day 1</title>
+</head>
+<body bgcolor="lavender">
+<h1 align="center" style="color: LightCoral; width: 100%; filter:shadow()">Day 1 - Beginning NES Assembly</h1>
+<pre>
+
+
+</pre>
+<h2 align="center" style="color: LightCoral;"><b>About NES Assembly</b></h2>
+<p style="color: green;"><pre><b>
+	Oh, my, GOD! You are actually planning to learn to program the NES in assembly?
+Well, if you really want to, this hopefully will help. Maybe you've read my ongoing series
+about GameBoy Advanced Assembly. In my GBA assembly tutorial, it says that you should
+know GBA programming in C first, before you attempt assembly. I'd say the same about NES
+assembly, except there aren't any good C compilers targetting the NES's CPU. So I'm just
+going to say now, either know GBA assembly or Intel x86 assembly BEFORE you attempt to
+write code for the NES as coding for the NES is a little more difficult than either of
+the others mentioned.
+
+	We will be using NESASM.exe as our assembler. Get it <a href="nesasm.zip">here!</a> and unzip
+it to C:\nesasm or whereever you want. Good. It also contains serveral other programs we
+will be using. But before we get coding, we need to know about our little
+old (REALLY old) friend the Nintendo Entertainment System (NES).
+
+<h3 align="center" style="color: LightCoral;"><b>About The NES</b></h3>
+
+	The NES is a complicated piece of 8bit machinery. That's right, the NES is an
+8bit system if you didn't know already. The NES uses a customised Motorola 6502 processor
+more similar to the Intel x86 chips than to the ARM series. The NES was released some
+time before I was born, so I have no idea when (late 70's maybe) (I'm 15). 
+
+	For it's picture processing needs, the NES has a PPU (Picture Processing Unit)
+chip that we program indirectly through memory registers similar to how the GBA works,
+but still quite different. 
+
+	In the world of sprites, the NES does have hardware sprites, but not have nearly
+the same extent of features that the GBA does for it's sprites. 
+
+	It's really hard to explain without some code, so how 'bout we learn 6502 assembly!?!
+
+<h3 align="center" style="color: LightCoral;"><b>NES Assembly Langauge</b></h3>
+
+	The first of all the CPU registers, on the NES the 3 we are concerned about
+are:
+
+	A - the Accumulator, all math operations implicitly use this register.
+
+	X - an index register, used for indexing memory addressings.
+
+	Y - an indes register, used for indexing memory addressings.
+
+Note that all 3 registers can be loaded with numbers or values from memory. The uses
+listed above are just their special abitities like register super powers. :)
+There are a few others, but as so far we don't need to know about them.
+
+The instruction we will learn first is LDk , where k is one of the 3 registers listed
+above. So here's some code to demonstrate:
+
+	lda #$50  ; loads A with 50 in hex.
+
+	ldx #$60  ; loads X with 60 in hex.
+
+	ldy #$70  ; loads Y with 70 in hex.
+
+Note that these are, in fact, 8bit registers. You may be wondering what the #$
+means. The '#' symbol means immediate value, as in the number is just a number
+and not an address in memory to load from. The '$' symbol means the number is
+in hexadecimal. If the '$' was a '%' then the number would be taken as a binary
+number. If there was no '$' or '%' then it would be a decimal number.
+Examples:
+
+	lda #%00100011  ; loads A with a binary number.
+	
+	ldx #50         ; loads X with 50 in decimal.
+
+	ldy #$50        ; loads Y with 50 in hex. 	
+
+I hope this is clear, if not, <a href="/cdn-cgi/l/email-protection#780e1a161d0c080a171f0a19151d0a3810170c15191114561b1715">email me</a>.
+
+<h3 align="center" style="color: LightCoral;"><b>Memory Address Addressing</b></h3>
+
+	For a number to be interpreted as a memory address by the assembler, all that
+needs to be done is to leave off the '#'. Now also keep in mind that addresses are usually
+represented as 16bit hex numbers, so to load a register with a value from memory, we would
+do this:
+
+	lda $2002   ; load A with the value at memory location 2002 hex.
+
+	ldx 2002    ; load X with the value at memory location 2002 decimal.
+
+	ldy 2002    ; load Y with value at location 2002 decimal.
+
+Not too difficult, eh?
+Now for the next instruction you need to know.
+
+<h3 align="center" style="color: LightCoral;"><b>Storing Values In Memory</b></h3>
+
+	The next instruction we will learn is STk where k is one of the 3 registers.
+The store instruction cannot to my knowledge take a immediate value as a parameter/operand.
+I'll let some code examples explain:
+
+	sta $2004  ; stores A in memory location 2004 hex.
+
+	sty $2002 ; stores Y in memory location 2002 hex.
+
+	stx $FF   ; stores X in memory location 00FF hex.
+
+Note that addresses are usually represented as hex numbers. If you use a 2 digit number
+in a store instruction, it is interpreted as 00xx where xx is the 2 digit number you used.
+
+Also note that what we've done so far is called Direct Addressing, were we just give the
+actual address we want to put something into.
+
+<h3 align="center" style="color: LightCoral;"><b>This Day In Review</b></h3>
+
+	Today we learn't the 2 instructions that will make up 50% of our code. A good
+achievement, don't you think?
+
+	Until Next Time,
+		-Mike H a.k.a GbaGuy
+
+<center><a href="nesasm.htm">Intro</a> - <a href="day2n.htm">Day 2</a></center>
+
+
+</b></pre></p>
+
+<br />
+
+</body>
+</html>

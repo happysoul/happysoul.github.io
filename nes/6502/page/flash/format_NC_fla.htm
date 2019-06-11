@@ -1,0 +1,209 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><b><font size="5">//NC1020闪存的擦除</font></b></p>
+<p>&nbsp;&nbsp;&nbsp; <font size="2">NC1020闪存的擦除比CC800,PC1000的更复杂些,闪存的擦除包括<b> 内核区闪存的擦除 </b>和<b> 
+非内核区闪存的擦除.</b></font></p>
+<p> <font size="2"><b>先介绍非内核区闪存的擦除.内核区闪存的擦除将在介绍完了NC1020内核保护原理后才能讲解!</b></font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; NC1020的闪存是以 2K 为一个闪存块的,分别如下:</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4000-47FF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4800-4FFF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2
+</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5000-57FF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5800-5FFF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .</font></p>
+<p><font size="2">&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B000-B7FF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 15</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B800-BFFF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 16</font></p>
+<p><font size="2">&nbsp; <b>
+&nbsp;
+可见,一个页码的闪存有16块,闪存的擦除是以块为单位的,也就是说,最小可擦除的闪存大小是2K,不能想擦除哪个字节就擦除哪个字节.</b></font></p>
+<p><font size="2"><b>我们先要会判断 哪块闪存 已经被擦除了,其实很简单,若该块地址的内容全为 FF,则说明该块闪存已经被擦除了.</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp;&nbsp; 例 擦除某段页码的4000-47FF</b></font></p>
+<p><font size="2"><b>&nbsp;&nbsp;&nbsp; 这里我们进入NCTOOLS,先找一个没有被系统利用的页码,方法是 D 4000 
+03,然后按 K 往下翻页码</b></font></p>
+<p><font size="2"><b>当看到 地址4000后的内容全部为 FF 时,那就说明可以利用这块闪存做擦除闪存的实验了.</b></font></p>
+<p><font size="2"><b>这里我们发现 06 页码的 4000后内容全为 FF,如图:</b></font></p>
+<p><img border="0" src="../pic/cachu2.jpg" width="293" height="150"></p>
+<p>&nbsp; <font size="2">为了证明我们成功的擦除了该块闪存,我们往里面写些数据,输入 E C 4000 06,输入 01 02 03 
+04 05 06 07 08,如图:</font></p>
+<p><img border="0" src="../pic/cachu1.jpg" width="295" height="150"></p>
+<p>&nbsp; <font size="2">&nbsp; 现在我们开始编写程序,<b>需要注意的是,擦除闪存的程序必须在RAM执行,而不能在闪存里被执行</b></font></p>
+<p><font size="2"><b>&nbsp; 先说明擦除闪存的步骤:</b></font></p>
+<p><font size="2"><b>&nbsp; 1.设置中断标志&nbsp; 即 SEI</b></font></p>
+<p><font size="2"><b>&nbsp; 2.保护地址00 0A 0D的内容,地址0A的内容的最高位为0</b></font></p>
+<p><font size="2"><b>&nbsp; 3.把擦除的闪存的页码送地址00,以切换到擦除的闪存的页码</b></font></p>
+<p><font size="2"><b>&nbsp; 4.开始 擦除闪存的代码</b></font></p>
+<p><font size="2"><b>&nbsp; 5.把立即数 30 送擦除闪存的块头地址,例如 若是01闪存块,块头地址是 
+4000,若是02闪存块,块头地址4800</b></font></p>
+<p><font size="2"><b>&nbsp; 6.恢复地址 00 0A 0D 的内容</b></font></p>
+<p><font size="2"><b>&nbsp; 7.取消中断标志 即&nbsp; CLI</b></font></p>
+<p>　</p>
+<p><font size="2"><b>&nbsp; </b>程序如下:</font></p>
+<p><font size="2">&nbsp; 2000:SEI</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 2001:LDA $00</font></p>
+<p><font size="2">&nbsp; 2003:PHA</font></p>
+<p><font size="2">&nbsp; 2004:LDA $0A</font></p>
+<p><font size="2">&nbsp; 2006:PHA</font></p>
+<p><font size="2">&nbsp; 2007:LDA $0D</font></p>
+<p><font size="2">&nbsp; 2009:PHA</font></p>
+<p><font size="2">&nbsp; 200A:LDA $0A</font></p>
+<p><font size="2">&nbsp; 200C:AND #$7F</font></p>
+<p><font size="2">&nbsp; 200E:STA $0A</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 2010:LDA #$06&nbsp;&nbsp;&nbsp;&nbsp; 
+//把擦除闪存块所在页码数送地址00,以切换到闪存块所在页码</font></p>
+<p><font size="2">&nbsp; 2012:STA $00</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 2014:LDA #$F0&nbsp;&nbsp;&nbsp; 
+//下面的代码就是擦除闪存的代码,是不能变的,大家也别问为什么是这样的代码,照抄就是!!!</font></p>
+<p><font size="2">&nbsp; 2016:STA $8000 </font></p>
+<p><font size="2">&nbsp; 2019:LDA #$AA</font></p>
+<p><font size="2">&nbsp; 201B:STA $5555</font></p>
+<p><font size="2">&nbsp; 201E:LDA #$55</font></p>
+<p><font size="2">&nbsp; 2020:STA $AAAA</font></p>
+<p><font size="2">&nbsp; 2023:LDA #$80</font></p>
+<p><font size="2">&nbsp; 2025:STA $5555</font></p>
+<p><font size="2">&nbsp; 2028:LDA #$AA</font></p>
+<p><font size="2">&nbsp; 202A:STA $5555</font></p>
+<p><font size="2">&nbsp; 202D:LDA #$55</font></p>
+<p><font size="2">&nbsp; 202F:STA $AAAA</font></p>
+<p><font size="2">&nbsp;</font></p>
+<p><font size="2">&nbsp; 2032:LDA #$30&nbsp;&nbsp;&nbsp;&nbsp; 
+//这里是很关键的一步,把立即数30送要擦除的闪存块的块头地址 这里是第1块,所以是 4000,第2块就是4800,类推!</font></p>
+<p><font size="2">&nbsp; 2034:STA $4000</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 2037:LDA $8000&nbsp;&nbsp;&nbsp; //这段代码是固定的,大家照抄!!</font></p>
+<p><font size="2">&nbsp; 203A:AND #$88</font></p>
+<p><font size="2">&nbsp; 203C:CMP #$88</font></p>
+<p><font size="2">&nbsp; 203E:BNE $2037&nbsp;&nbsp;&nbsp; 
+//注意,这里是变化的,因为代码开始执行地址是不同的,不要这个也照抄,那就完了!!反正是跳转到 LDA $8000 那个地址</font></p>
+<p><font size="2">&nbsp; 2040:LDA #$F0</font></p>
+<p><font size="2">&nbsp; 2042:STA $8000</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 2045:CLI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//取消中断标志,也是必须的</font></p>
+<p><font size="2">&nbsp; 2046:PLA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//下面就是恢复被保护的地址的内容了</font></p>
+<p><font size="2">&nbsp; 2047:STA $0D</font></p>
+<p><font size="2">&nbsp; 2049:PLA</font></p>
+<p><font size="2">&nbsp; 204A:STA $0A</font></p>
+<p><font size="2">&nbsp; 204C:PLA</font></p>
+<p><font size="2">&nbsp; 204D:STA $00</font></p>
+<p><font size="2">&nbsp; 204F:RTS</font></p>
+<p>　</p>
+<p><font size="2">&nbsp;&nbsp; 在NCTOOLS下, G 2000, 然后 D 4000 
+06,激动人心的事情发生了,我们已经成功擦除了06页码的4000-47FF了,如图:</font></p>
+<p><img border="0" src="../pic/cachu2.jpg" width="293" height="150"></p>
+<p><font size="2">&nbsp; 我写了个子程序,可以实现擦除任意连续的闪存块,希望能给大家点启发,入口参数是这样规定的</font></p>
+<p><font size="2">&nbsp; 地址 F0 F1,开始块头地址</font></p>
+<p><font size="2">&nbsp; 地址 F2 F3,结束块头块头地址</font></p>
+<p><font size="2">&nbsp; 地址 F4&nbsp;&nbsp; ,页码数</font></p>
+<p>　</p>
+<p><font size="2">&nbsp;例如 擦除 06页码 的 4800-87FF</font></p>
+<p><font size="2">&nbsp;那么&nbsp; 开始块头地址是&nbsp;&nbsp; 4800</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 结束块头地址是&nbsp;&nbsp; 8000</font></p>
+<p><font size="2">入口参数就是 :</font></p>
+<p><font size="2">&nbsp; F0: 00&nbsp;&nbsp;&nbsp; F1: 48</font></p>
+<p><font size="2">&nbsp; F2: 00&nbsp;&nbsp;&nbsp; F3: 80</font></p>
+<p><font size="2">&nbsp; F4: 06</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 大家看程序,和上面的几乎是一样的,不同的地方为粗体</font></p>
+<p><font size="2">&nbsp; 2000:SEI</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 2001:LDA $00</font></p>
+<p><font size="2">&nbsp; 2003:PHA</font></p>
+<p><font size="2">&nbsp; 2004:LDA $0A</font></p>
+<p><font size="2">&nbsp; 2006:PHA</font></p>
+<p><font size="2">&nbsp; 2007:LDA $0D</font></p>
+<p><font size="2">&nbsp; 2009:PHA</font></p>
+<p><font size="2">&nbsp; 200A:LDA $0A</font></p>
+<p><font size="2">&nbsp; 200C:AND #$7F</font></p>
+<p><font size="2">&nbsp; 200E:STA $0A</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; <b>2010:LDA $F4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//这里读取地址F4的内容作为页码,在调用这个子程序前,要先把页码送地址F4</b></font></p>
+<p><b><font size="2">&nbsp; 2012:STA $00</font></b></p>
+<p>　</p>
+<p><font size="2">&nbsp; 2014:LDA #$F0&nbsp;&nbsp;&nbsp; 
+//下面的代码就是擦除闪存的代码,是不能变的,大家也别问为什么是这样的代码,照抄就是!!!</font></p>
+<p><font size="2">&nbsp; 2016:STA $8000 </font></p>
+<p><font size="2">&nbsp; 2019:LDA #$AA</font></p>
+<p><font size="2">&nbsp; 201B:STA $5555</font></p>
+<p><font size="2">&nbsp; 201E:LDA #$55</font></p>
+<p><font size="2">&nbsp; 2020:STA $AAAA</font></p>
+<p><font size="2">&nbsp; 2023:LDA #$80</font></p>
+<p><font size="2">&nbsp; 2025:STA $5555</font></p>
+<p><font size="2">&nbsp; 2028:LDA #$AA</font></p>
+<p><font size="2">&nbsp; 202A:STA $5555</font></p>
+<p><font size="2">&nbsp; 202D:LDA #$55</font></p>
+<p><font size="2">&nbsp; 202F:STA $AAAA</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; <b>2032:LDY #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器Y的内容 = 0</b></font></p>
+<p><b><font size="2">&nbsp; 2034:LDA #$30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址 F0为块头地址低8位, F1为块头地址高8位,然后把立即数30送块头地址</font></b></p>
+<p><b><font size="2">&nbsp; 2036:STA ($F0),Y</font></b></p>
+<p>　</p>
+<p><font size="2">&nbsp; 2038:LDA $8000&nbsp;&nbsp;&nbsp; //这段代码是固定的,大家照抄!!</font></p>
+<p><font size="2">&nbsp; 203B:AND #$88</font></p>
+<p><font size="2">&nbsp; 203D:CMP #$88</font></p>
+<p><font size="2">&nbsp; <b>203F:BNE $2038&nbsp;&nbsp;&nbsp; 
+//注意,这里是变化的,因为代码开始执行地址是不同的,不要这个也照抄,那就完了!!反正是跳转到 LDA $8000 那个地址</b></font></p>
+<p><font size="2">&nbsp; 2041:LDA #$F0</font></p>
+<p><font size="2">&nbsp; 2043:STA $8000</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; <b>2046:LDA $F1&nbsp;&nbsp;&nbsp;&nbsp; 
+//由于是擦除连续的闪存块,所以这里要检查是不是已经全部擦除完毕,方法是把地址F1的内容和地址F3比较</b></font></p>
+<p><b><font size="2">&nbsp; 2048:CMP $F3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+如果相同,则说明已经擦除完,转地址2052,准备结束程序</font></b></p>
+<p><b><font size="2">&nbsp; 204A:BEQ $2054</font></b></p>
+<p><b><font size="2">&nbsp; 204C:CLC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//如不同, 地址 F1的内容加 8,请想想为什么是加 8</font></b></p>
+<p><b><font size="2">&nbsp; 204D:ADC #$08</font></b></p>
+<p><font size="2"><b>&nbsp; 204F:STA $F1</b></font></p>
+<p><b><font size="2">&nbsp; 2051:JMP $2014&nbsp;&nbsp; //继续擦除下一闪存块</font></b></p>
+<p><font size="2">&nbsp; </font></p>
+<p><font size="2">&nbsp; 2054:CLI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//清除中断标志,恢复被保护的地址内容,程序结束</font></p>
+<p><font size="2">&nbsp; 2055:PLA</font></p>
+<p><font size="2">&nbsp; 2056:STA $0D</font></p>
+<p><font size="2">&nbsp; 2058:PLA</font></p>
+<p><font size="2">&nbsp; 2059:STA $0A</font></p>
+<p><font size="2">&nbsp; 205B:PLA</font></p>
+<p><font size="2">&nbsp; 205C:STA $00</font></p>
+<p><font size="2">&nbsp; 205E:RTS</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 现在我们实验擦除一段连续的闪存块</font></p>
+<p><font size="2">&nbsp; 进入NCTOOLS, D 4000 03,按 K 翻页码,知道发现地址 4000-6FFF全部为 FF 
+的页码,这里我们假设是 0D 页码</font></p>
+<p><font size="2">&nbsp; 这里我们是擦除 地址 4000-6FFF</font></p>
+<p><font size="2">&nbsp; 那么我们从地址3000开始:</font></p>
+<p><font size="2">&nbsp; 3000:LDA #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//块头地址送F0 F1 F2 F3</font></p>
+<p><font size="2">&nbsp; 3002:STA $F0</font></p>
+<p><font size="2">&nbsp; 3004:LDA #$40</font></p>
+<p><font size="2">&nbsp; 3006:STA $F1</font></p>
+<p><font size="2">&nbsp; 3008:LDA #$00</font></p>
+<p><font size="2">&nbsp; 300A:STA $F2</font></p>
+<p><font size="2">&nbsp; 300C:LDA #$68</font></p>
+<p><font size="2">&nbsp; 300E:STA $F3</font></p>
+<p><font size="2">&nbsp; 3010:LDA #$0D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //页码送&nbsp; 
+F4</font></p>
+<p><font size="2">&nbsp; 3012:STA $F4</font></p>
+<p><font size="2">&nbsp; 3014:JSR $2000&nbsp;&nbsp;&nbsp;&nbsp; //执行擦除闪存程序</font></p>
+<p><font size="2">&nbsp; 3017:RTS</font></p>
+<p><b>注:以上程序均在NCTOOLS里测试通过</b></p>
+
+</body>
+
+</html>

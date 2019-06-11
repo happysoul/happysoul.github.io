@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>NES游戏开发</title>
+    <link rel="stylesheet" href="index.css"/>
+</head>
+
+<body>
+
+<div class="main">
+<p><h1>链接和杂项</h1>
+</p><p>
+</p><p>以下是来自Shiru网站的一些示例代码...（顶部附近的链接显示“这些小型示例程序”）。
+</p><p>
+</p><p>https://shiru.untergrund.net/articles/programming_nes_games_in_c.htm
+</p><p>
+</p><p>我有一份副本适用于我过去两年使用的版本，cc65版本2.15
+</p><p>
+</p><p>http://dl.dropboxusercontent.com/s/j80n6b9gfjntfip/cc65_examples.zip
+</p><p>(<a href="cc65_examples_cc65-2.15.zip">本地下载</a>)
+</p><p> 
+</p><p>
+</p><p>您可以将MIDI文件导入famitracker（旧版本）。我在这篇文章中讨论过它。
+</p><p>
+</p><p>https://nesdoug.com/2016/01/24/25-importing-a-midi-to-famitracker/
+</p><p>
+</p><p>你可以在这里下载famitracker（4.2是导入MIDI的最后一个版本）
+</p><p>
+</p><p>http://famitracker.com/downloads.php
+</p><p>
+</p><p>。
+</p><p>
+</p><p>C中的其他项目
+</p><p>
+</p><p>Mojon双胞胎
+</p><p>
+</p><p>https://github.com/mojontwins/MK1_NES
+</p><p>
+</p><p>。
+</p><p>
+</p><p>cppchriscpp
+</p><p>
+</p><p>https://github.com/cppchriscpp/nes-starter-kit
+</p><p>
+</p><p>。
+</p><p>
+</p><p>。
+</p><p>
+</p><p>。
+</p><p>
+</p><p>我写了2个非官方音乐驱动程序的非官方更新。注意。我修复了错误（我认为）。
+</p><p>
+</p><p>famitone3.3，它添加了所有音符和音量列（牺牲了一些效率的大小和速度）。
+</p><p>
+</p><p>https://github.com/nesdoug/famitone3.3
+</p><p>
+</p><p>而famitone4.1，增加了1xx，2xx和4xx效果支持。
+</p><p>
+</p><p>https://github.com/nesdoug/famitone4.1
+</p><p>
+</p><p>我在一些游戏中使用了这些。例如，Jammin Honey和Flappy Jack。
+</p><p>
+</p><p>我添加了一些其他功能和错误修复，我在原始版本中也添加了...
+</p><p>
+</p><p>https://github.com/nesdoug/famitone2d
+</p><p>
+</p><p>更改： - 
+</p><p>添加歌曲名称到文件输出
+</p><p>-added命令行开关-allin防止删除未使用的乐器 - 
+</p><p>添加命令行开关-Wno抑制有关不支持的效果的警告
+</p><p>
+</p><p>错误修正：
+</p><p>- 多个D00效果（不同通道）不正确的模式长度
+</p><p>-Bxx低于D00效果（不同通道）不正确的模式长度
+</p><p>-Bxx循环返回导致错误的仪器插入循环点
+</p><p>
+</p><p>新开关的示例：
+</p><p>text2vol filename.txt -ca65 -allin -Wno
+</p></div>
+<script>
+var h1 = document.getElementsByTagName("h1");
+if(h1.length>0){
+    document.title = h1[0].innerHTML;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>10</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><font size="2">10.间接寻址</font></p>
+<p><font size="2">&nbsp; 在 6502中,仅仅用于无条件跳转指令 JMP这条指令</font></p>
+<p><font size="2">&nbsp; 三字节指令.</font></p>
+<p><font size="2">&nbsp; 该寻址方式中,操作数给出的是间接地址,间接地址是指存放操作数有效地址的地址,指令格式:</font></p>
+<table border="0" cellspacing="1" width="44%">
+  <tr>
+    <td width="32%"><font size="2">操作码</font></td>
+    <td width="68%"><font size="2">&nbsp;&nbsp;&nbsp; 第一字节</font></td>
+  </tr>
+  <tr>
+    <td width="32%"><font size="2">间接地址低字节</font></td>
+    <td width="68%"><font size="2">&nbsp;&nbsp;&nbsp; 第二字节</font></td>
+  </tr>
+  <tr>
+    <td width="32%"><font size="2">间接地址高字节</font></td>
+    <td width="68%"><font size="2">&nbsp;&nbsp;&nbsp; 第三字节</font></td>
+  </tr>
+</table>
+<p><font size="2">&nbsp;由于操作数有效地址是16位的,而每一存储单元内容仅仅8位,所以要通过两次间接寻址才能得到有效地址</font></p>
+<p><font size="2">我们还是举例子说明吧</font></p>
+<p><font size="2">&nbsp; 这里我们设 (3000) = 23,(3001) = 30</font></p>
+<p><font size="2">&nbsp; 指令 JMP ($3000)的寻址过程是这样的:</font></p>
+<p><font size="2">&nbsp; 先对地址3000间接寻址得到有效地址低8位23</font></p>
+<p><font size="2">&nbsp; 再对地址3001间接寻址得到有效地址高8位30</font></p>
+<p><font size="2">&nbsp; 这样,再把两次结果合在一起就得到有效地址=3023</font></p>
+<p><font size="2">&nbsp; 执行该指令后,程序就无条件跳转到地址3023</font></p>
+
+</body>
+
+</html>

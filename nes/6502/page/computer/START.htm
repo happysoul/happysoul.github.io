@@ -1,0 +1,89 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p>//建立BIN文件的过程</p>
+<p>&nbsp; 1.定义程序开始地址</p>
+<p>&nbsp;&nbsp;&nbsp; 这里请 .ORG $3FD0</p>
+<p>&nbsp; 2. 包含文件头,这里我做了文件头,大家可以下载 <a href="HEAD_NC1020.65s">HEAD<span lang="en-us">_NC1020</span>.65S</a></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 注意:该文件应该和你的程序文件在同一目录下</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 然后在程序中包含这个文件头</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .ORG $3FD0</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .INCLUDE 
+&quot;HEAD.65S&quot;</p>
+<p>&nbsp; <font color="#FF0000">注意:程序的入口地址的标号一定是 MAIN,一定是大写的.</font></p>
+<p>&nbsp; 3. 包含 宏文件,这里我做了,大家请下载 <a href="MACRO_NC1020.65s">MACRO<span lang="en-us">_NC1020</span>.65S</a></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 注意:该文件应该和你的程序文件在同一目录下</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .ORG $3FD0</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .INCLUDE 
+&quot;HEAD.65S&quot;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .INCLUDE 
+&quot;MACRO.65S&quot;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 这里你就可以在程序里使用下列</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; ① INT </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 由于现在的编译器都不支持INT指令,我做了个宏,现在大家可以用INT指令了</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 例如 INT $8A15</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INT 
+$C008</p>
+<p>&nbsp;&nbsp;&nbsp; ② PUSH_XY</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 寄存器X,Y全部进堆栈</p>
+<p>&nbsp;&nbsp;&nbsp; ③ POP_XY</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 寄存器X,Y全部出堆栈</p>
+<p>&nbsp;&nbsp;&nbsp; ④ PRINT_ALL</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 这里是显示宏,如果你要显示满屏的字符或文字</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 那么,你先给出文字或字符的开始地址 PRINT_ALL_PARAM</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 然后你就可以在程序中用 PRINT_ALL PRINT_ALL_PARAM</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 比如,</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .ORG $3FD0</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .INCLUDE &quot;HEAD.65S&quot;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .INCLUDE 
+&quot;MACRO.65S&quot;</p>
+<p>TEXT:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .DB &quot;我的每个幻想&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+&quot; </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .DB &quot;&nbsp; 
+总在每一个秋天飞扬&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .DB 
+&quot;我的每个悲伤&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+&quot;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .DB &quot;&nbsp; 
+总在每一个夜里生长&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .DB 
+&quot;我的每次飞翔&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+&quot;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .DB &quot;&nbsp; 
+总在漫无目的路上&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;</p>
+<p>　</p>
+<p>MAIN:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PRINT_ALL TEXT</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$01</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STA $0402</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$FF</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STA $042D</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STA $042E</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INT $8A15</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INT $C008</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RTS </p>
+<p>&nbsp;&nbsp;&nbsp; 我们选择 仿真--编译,然后选择 文件-保存代码,保存的类型选择 65h 格式</p>
+<p>&nbsp;&nbsp;&nbsp; 因为该编译器生成的是INTEL 公司的 HEX文件格式,所以我做了转换程序HEXTOBIN</p>
+<p>&nbsp;&nbsp;&nbsp; 可以转化为BIN格式,大家到这里下载&nbsp; <a href="HexToBin.exe">HEXTOBIN</a></p>
+<p>&nbsp;&nbsp;&nbsp; 你先选择65H文件路径,然后选择 文曲星类型,这里我们选择 CC880,NC1020,NC2000A(C)类型,然后</p>
+<p>&nbsp;&nbsp;&nbsp; 开始转换,但可惜的是BIN文件只有被加密才能被下载,这里网友BSXY为我们做了加密器,大家请下载</p>
+<p>&nbsp;&nbsp;&nbsp; <a href="NC加解密2.0.exe">加密解密器</a>,然后大家选择 加密-*.TMP文件,输入 
+BIN的显示名,就可以了.大家看效果</p>
+<p><img border="0" src="../pic/SHOW_TEXT.JPG" width="382" height="164"></p>
+<p>　</p>
+<p>　</p>
+<p>　</p>
+
+</body>
+
+</html>

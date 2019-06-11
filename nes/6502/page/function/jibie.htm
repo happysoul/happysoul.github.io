@@ -1,0 +1,78 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><b><font size="4">//等级棒</font></b></p>
+<p>&nbsp; 实现下面的形式</p>
+<p><img border="0" src="../pic/jibie.jpg" width="424" height="188"></p>
+<p>&nbsp; 中断调用: INT $C314</p>
+<p>&nbsp; 入口参数: 寄存器X 放参数表地址低8位</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 寄存器Y 
+放参数表地址高8位</p>
+<p>&nbsp; 参数表定义:</p>
+<p>&nbsp; 偏移 00: 级别个数</p>
+<p><span lang="en-us">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>第一级别文字说明</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第二级别文字说明</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第三级别文字说明</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ......</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第N级别文字说明</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第一级别程序入口地址</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第二级别程序入口地址</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第三级别程序入口地址</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ......</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第N级别程序入口地址</p>
+<p>　</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>说明: 级别文字说明固定为20个字节,不够用20补充,后面不紧接 FF</b></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 例如&nbsp; 做三个等级，当选择第1等级，立即数01 送地址3000</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+当选择第2等级，立即数02 送地址3000</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+当选择第3等级，立即数03 送地址3000</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 我们先实现立即数送地址3000的3个程序</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;立即数01送地址3000</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A 2000</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2000:LDA #$01</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2002:STA $3000</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2005:RTS</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;立即数01送地址3000</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A 2008</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2008:LDA #$02</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200A:STA $3000</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200D:RTS</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;立即数01送地址3000</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A 2010</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2010:LDA #$03</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2012:STA $3000</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2015:RTS</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 我们先做表，从地址2018开始</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; E C 2018，输入 03</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 输入法输入 &quot;等级:一级&quot;,然后E C 命令输入 20 20 20 20 20 
+20 20 20 20 20 20 </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 输入法输入 &quot;等级:二级&quot;,然后E C 命令输入 20 20 20 20 20 
+20 20 20 20 20 20 </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 输入法输入 &quot;等级:三级&quot;,然后E C 命令输入 20 20 20 20 20 
+20 20 20 20 20 20 </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; E C 命令输入</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00 20 08 20 10 20</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 我们表已经做完了</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 我们实现主程序,从地址2060开始</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A 2060</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2060: LDA #$18</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2062: LDY #$20</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2064: INT $C314</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2067: RTS</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+</body>
+
+</html>

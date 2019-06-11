@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>NES ASM - Day 20</title>
+</head>
+<body bgcolor="lavender">
+<h1 align="center" style="color: LightCoral; width: 100%; filter:shadow()">Day 20 - Using SRAM</h1>
+<pre>
+
+
+</pre>
+<h2 align="center" style="color: LightCoral;"><b>Using SRAM</b></h2>
+<p style="color: green;"><pre><b>
+	First off, if this is wrong, somebody who possibly already knows about this, please
+correct me. The info below is my understanding of how things work, but it is quite likely that
+there is something that I'm not doing correctly.
+
+<h2 align="center" style="color: LightCoral;"><b>SRAM</b></h2>
+	If I'm doing this correctly, it's really simple. If your cart has battery-backed up
+SRAM on it, then all you have to do is write to CPU memory anywhere from $6000-$8000, that's
+8KB of save space. Someone was kind enough to email me the meaning of all the numbers that you
+can pass to .inesmir (although I didn't have a chance to email him back :( ):
+
+0 = H (Horizontal Mirroring ONLY)
+1 = V (Vertical Mirroring ONLY)
+2 = H + Bat. (Horiztonal Mirroring + Battery ON)
+3 = V + Bat. (Vertical Mirroring + Battery ON)
+4 = H + Train. (Horizontal Mirroring + Trainer ON)
+5 = V + Train. (Vertical Mirroring + Trainer ON)
+6 = H + Bat. + Train. (Horizontal Mirroring + Battery and Trainer ON)
+7 = V + Bat. + Train. (Vertical Mirroring + Battery and Trainer ON)
+8 = H + 4scr. (Horizontal Mirroring + 4 Screen VRAM ON)
+9 = V + 4scr. (Vertical Mirroring + 4 Screen VRAM ON)
+A = H + Bat. + 4scr. (Horizontal Mirroring + Battery and 4 Screen VRAM ON)
+B = V + Bat. + 4scr. (Vertical Mirroring + Battery and 4 Screen VRAM ON)
+C = H + 4scr. + Train. (Horizontal Mirroring + 4 Screen VRAM and Trainer ON)
+D = V + 4scr. + Train. (Vertical Mirroring + 4 Screen VRAM and Trainer ON)
+E = H + Bat. + 4scr. + Train. (Horizontal Mirroring + Battery, 4 Screen VRAM, 
+and Trainer ON)
+F = V + Bat. + 4scr. + Train. (Vertical Mirroring + Battery, 4 Screen VRAM,
+and Trainer ON)
+
+That is right from his email (Battery ON means the cart has SRAM). The only thing I don't understand
+is how you can have mirroring and still have 4 Screen VRAM or if that's a mistake or something...
+
+<h3 align="center" style="color: LightCoral;"><b>An Example</b></h3>
+Here it is:
+
+;-- CODE START --;
+	.inesmir 2  ; -- 2 means Horizontal mirroring and an SRAM chip;
+	.inesmap 0  ; -- If I feel adventurous, you might see Mapper 1 next time ;)
+	.inesprg 1  ; -- One bank of PRG-ROM
+	.ineschr 0  ; -- no banks of CHR-ROM in this example
+
+	.bank 1
+	.org $FFFA
+	.dw 0
+	.dw START
+	.dw 0
+
+	.bank 0
+	.org $C000 
+START:
+	ldx #0   ; ----|
+loop:
+	lda text,x   ; |-- there's probably a way of doing this in less cycles..
+	sta $6000,x  ; |-- if you figure out a way, show me and 1000 points to you..
+	inx          ; |-- the points don't matter anyway, so I guess it doesn't matter.
+	cmp #0       ; |
+	bne loop     ; ---|-- this routine writes a ASCIIZ string into SRAM (I hope).
+
+infin:
+	jmp infin
+
+text:	.db "Hello, NES!",0
+;-- CODE END --;
+	
+If everything goes as planned, "Hello, NES!" should be saved. If you're using FCEUltra 
+(I recommend it.), you should see a .SAV file created, which is the same size as SRAM
+(8KB) and if you open it in notepad, you'll see the text. I would assume the .SAV file
+is just an exact copy of $6000-$8000.
+
+<h3 align="center" style="color: LightCoral;"><b>This Day In Review</b></h3>
+
+	Now you can save your game if you couldn't before!
+
+	Have fun!,
+		-GbaGuy
+
+<center><a href="nesasm.htm">Intro</a> - <a href="day21n.htm">Day 21</a></center>
+
+</b></pre></p>
+
+<br />
+<br />
+
+</body>
+</html>

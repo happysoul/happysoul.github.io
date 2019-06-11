@@ -1,0 +1,211 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+<style>
+<!--
+.tableBorder1 {
+	BACKGROUND-COLOR: #83bb37; BORDER-BOTTOM: 1px; BORDER-LEFT: 1px; BORDER-RIGHT: 1px; BORDER-TOP: 1px; WIDTH: 97%
+}
+TD {
+	FONT-FAMILY: 宋体; FONT-SIZE: 12px; LINE-HEIGHT: 15px
+}
+TD.TableBody1 {
+	BACKGROUND-COLOR: #f4faed
+}
+-->
+</style>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><b><font size="4">//NC1020闪存分配表</font></b></p>
+<p>&nbsp; <font size="2">NC1020有512K闪存,闪存以 4K 为 1 族</font></p>
+<p><font size="2">&nbsp; 我个人认为,NC1020以 4K 为 1 族 是不科学的,因为总计才 512K 的闪存,每 族就 
+4K,显然闪存的利用率是很低的</font></p>
+<p><font size="2">我举个例子,一个 才 200 字节 的文本,下载到 NC1020上,也要占据 4K 
+的字节,也就是说,不管你的文件有多小,最小</font></p>
+<p><font size="2">也要占据 4K 的闪存.</font></p>
+<p><font size="2">&nbsp; </font><b>下面我再说说 系统占据闪存的情况:</b></p>
+<p>　</p>
+<p><font size="2">内核:&nbsp; 总计占据&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+16 + 16 + 96 + 8 = 136K</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00 页码的 8000-BFFF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+16K</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 01-03 页码的 4000-BFFF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+3 * 32 = 96K</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C000-DFFF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+8K</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0F 页码的 8000-BFFF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+16K</font></p>
+<p>　</p>
+<p><font size="2">资料存储: 最小占据&nbsp;&nbsp; 4 + 20 + 4 + 4 + 4 = 36K</font></p>
+<p><font size="2">名片:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+4K 闪存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</font></p>
+<p><font size="2">行程:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+20K 闪存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</font></p>
+<p><font size="2">重要事项:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4K 闪存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</font></p>
+<p><font size="2">记事:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+4K 闪存&nbsp;&nbsp; </font></p>
+<p><font size="2">笔记便笺:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4K 闪存&nbsp;&nbsp;&nbsp; 
+</font></p>
+<p>　</p>
+<p><font size="2">下面总计:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 * 8 = 32K</font></p>
+<p><font size="2">闪存分配表:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4K</font></p>
+<p><font size="2">各种文件目录列表: 4K</font></p>
+<p><font size="2">BIN文件列表:&nbsp;&nbsp;&nbsp;&nbsp; 4K</font></p>
+<p><font size="2">BAS文件列表:&nbsp;&nbsp;&nbsp;&nbsp; 4K</font></p>
+<p><font size="2">SKI文件列表:&nbsp;&nbsp;&nbsp;&nbsp; 4K</font></p>
+<p><font size="2">TXT文件列表:&nbsp;&nbsp;&nbsp;&nbsp; 4K</font></p>
+<p><font size="2">有声读物列表:&nbsp;&nbsp;&nbsp; 4K</font></p>
+<p><font size="2">字典数据列表:&nbsp;&nbsp;&nbsp; 4K&nbsp;&nbsp;&nbsp; </font></p>
+<p>　</p>
+<p><font size="2">&nbsp; </font><b>所以经过我的计算</b></p>
+<p><b>&nbsp; NC1020 实际可利用闪存大小&nbsp; = 512 - 136 - 36 - 32/2(因为有时候用户并没有下载全部类型文件) 
+= 324K (左右)</b></p>
+<p>　</p>
+<p><b>&nbsp; </b><font size="2">
+下面我们说说NC1020闪存分配表,这个名字是我自己取的,也不管对还是错,反正可以大概描述就可以了,闪存分配表如下所示:</font></p>
+<p><font size="2">注意,闪存分配表的位置不是固定的,下面只是我机子上某时刻闪存分配表的位置.</font></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="68%">
+  <tr>
+    <td width="51%">
+    <img border="0" src="../pic/fcb1.jpg" width="293" height="146"></td>
+    <td width="55%">
+    <img border="0" src="../pic/fcb2.jpg" width="306" height="158"></td>
+  </tr>
+</table>
+<p><font size="2">&nbsp; 为了方便系统管理 
+闪存,知道闪存的利用情况,方便系统分配闪存,NC1020的闪存里有一个表,从这个表就可以知道NC1020</font></p>
+<p><font size="2">全部闪存的分配情况,比如 哪个页码已经被利用了,是什么文件等,下面我们就来分析一下:</font></p>
+<p><font size="2">&nbsp; 首先大家看到的是这样的数据:</font></p>
+<p><font size="2">&nbsp;7000: 57 51 58 46 6C 61 73 68</font></p>
+<p><font size="2">&nbsp;7008: 53 58 AA FF 80 00 FF FF</font></p>
+<p><font size="2">&nbsp;这些数据在每个表都是一样的,可能 是 标志,大家可以不管.</font></p>
+<p><font size="2">但是我们一般就是通过查找这16个字节来定位该表的位置，因为该表的位置是经常变的，所以我们要找到这张表</font></p>
+<p><font size="2">目前只能通过查找的方法，但是，实际上系统不是通过查找方法找到该表的，具体什么方法，目前我也不明确.</font></p>
+<p>　</p>
+<p><font size="2">然后就是这样的数据:</font></p>
+<p><font size="2">&nbsp; 7010: FF 5F FF 01 FF 5F FF 01</font></p>
+<p><font size="2">&nbsp; 7018: FF 5F FF 01 FF 5F FF 01</font></p>
+<p><font size="2">&nbsp; ...</font></p>
+<p><font size="2">&nbsp; 7088:FF 5F FF 01 FF 5F FF 01</font></p>
+<p><font size="2">&nbsp; ...</font></p>
+<p>　</p>
+<p><font size="2">&nbsp;<b> 这里系统是以 4K为 1族,那么在闪存分配表中,是以 4 个字节代表 1族的,即是这样的:</b></font></p>
+<p><b><font size="2">&nbsp; 7010-7013: FF 5F FF 01&nbsp;&nbsp;&nbsp; 表示00 页码 
+4000-4FFF</font></b></p>
+<p><b><font size="2">&nbsp; 7014-7017: FF 5F FF 01&nbsp;&nbsp;&nbsp; 表示00 页码 
+5000-5FFF</font></b></p>
+<p><b><font size="2">&nbsp; ....</font></b></p>
+<p><b><font size="2">&nbsp; 7090-7093: ?? ?? ?? ??&nbsp;&nbsp; 表示 04 页码 
+4000-4FFF</font></b></p>
+<p><b><font size="2">&nbsp; ....</font></b></p>
+<p><b><font size="2">&nbsp; 7208-720B: FF 5F FF 01&nbsp;&nbsp; 表示0F 页码&nbsp; 
+A000-AFFF</font></b></p>
+<p><b><font size="2">&nbsp; 720C-720F: FF 5F FF 01&nbsp;&nbsp; 表示 0F 页码 B000-BFFF</font></b></p>
+<p>　</p>
+<p><font size="2">&nbsp; 在分配表里,这四个字节的内容是有意义的,具体如下:</font></p>
+<p><font size="2">&nbsp; FF 5F FF 01: 表示该 4K 闪存位置被 内核 占用</font></p>
+<p><font size="2">&nbsp; FF 5F FF 03: 表示该 4K 闪存位置被 闪存分配表 占用</font></p>
+<p><font size="2">&nbsp; FF FF FF FF: 表示该 4K 闪存位置 没有被占用,即是空闲 的闪存</font></p>
+<p><font size="2">&nbsp; 00 5E 00 06: 表示该 4K 闪存位置被 根目录表 占用</font></p>
+<p><font size="2">&nbsp; XX 5E 00 04: 表示该 4K 闪存位置被&nbsp; 子目录表 占用</font></p>
+<p><font size="2">&nbsp; </font></p>
+<p><font size="2">&nbsp; XX 5E YY C2: 表示 该 4N K (N=1,2,3,...)闪存被一般文件占用,包括 BIN文件,BAS,SKI等</font></p>
+<p><font size="2">&nbsp; XX 5E YY 18: 表示 该 4N K (N=1,2,3,...)闪存被 重要事项 占用</font></p>
+<p><font size="2">&nbsp; XX 5E YY 0C: 表示 该 4N K (N=1,2,3,...)闪存被 记事 占用</font></p>
+<p><font size="2">&nbsp; XX 5E YY 10: 表示 该 4N K (N=1,2,3,...)闪存被 笔记便笺 占用</font></p>
+<p><font size="2">&nbsp; XX 5E YY 0A: 表示 该 4N K (N=1,2,3,...)闪存被 行程 占用</font></p>
+<p><font size="2">&nbsp; XX 5E YY 08: 表示 该 4N K (N=1,2,3,...)闪存被 名片 占用</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 这里 参数 YY 表示文件的分块数,每块是4K,因为若文件为 16K,那么需要 16个字节来标志,但由于文件在 
+闪存中的</font></p>
+<p><font size="2">存储不一定是线形的,所以需要 YY 来标志,YY从 00 开始,然后是 01,02,03,04等,我们看下图:</font></p>
+<p><img border="0" src="../pic/fcb3.jpg" width="291" height="147"></p>
+<p><font size="2">&nbsp;&nbsp; 这里我知道 XX 5E YY 0A,表示 被 行程 占用,我们通过 资料管理 得知,行程 占 
+5%,所以是 5 * 4 = 20K,那么这里就需要YY</font></p>
+<p><font size="2">了,我们看 最开始 06 5E 00 0A,代表文件最开始的 4K,然后就是 06 5E 01 0A,代表下一个 
+4K,依次类推.</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; <b>这里有还有个参数XX,作用我们先不说,我们还是先分析下 根目录表 的结构,如图:</b></font></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="67%">
+  <tr>
+    <td width="52%">
+    <img border="0" src="../pic/fcb4.jpg" width="294" height="148"></td>
+    <td width="48%">
+    <img border="0" src="../pic/fcb5.jpg" width="308" height="146"></td>
+  </tr>
+</table>
+<p>&nbsp; <font size="2">根目录表一般是在04 页码的 地址 5000开始,从偏移#$20开始就是正式的内容</font></p>
+<p><font size="2">&nbsp; 根目录下有子目录,例如 应用程序,个人文档等,通过根目录,我们可以找到 子目录在闪存中的位置,子目录的信息等</font></p>
+<p><font size="2">我们就以上图的总目录表来举例:</font></p>
+<p><font size="2">&nbsp; 5020: C0 说明子目录有效, 00 说明该子目录已经无效</font></p>
+<p><font size="2">&nbsp; 5021: FF 说明该子目录有效&nbsp; F7 说明该子目录为系统目录,不可以删除,比如 个人文档 目录</font></p>
+<p><font size="2">&nbsp; 5022-5031:&nbsp; 子目录名字&nbsp;&nbsp; 在上图中,子目录名 为 
+&quot;个人文档&quot;,最大子目录名 为8个汉字,如果少于8个汉字,后面补 20</font></p>
+<p><font size="2">&nbsp; 5032: 子目录建立的 年&nbsp;&nbsp; 79: 2002年&nbsp;&nbsp;&nbsp; 
+7A: 2003年 ,依次类推</font></p>
+<p><font size="2">&nbsp; 5033: 子目录建立的 月&nbsp;&nbsp; 00: 1月&nbsp;&nbsp; 01: 2月 
+....</font></p>
+<p><font size="2">&nbsp; 5034: 子目录建立的 日&nbsp;&nbsp; 00: 1日&nbsp;&nbsp; 01: 2日 
+....</font></p>
+<p><font size="2">&nbsp; 5035-5037: FF FF FF&nbsp;&nbsp; 没有发现有什么作用,可能是扩展功能用的</font></p>
+<p><font size="2">&nbsp; 5038-503A: 一共 3个字节, 是标志子目录的大小的,一般就是 00 10 00,如果是8K,就是 
+00 20 00</font></p>
+<p><font size="2">&nbsp; 503B: 这里就是最重要的了,就是 上面的参数&nbsp;&nbsp; XX</font></p>
+<p><font size="2">&nbsp; 这里我重点讲下 这里的 XX,通过XX,我们就能通过 闪存分配表 找到该子目录在 闪存中的位置</font></p>
+<p><font size="2">&nbsp; 由于 :</font></p>
+<p><font size="2">&nbsp; XX 5E 00 04: 表示该 4K 闪存位置被&nbsp; 子目录表 占用</font></p>
+<p><font size="2">&nbsp; 在上图中,XX= 01 那么我们就只要在 闪存分配表里 找 01 5E 00 04 就可以了,如下图:</font></p>
+<p><img border="0" src="../pic/fcb6.jpg" width="292" height="144"></p>
+<p><font size="2"><b>&nbsp; </b>我们在地址 7090 发现了,计算一下,就知道是在 04页码的地址 4000-4FFF</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 我们再来分析下 子目录表的 结构,如下图:</font></p>
+<p><font size="2">&nbsp; 这里我们以 应用程序 这个子目录来分析,通过 这个子目录,我们可以知道如下信息:</font></p>
+<p><font size="2">&nbsp; 1.BIN 文件的大小</font></p>
+<p><font size="2">&nbsp; 2.文件建立 年月日</font></p>
+<p><font size="2">&nbsp; 3.文件在闪存中的 位置</font></p>
+<p><font size="2">&nbsp; 4.文件名字</font></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="67%">
+  <tr>
+    <td width="49%">
+    <img border="0" src="../pic/fcb7.jpg" width="296" height="148"></td>
+    <td width="62%">
+    <img border="0" src="../pic/fcb8.jpg" width="303" height="146"></td>
+  </tr>
+</table>
+<p><font size="2">&nbsp; B020-B021: C8 DF 代表该BIN文件有效&nbsp; 08 DF 代表该 BIN文件已经无效</font></p>
+<p><font size="2">&nbsp; B022-B031: BIN文件名,最大支持 6个汉字,后面一定要加 .bin</font></p>
+<p><font size="2">&nbsp; B032:&nbsp; BIN文件建立 年份&nbsp; 79: 2002, 7A: 2003, 7B: 
+2004.....</font></p>
+<p><font size="2">&nbsp; B033:&nbsp; BIN文件建立 月&nbsp;&nbsp;&nbsp; 00: 1月&nbsp; 
+01: 2月......</font></p>
+<p><font size="2">&nbsp; B034:&nbsp; BIN文件建立 日&nbsp;&nbsp;&nbsp; 00: 1日&nbsp; 
+01: 2日.......</font></p>
+<p><font size="2">&nbsp; B035-B037: FF FF FF&nbsp;&nbsp;&nbsp;&nbsp; 不知道有什么用</font></p>
+<p><font size="2">&nbsp; B038-B03A: BIN文件大小,这里注意的是 这里不是 BIN实际大小,而是 4K 的整数倍 
+</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+00 10: 4K</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+00 20: 8K</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+但是如果是 01 20,系统就认为是 12K哦</font></p>
+<p><font size="2">&nbsp; B03B: XX 的值,这里是 04,那么我们只要在闪存分配表里 找&nbsp; 04 5E 00 
+C2,就能找到 该 BIN文件在闪存中位置</font></p>
+<p><img border="0" src="../pic/fcb9.jpg" width="301" height="148"></p>
+<p>&nbsp;<font size="2">我们计算一下,就知道该 BIN的位置了,大家还要注意这时的 YY 的值,是不是 00 01 02 03 04 
+05</font></p>
+<p><font size="2">那么说明该 BIN 有 6* 4K= 24K</font></p>
+
+</body>
+
+</html>

@@ -1,0 +1,357 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><font size="2">//</font><font size="2" color="#808080">addr&nbsp; :代表8位地址&nbsp;&nbsp;&nbsp; addr16:代表16位地址&nbsp;&nbsp;&nbsp;&nbsp; 
+data&nbsp; :立即数</font></p>
+<p><font size="4"><b>[</b></font><b><font size="4" color="#808080">算术运算指令]</font></b></p>
+<p><font color="#808080" size="2">1. ADC--累加器,存储器,进位标志C相加,结果送累加器A&nbsp; A+M+C→A </font></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber1">
+  <tr>
+    <td width="16%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="12%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="72%"><b><font color="#808080" size="2">寻址方式&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    周期</font></b></td>
+  </tr>
+  <tr>
+    <td width="16%"><font size="2">ADC ($addr,X)</font></td>
+    <td width="12%"><font size="2">61</font></td>
+    <td width="72%"><font size="2">先变址X后间址&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font></td>
+  </tr>
+  <tr>
+    <td width="16%"><font size="2">ADC $addr</font></td>
+    <td width="12%"><font size="2">65</font></td>
+    <td width="72%"><font size="2">零页寻址</font></td>
+  </tr>
+  <tr>
+    <td width="16%"><font size="2">ADC #$data</font></td>
+    <td width="12%"><font size="2">69</font></td>
+    <td width="72%"><font size="2">立即寻址</font></td>
+  </tr>
+  <tr>
+    <td width="16%"><font size="2">ADC $addr16</font></td>
+    <td width="12%"><font size="2">6D</font></td>
+    <td width="72%"><font size="2">绝对寻址</font></td>
+  </tr>
+  <tr>
+    <td width="16%"><font size="2">ADC ($addr),Y</font></td>
+    <td width="12%"><font size="2">71</font></td>
+    <td width="72%"><font size="2">后变址Y间址</font></td>
+  </tr>
+  <tr>
+    <td width="16%"><font size="2">ADC $addr,X</font></td>
+    <td width="12%"><font size="2">75</font></td>
+    <td width="72%"><font size="2">零页X变址</font></td>
+  </tr>
+  <tr>
+    <td width="16%"><font size="2">ADC $addr16,Y</font></td>
+    <td width="12%"><font size="2">79</font></td>
+    <td width="72%"><font size="2">绝对Y变址</font></td>
+  </tr>
+  <tr>
+    <td width="16%"><font size="2">ADC $addr16,X</font></td>
+    <td width="12%"><font size="2">7D</font></td>
+    <td width="72%"><font size="2">绝对X变址</font></td>
+  </tr>
+</table>
+<p><font color="#808080" size="2">注意:由于进位标志C页会参加运算,所以在做加法运算时,一般要在前面加指令 CLC,清除进位标志</font></p>
+<p><font color="#808080" size="2">例1:&nbsp; //两个8位数加法运算演示,目的是将寄存器A的内容加上地址2100的内容,结果送寄存器A</font></p>
+<p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2000:LDA #$20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//立即数21送寄存器A</font></p>
+<p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2002:STA $2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址2100的内容为20</font></p>
+<p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2005:LDA #$21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器A的内容为21</font></p>
+<p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2007:CLC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i><b>//清除进位标志C,注意:在做加法运算前一定要加该指令</b></i></font></p>
+<p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2008:ADC $2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器A的内容和地址2100的内容相加</font></p>
+<p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200B:RTS</font></p>
+<p><font color="#808080" size="2">大家可以进入NCTOOLS，输入 A 2000，然后输入上面代码，然后 输入 G 
+2000，然后按R看寄存器A的值，是不是等于41呢？</font></p>
+<p>　</p>
+<p><font size="2" color="#808080">
+例2：//两个16位数加法运算，这里是将0194+01BA，大家注意看看程序与上面有什么不同.</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp; 
+在这个程序里,先将要相加的数分别放地址2100,2101,2102,2103,具体是这样的:2100:94 01 BA 01</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp; 
+然后先将地址2100的内容+地址2102的内容,结果送地址2104</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp; 
+再将地址2101的内+地址2103的内容,结果送地址2105</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp; 
+那么地址2104,2105的结果,就是两个16位数相加的结果,这里是034E</font></p>
+<p>　</p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2000:LDA #$94&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//立即数94送寄存器A</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2002:STA $2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器A的内容送地址2100</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2005:LDA #$01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//立即数01送寄存器A</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2007:STA $2101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器A的内容送地址2101</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 200A:LDA #$BA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//立即数BA送寄存器A</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 200C:STA $2102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器A的内容送地址2102</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 200F:LDA #$01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//立即数01送寄存器A</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2011:STA $2103&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器A的内容送地址2103</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2014:CLC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//清除进位标志,注意,开始做加法程序前,一定要清除进位标志</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2015:LDA $2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址2100的值送寄存器A</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2018:ADC $2102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器A的内容 + 地址2102的内容 + C → A,这里C=0</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 201B:STA $2104&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器A的内容送地址2104</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 201E:LDA $2101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址2101的内容送寄存器A</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2021:ADC $2103&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<b>//寄存器A的内容 + 地址2103的内容 + C → A,这里C=1,请注意,这里没有用CLC指令</b></font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2024:STA $2105&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器A的内容送地址2105</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2027:RTS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//程序结束</font></p>
+<p>　</p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 
+在这个程序里,最重要的就是为什么后面的加法指令前面没有用CLC指令,不是说在做加法前要用CLC指令吗?</font></p>
+<p><font size="2" color="#808080">但这里就不一样,由于在前面已经用了CLC指令,将C=0,做了一次加法运算后,会影响标志位C</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 
+如果做完第一次加法运算后,C=0,那么说明没有产生进位,C还是等于0,所以没有必要再用CLC指令</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 
+如果做完第一次加法运算后,C=1,那么说明产生了进位,如果再做第二次加法运算前,还使用CLC指令,那么计算的结果</font></p>
+<p><font size="2" color="#808080">就是错误的,我们来看 第一次运算后,(2104)=4E,如果第二次运算前使用CLC指令,那么01+01+00=02,最后的结果是这样的</font></p>
+<p><font size="2" color="#808080">(2104)=4E,(2105)=02,那么说明 
+0194+01BA=024E,我们口算都能知道这个结果是错误的,实际上由于第一次运算后,产生了进位</font></p>
+<p><font size="2" color="#808080">
+所以我们要把进位保留即01+01+(C)=01+01+01=03,所以实际的结果是(2104)=4E,(2105)=03</font></p>
+<p>　</p>
+<p><font color="#808080" size="2">2. SBC--从累加器减去存储器和进位标志C,结果送累加器&nbsp; A-M-C→A</font></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber1">
+  <tr>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">SBC ($addr,X)</font></td>
+    <td width="33%"><font size="2">E1</font></td>
+    <td width="34%"><font size="2">先变址X后间址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">SBC $addr</font></td>
+    <td width="33%"><font size="2">E5</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">SBC #$data</font></td>
+    <td width="33%"><font size="2">E9</font></td>
+    <td width="34%"><font size="2">立即寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">SBC $addr16</font></td>
+    <td width="33%"><font size="2">ED</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">SBC ($addr),Y</font></td>
+    <td width="33%"><font size="2">F1</font></td>
+    <td width="34%"><font size="2">后变址Y间址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">SBC $addr,X</font></td>
+    <td width="33%"><font size="2">F5</font></td>
+    <td width="34%"><font size="2">零页X变址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">SBC $addr16,Y</font></td>
+    <td width="33%"><font size="2">F9</font></td>
+    <td width="34%"><font size="2">绝对Y变址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">SBC $addr16,X</font></td>
+    <td width="33%"><font size="2">FD</font></td>
+    <td width="34%"><font size="2">绝对X变址</font></td>
+  </tr>
+</table>
+<p><font color="#808080" size="2">注意:由于在做减法运算时,进位标志C会参与运算，所以在做减法前要先加指令 SEC，置进位标志</font></p>
+<p><font color="#808080" size="2">例：&nbsp;&nbsp; //减法指令演示,目的是将寄存器A的内容减去地址2100的内容,结果送寄存器A</font></p>
+<p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2000: LDA #$21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//立即数21送寄存器A</font></p>
+<p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2002:STA $2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器A的内容送地址2100</font></p>
+<p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2005: LDA #$22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//立即数22送寄存器A</font></p>
+<p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2007:SEC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<b>&nbsp;<i>//置位标志位C,注意:在做减法运算前一定要加该指令</i></b></font></p>
+<p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2008:SBC $2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器A的内容减去地址2100的内容</font></p>
+<p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;200B: RTS</font></p>
+<p><font color="#808080" size="2">大家可以进入NCTOOLS，输入 A 2000，然后输入上面代码，然后 输入 G 
+2000，然后按R看寄存器A的值，是不是等于01呢？</font></p>
+<p>　</p>
+<p><font size="2" color="#808080">例2:&nbsp;&nbsp;&nbsp; //求二进制数的平方根</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+程序目的:将地址2100的内容求得其平方根后,结果送地址2101,为方便计算,这里假设地址2100的内容为整数,方根也取整数</font></p>
+<p><font size="2" color="#808080">例如 若(2100)=19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+(十进制的25)</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 结果(2101)=05</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 若(2101)=65&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+(十进制的101)</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 结果(2101)=0A</font></p>
+<p>　</p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 求方根方法:我们知道任何整数都有如下性质:</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 1 * 1 = 1</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2 * 2 = 1 + 3</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 3 * 3 = 1 + 3 + 5</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 4 * 4 = 1 + 3 + 5 + 7</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; ......</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; N * N=1 + 3 + 5 + ...... + 
+(2N-1)</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 那么,我们可以把一个正整数X = N * 
+N连续减去奇数 1, 3, 5, 7......(2N-1)直到结果为0或者不够减为止,所减去奇数的个数</font></p>
+<p><font size="2" color="#808080">就是这个正整数的整数平方根.</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 在下面的程序里,我们将目标数连续减去地址F0的内容</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2000:LDA#$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//初始化地址F0的内容为00</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2002:STA $F0</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2004:LDA $2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//取目标数到寄存器A中</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2007:SEC</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2008:SBC $F0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//目标数减去地址F0的内容</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 200A:BCC $2016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//不够减转结束,结果在地址F0中</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 200C:INC $F0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址F0的内容加1,(06)为已减的奇数个数</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 200E:SBC $F0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//和前面的减法指令合起来正好减去了奇整数</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2010:BEQ $2016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//减结果为0,转结束,结果在地址F0中</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2012:BCS $2008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//减结果&gt;0,继续减</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2014:DEC $F0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//减结果&lt;0,则从结果中扣除1</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2016:LDA $F0</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 2018:STA $2101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//把最后结果送地址2101</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 201B:RTS</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; </font></p>
+<p>　</p>
+<p><font color="#808080" size="2">3. INC--存储器单元内容增1&nbsp; M+1→M</font></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber2">
+  <tr>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">INC $addr</font></td>
+    <td width="33%"><font size="2">E6</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">INC $addr16</font></td>
+    <td width="33%"><font size="2">EE</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">INC $addr,X</font></td>
+    <td width="33%"><font size="2">F6</font></td>
+    <td width="34%"><font size="2">零页X变址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">INC $addr16,X</font></td>
+    <td width="33%"><font size="2">FE</font></td>
+    <td width="34%"><font size="2">绝对X变址</font></td>
+  </tr>
+</table>
+<p>&nbsp; <font size="2" color="#808080">
+这个指令应该很好理解吧,就是把某个地址的内容加1,当然我们也可以用加法指令把某个地址加1,但大家可以看到,这里的指令所占用字节少</font></p>
+<p><font size="2" color="#808080">执行速度也较快.请看下面的比较:</font></p>
+<p><font size="2" color="#808080">&nbsp; 用加法指令把地址2100的内容加1</font></p>
+<p><font size="2" color="#808080">&nbsp; 2000:LDA $2100</font></p>
+<p><font size="2" color="#808080">&nbsp; 2003:CLC</font></p>
+<p><font size="2" color="#808080">&nbsp; 2004:ADC #$01</font></p>
+<p><font size="2" color="#808080">&nbsp; 2006:STA $2100</font></p>
+<p><font size="2" color="#808080">&nbsp; 2009:RTS</font></p>
+<p>　</p>
+<p><font size="2" color="#808080">&nbsp; 所占字节数:10个</font></p>
+<p><font size="2" color="#808080">&nbsp; 用上面的指令把地址2100的内容加1</font></p>
+<p><font size="2" color="#808080">&nbsp; 2000:INC $2100</font></p>
+<p><font size="2" color="#808080">&nbsp; 2003:RTS</font></p>
+<p>　</p>
+<p><font size="2" color="#808080">&nbsp; 所占字节数:4个</font></p>
+<p><font size="2" color="#808080">&nbsp; 
+一比较,大家就能发现谁占了上风吧!在对某个地址进行加1运算时,应该用INC指令.</font></p>
+<p>　</p>
+<p><font color="#808080" size="2">4. DEC--存储器单元内容减1&nbsp; M-1→M</font></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber3">
+  <tr>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">DEC $addr</font></td>
+    <td width="33%"><font size="2">C6</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">DEC $addr16</font></td>
+    <td width="33%"><font size="2">CE</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">DEC $addr,X</font></td>
+    <td width="33%"><font size="2">D6</font></td>
+    <td width="34%"><font size="2">零页X变址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">DEC $addr16,X</font></td>
+    <td width="33%"><font size="2">DE</font></td>
+    <td width="34%"><font size="2">绝对X变址</font></td>
+  </tr>
+</table>
+<p><font color="#808080" size="2">5. 寄存器X,Y加1减1</font></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber3">
+  <tr>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">INX</font></td>
+    <td width="33%"><font size="2">E8</font></td>
+    <td width="34%"><font size="2">隐含寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">DEX</font></td>
+    <td width="33%"><font size="2">CA</font></td>
+    <td width="34%"><font size="2">隐含寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">INY</font></td>
+    <td width="33%"><font size="2">C8</font></td>
+    <td width="34%"><font size="2">隐含寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">DEY</font></td>
+    <td width="33%"><font size="2">88</font></td>
+    <td width="34%"><font size="2">隐含寻址</font></td>
+  </tr>
+</table>
+<p>　</p>
+
+</body>
+
+</html>

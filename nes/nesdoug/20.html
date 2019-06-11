@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>NES游戏开发</title>
+    <link rel="stylesheet" href="index.css"/>
+</head>
+
+<body>
+
+<div class="main">
+<p><h1>20、再做一个游戏</h1>
+</p><p>我不打算用分屏了。一旦屏幕中的敌人和硬币多了以后，游戏就会变慢，屏幕会来回滚动，结果会很糟糕。
+</p><p>
+</p><p>不用分屏，不用担心速度变慢（每帧中增加更多的游戏逻辑）
+</p><p>
+</p><p>增加背景音乐和音效，游戏中我们在增加敌人和硬币。当和硬币碰撞的时候使用sfx音效，当和敌人碰撞的时候使用噪声音效。
+</p><p>
+</p><p>我用yy-chr画了一些简单的敌人，定义了一些metasprite对象。我们使用 nes screen tool这样做非常简单，我从另外一个metasprite复制粘贴到tile里。
+</p><p>
+</p><p><img src="img/20_1.png">
+</p><p>
+</p><p>原版使用数组方式定义所有内容应该是个很好的选择，但是6502太慢了。快的方法是使用大量小于256字节的char数组，就像下面这样。
+</p><p>
+</p><p><pre>
+</p><p>#define MAX_COINS 16 
+</p><p>unsigned char coin_x [MAX_COINS]; 
+</p><p>unsigned char coin_y [MAX_COINS]; 
+</p><p>unsigned char coin_active [MAX_COINS]; 
+</p><p>unsigned char coin_room [MAX_COINS]; 
+</p><p>unsigned char coin_actual_x [MAX_COINS];
+</p><p></pre>
+</p><p>
+</p><p>我优化了对象初始化的代码，每行只放一个数组来让代码的执行速度更快。6502每次只能执行一个指针。如果使用单行的数组的赋值会让执行速度慢5倍。
+</p><p>
+</p><p>这样是不推荐的方式
+</p><p>coin_y[index] = pointer[index2];
+</p><p>
+</p><p>应该这样做
+</p><p>temp1 = pointer[index2]; //获取1byte的数据
+</p><p>coin_y[index] = temp1;
+</p><p>
+</p><p>信不信由你，这样写的话代码的执行效率可以更快。如果我们想要游戏中有多个移动的物体和屏幕滚动，必须要考虑优化代码。
+</p><p>
+</p><p>因此，每帧我会检查每个对象是否在屏幕的显示范围内，并将它们标记为活动。只在活动状态时候移动它们，检查碰撞是否有效，并在活动的时候绘制到屏幕上显示。
+</p><p>
+</p><p>check_spr_objects() 这个方法用来检查每个对象是否显示再屏幕上，当结果是true标记它们是活动的。
+</p><p>
+</p><p>现在，跟移动相关的代码变得简单了，小怪根据主角的位置改变移动方向。后面我会考虑优化这部分。
+</p><p>
+</p><p>目前，我使用 y=0xff作为 “不存在”（TRUN_OFF）,因此，不显示敌人是通过将它们的Y改为0xff的方式处理的。当然还有其他方式，不过我这么做的。我们不需要敌人从屏幕下方跳进来，就让他能正常运行。
+</p><p>
+</p><p>我做的另一件事是添加游戏状态。暂停模式，改变音乐，动作停止，通过修改颜色亮度让屏幕变暗。如果所有的颜色都设置只会让颜色变暗一点点。
+</p><p>
+</p><p>color_emphasis(COL_EMP_NORMAL);
+</p><p>
+</p><p><img src="img/20_2.png">
+</p><p>
+</p><p>color_emphasis(COL_EMP_DARK);
+</p><p>
+</p><p><img src="img/20_3.png">
+</p><p>
+</p><p>https://github.com/nesdoug/25_Platform5/blob/master/platformer5.c
+</p><p>
+</p><p>https://github.com/nesdoug/25_Platform5
+</p><p>
+</p><p>https://nesdoug.com/2018/09/11/21-finished-platformer/
+</p><p>
+</p><p>好了，现在基本上能工作了，后面要做完整的关卡了。
+</p><p>
+</p></div>
+<script>
+var h1 = document.getElementsByTagName("h1");
+if(h1.length>0){
+    document.title = h1[0].innerHTML;
+}
+</script>
+</body>
+</html>

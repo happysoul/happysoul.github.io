@@ -1,0 +1,72 @@
+<html>
+<head>
+<title>NES ASM - Day 21</title>
+</head>
+<body bgcolor="lavender">
+<h1 align="center" style="color: LightCoral; width: 100%; filter:shadow()">Day 21 - The Stack</h1>
+<pre>
+
+
+</pre>
+<h2 align="center" style="color: LightCoral;"><b>The Stack</b></h2>
+<p style="color: green;"><pre><b>
+	I hope you know what a stack is. It's exactly what it sounds like, you
+put things on top (push) and then you take things off the top (pop). The stack
+in the NES starts at $01FF and grows down in memory. To handle where the next 
+item pushed or poped from the stack comes from, there a register called S which
+is an index in page 1 ($0100 to $01FF). The S register can modified by a TSX or
+TXS instruction (Transfer S to X and transfer X to S respectively). The current
+location on the stack always is $0100+S.
+
+<h2 align="center" style="color: LightCoral;"><b>Push Instructions</b></h2>
+	There are 2 instructions that explicitly push things on the stack, they
+are PHA and PHP. PHA pushes the A register onto the stack and then decrements the
+S register. PHP pushes the flag register (that stores Zero,Carry,Overflow, etc..)
+onto the stack (and S-=1;). Note that there are no instructions to push the X
+or Y registers, to accomplish that. You'll have to do something like:
+
+; assuming you don't care about A's value
+	txa ; transfer X to A
+	pha ; push A
+; or
+	tya ; transfer Y to A
+	pha ; push A
+
+<h3 align="center" style="color: LightCoral;"><b>Pop Instructions</b></h3>
+	The counter-parts to the push instructions are PLA and PLP. PLA pops 
+A from the stack and PLP pops the flags from the stack (both do S+=1; afterwards).
+
+; example:
+	lda #3
+	pha
+	lda #4
+	pha
+	lda #5
+	pla ; note that this is a POP
+	pla
+
+After that is finished A's value will be 3.
+
+NOTE: PHP and PLP would be usefull in preserving flag status across subroutine calls (JSR).
+NOTE2: I don't think JSR saves the flags, does it?
+
+<h3 align="center" style="color: LightCoral;"><b>This Day In Review</b></h3>
+
+	The stack is a good thing to know and is probably something
+I should have mentioned earlier.
+
+	Greetings and Salutations!,
+		- GbaGuy
+
+P.S. Could someone email me to tell me if this works or not, please?
+
+<center><a href="nesasm.htm">Intro</a> - <a href="day22n.htm">Day 22</a></center>
+
+
+</b></pre></p>
+
+<br />
+<br />
+
+</body>
+</html>

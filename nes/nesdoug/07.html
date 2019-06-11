@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>NES游戏开发</title>
+    <link rel="stylesheet" href="index.css"/>
+</head>
+
+<body>
+
+<div class="main">
+<p><h1>07、控制器</h1>
+</p><p>NES上有2个控制器端口。您可以使用端口4016和4017随时读取它们。在幕后，它会关闭和打开4016端口，然后一次读取按钮，1个按钮，8次读取，然后将它们转换为变量。
+</p><p>
+</p><p>Neslib，使用此功能的方法。
+</p><p>
+</p><p>pad1 = pad_poll(0) 读取控制器1。
+</p><p>pad2 = pad_poll(1) 读取控制器2。
+</p><p>
+</p><p>如果你希望不重复读取手柄的情况下获取值可以使用下面的方法再次取到值。
+</p><p>pad_state(0)
+</p><p>pad_state(1) 
+</p><p>
+</p><p>pad_trigger() 获取最近按下的按钮。我不用它。
+</p><p>如果你用了，顺序将是pad_trigger() 然后是pad_state()，因为触发器运行了pad_poll()函数。
+</p><p>
+</p><p>我写了一个函数get_pad_new()，它类似于pad_trigger()，除了先运行pad_poll() 然后运行get_pad_new()。
+</p><p>pad1 = pad_poll(0);
+</p><p>pad1_new = get_pad_new(0);
+</p><p>
+</p><p>pad1_new 会获取最近被按下的按钮。如果按下了暂停键，我们不希望他连续的暂停、恢复、暂停、恢复的循环。应该是松开暂停键，再按下的时候才会修改当前状态（暂停再按一次应该恢复到运行状态）
+</p><p>
+</p><p>pad1 是一个8位的char类型，正好是8个按钮的字段位置。我们需要用位标识来判断按下了那个按键。
+</p><p>
+</p><p><pre>
+</p><p>if(pad1_new & PAD_START){
+</p><p>    Pause();
+</p><p>}
+</p><p></pre>
+</p><p>
+</p><p>
+</p><p><h2>精灵与碰撞</h2>
+</p><p>我给每个精灵都设置了单独的控制，当他们碰撞的时候就改变背景颜色。
+</p><p><pre>
+</p><p>if（collision）{
+</p><p>    pal_col（0,0x30）; 
+</p><p>}
+</p><p></pre>
+</p><p>
+</p><p>我写了个功能，可以测试任何精灵对象是否发生了触碰。函数需要2个4字节的对象(或数组)，字节顺序是(x,y,宽,高) 
+</p><p>我让这个函数接受2个void指针，我希望以后可以使用不同类型的对象结构。至少，这是个方案。
+</p><p>
+</p><p>碰撞检测代码例子
+</p><p>collision = check_collision(&BoxGuy1, &BoxGuy2);
+</p><p>
+</p><p>我们还能把他直接放到if条件里使用
+</p><p>if(check_collision(&BoxGuy1, &BoxGuy2))
+</p><p>
+</p><p>可以考虑使用ASM汇编方式优化这个代码
+</p><p><pre>
+</p><p>if((obj1_right >= obj2_left) &&
+</p><p>
+</p><p>(obj2_right >= obj1_left) &&
+</p><p>
+</p><p>(obj1_bottom >= obj2_top) &&
+</p><p>
+</p><p>(obj2_bottom >= obj1_top)) return 1;
+</p><p>
+</p><p>else return 0;
+</p><p></pre>
+</p><p>
+</p><p>在发生碰撞的时候屏幕背景变成了白色，能确认他生效了。
+</p><p>一个精灵离开另一个精灵一半的时候会有点问题，不过这已经满足需求了。
+</p><p>
+</p><p><img src="img/07_1.png">
+</p><p><img src="img/07_2.png">
+</p><p>
+</p><p>https://github.com/nesdoug/08_Pads/blob/master/Pads.c
+</p><p>
+</p><p>https://github.com/nesdoug/08_Pads
+</p><p>
+</p><p>
+</p><p>
+</p><p>
+</p><p>
+</p><p>
+</p><p>
+</p><p>
+</p><p>
+</p><p>
+</p><p>
+</p><p>
+</p><p>
+</p><p>
+</p></div>
+<script>
+var h1 = document.getElementsByTagName("h1");
+if(h1.length>0){
+    document.title = h1[0].innerHTML;
+}
+</script>
+</body>
+</html>

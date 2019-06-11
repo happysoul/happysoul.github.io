@@ -1,0 +1,65 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p>//分支程序设计</p>
+<p>&nbsp; 什么叫分支程序,其实很简单,就是利用条件或无条件转移指令改变程序的流向.</p>
+<p>&nbsp; 例. 编写按下面的函数式求Y值,变量X在寄存器A中,结果送寄存器Y</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X + 1&nbsp;&nbsp; ( X &gt; 0 )</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Y = 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( X = 0 )</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+( X &lt; 0 )</p>
+<p>　</p>
+<p>&nbsp;&nbsp;&nbsp; A 2000</p>
+<p>&nbsp;&nbsp;&nbsp; 2000: BMI $2009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;若结果为负数,那么转地址2009</p>
+<p>&nbsp;&nbsp;&nbsp; 2002: BEQ $200C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;若 = 0,转 地址200C</p>
+<p>&nbsp;&nbsp;&nbsp; 2004: CLC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;这里说明 &gt; 0</p>
+<p>&nbsp;&nbsp;&nbsp; 2005: ADC #$01</p>
+<p>&nbsp;&nbsp;&nbsp; 2007: TAY</p>
+<p>&nbsp;&nbsp;&nbsp; 2008: RTS</p>
+<p>　</p>
+<p>&nbsp;&nbsp;&nbsp; 2009: LDY #$01</p>
+<p>&nbsp;&nbsp;&nbsp; 200B: RTS</p>
+<p>&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp; 200C: LDY #$00</p>
+<p>&nbsp;&nbsp;&nbsp; 200E: RTS</p>
+<p>　</p>
+<p>&nbsp;&nbsp; 从上面的程序我们看到,分支程序就是根据不同的条件使程序转向不同的地址去执行</p>
+<p>相当于C语言的IF 语句,请看</p>
+<p>&nbsp; #include &lt;stdio.h&gt;</p>
+<p>&nbsp; #include &lt;conio.h&gt;</p>
+<p>&nbsp; void main()</p>
+<p>&nbsp; {</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int x;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//定义变量X</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int y;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//定义Y</p>
+<p>　</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; clrscr(); </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; printf(&quot;Please input X: &quot;);</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scanf(&quot;%d&quot;, &amp;x);</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if ( x == 0 )</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y = 0;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if ( x &gt; 0 )</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y = ++ x;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y = 1;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; printf(&quot;y = %d&quot;,y);</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; getch();</p>
+<p>&nbsp;&nbsp; }</p>
+
+</body>
+
+</html>

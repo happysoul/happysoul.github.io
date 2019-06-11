@@ -1,0 +1,148 @@
+<html>
+<head>
+<title>NES ASM - Day 6</title>
+</head>
+<body bgcolor="lavender">
+<h1 align="center" style="color: LightCoral; width: 100%; filter:shadow()">Day 6 - Jumps And Key Presses</h1>
+<pre>
+
+
+</pre>
+<h2 align="center" style="color: LightCoral;"><b>Reading Keys</b></h2>
+<p style="color: green;"><pre><b>
+	We will assume that it is a normal rectangle NES pad you want to read and not
+anything funky. To read to see if a key is down, you read $4016 (Pad 1) or $4017 (Pad 2)
+once per key. If the key is down, Bit #0 (from right) will be set (1). And with 1 and
+jump if Not Equal. Before you read anything, however, you need to reset the pad (strobe).
+
+<h3 align="center" style="color: LightCoral;"><b>Strobe/Reset</b></h3>
+
+	To strobe/reset the pad, we write a 1 then a 0 to $4016 or $4017 (for pad 2).
+This is done like so:
+
+	lda #$01
+	sta $4016
+	lda #$00
+	sta $4016
+
+That's it! Onto actually reading the pad.
+
+<h3 align="center" style="color: LightCoral;"><b>Order of Reads</b></h3>
+
+	On every read of $4016 or $4017, you get the status of a different key. 
+The order of keys read is:
+
+	Read # | Corresponding Key
+	     1. A
+	     2. B
+	     3. SELECT
+	     4. START
+	     5. UP
+	     6. DOWN
+	     7. LEFT
+	     8. RIGHT
+
+	So how 'bout we learn some about conditions and jumps before we do any more?
+
+<h3 align="center" style="color: LightCoral;"><b>Conditions And Jumps</b></h3>
+
+	There are certain "conditions" that are set by most instructions, some, however,
+can only be set by a compare instruction which'll be discussed later. These conditions are
+
+	<u>Conditions</u>
+		EQ - EQual - Zero
+		NE - Not EQual - Not Zero
+		LT - Less Than
+		GT - Greater Than
+		PL - Positive
+		MI - Negative
+		CC - Carry Clear
+		CS - Carry Set
+		VC - oVerflow Clear
+		VS - oVerflow Set
+
+	These conditions are set by most instructions, including loads. All of these
+have a branch instruction. Put a 'B' in front of one of those abbreviations and you'll
+have your branch (Conditional Jump) instruction, examples:
+
+	; assume that there is a label called Loopto .
+	beq Loopto  ; branch to Loopto if last compare was EQual or last instruction
+	; resulted in a zero.
+
+	bpl Loopto  ; branch if Bit #7 (always counted from right->left) is set.
+	bmi Loopto  ; branch if Bit #7 is clear.
+
+I hope you get the idea. I believe that only the Not Equal and Equal conditions can be
+set by a non-compare instruction.
+
+Incase you don't know, a label is just a name/word followed by a colon ':'. Examples:
+
+	Loopto:
+	aslkdfj:
+	Hello_a:
+
+I hope you get the idea. <sup>Just remember:</sup><sub>Labels are FUN!</sub>
+
+<h3 align="center" style="color: LightCoral;"><b>A Small Example of Reading Keys</b></h3>
+
+	Enough talk, here's the code:
+
+	lda #$01    ; |
+	sta $4016   ;  \
+	lda #$00    ;   - Setup Pad for reading.
+	sta $4016   ; _/
+
+	lda $4016  ; read for A key.
+	and #1     ; check to see if down.
+	bne WasDown  ; branch if it was down.
+	; I'm not sure why it's a BNE for a bit AND, it just is, SO USE IT! :)
+
+	lda $4016  ; read for B key.
+	lda $4016  ; read for SELECT
+	lda $4016  ; read START status
+	and #1     ; see if down.
+	bne StartDown  ; branch if down.
+
+	lda $4016  ; UP
+	lda $4016  ; DOWN
+	lda $4016  ; LEFT
+	lda $4016  ; RIGHT
+
+	jmp NothingDown  ; the JMP instruction jumps no matter what.
+	
+StartDown:
+	; Do stuff if START is pressed.
+
+WasDown:
+	; Do stuff if A is pressed.
+
+NothingDown:
+	; Nothing was down
+	
+Hope you didn't thing that was too hard! :).
+Personally, I find the GBA easier (a little) to program, so for me, NES
+programs take a little more studying to figure out.
+
+<h3 align="center" style="color: LightCoral;"><b>This Day In Review</b></h3>
+
+	First, I'd like to mention that you probably know about my GBA ASM series 
+and maybe you also know about my x86 (DOS) ASM tutorial? Switching
+between 3 ASM languages DOES sometimes screw me up, so if you see a something
+rather wierd or any mistake feel free to let me know. Thank you.
+
+	Also, I know Key Press Detecting isn't exactly all that exciting by itself,
+but things WILL GET MORE INTERESTING! I promise. ;)
+
+	Happy coding :),
+		-Mike H a.k.a GbaGuy
+
+<center><a href="nesasm.htm">Intro</a> - <a href="day7n.htm">Day 7</a></center>
+
+
+</b></pre></p>
+
+<br />
+<br />
+
+</body>
+</html>

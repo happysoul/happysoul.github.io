@@ -1,0 +1,95 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p>//弹出式信息框</p>
+<p>&nbsp;实现这样的信息框</p>
+<p>&nbsp;<img border="0" src="../pic/message.jpg" width="423" height="183"></p>
+<p>&nbsp;中断调用: INT $C312</p>
+<p>&nbsp;入口参数: 寄存器X放参数表地址低8位</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 寄存器Y放参数表地址高8位</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 寄存器 (A) = 00</p>
+<p>参数表定义:</p>
+<p>偏移 00 :80</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 01:信息框在 X轴位置</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 02:信息框在 Y轴位置</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 03:信息所占字节数</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 04：信息框的宽度&nbsp;&nbsp; 02&nbsp; 显示一行，04 显示两行&nbsp; 06 
+显示三行。。。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 05：02 所在地址低8位</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 06：02 所在地址高8位</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 07：02</p>
+<p>&nbsp;&nbsp;&nbsp; </p>
+<p>例如我们实现在屏幕上弹出信息框，显示 &quot;这是一个信息框&quot;</p>
+<p>进入 NCTOOLS，按 Z + H，</p>
+<p>&nbsp;&nbsp;&nbsp; 先输入 信息：</p>
+<p>&nbsp;&nbsp;&nbsp; 从地址2000开始</p>
+<p>&nbsp;&nbsp;&nbsp; V 2000</p>
+<p>按输入法，输入 &quot;这是一个信息框&quot;,后面用E C 命令紧接着输入 0000,作为信息结束标志</p>
+<p><img border="0" src="../pic/messli1.jpg" width="397" height="181"></p>
+<p>&nbsp;&nbsp;&nbsp; 然后做参数表</p>
+
+<p>&nbsp;&nbsp;&nbsp; 这里我们确定下:</p>
+
+<p>&nbsp;&nbsp;&nbsp; 信息所在开始地址 2000</p>
+
+<p>&nbsp;&nbsp;&nbsp; X 轴位置&nbsp;&nbsp; 09</p>
+
+<p>&nbsp;&nbsp;&nbsp; Y 轴位置&nbsp;&nbsp; 10</p>
+
+<p>&nbsp;&nbsp;&nbsp; 字节数&nbsp;&nbsp;&nbsp;&nbsp; 0E&nbsp;&nbsp; 
+(因为是7个汉字,所以是14个字节,即16进制 0E)</p>
+
+<p>&nbsp;&nbsp;&nbsp; 02 的地址&nbsp; 2019</p>
+
+<p>&nbsp;&nbsp;&nbsp; 我们从地址2010开始做表</p>
+
+<p>&nbsp;&nbsp;&nbsp; E C命令 输入 80 00 20 09 10 0E 02 19 20 02</p>
+
+<p><img border="0" src="../pic/messli2.jpg" width="389" height="172"></p>
+
+<p>&nbsp; 然后我们实现主程序,从地址2020开始输入程序</p>
+
+<p>&nbsp; A 2020</p>
+
+<p>&nbsp; 2020: LDX #$10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;确定表的位置</p>
+
+<p>&nbsp; 2022: LDY #$20</p>
+
+<p>&nbsp; 2024: LDA #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;00 表示是弹出式信息框</p>
+
+<p>&nbsp; 2026: INT $C312&nbsp;&nbsp;&nbsp;&nbsp; ;调用该中断,显示信息框</p>
+
+<p>&nbsp; 2029: INT $C008&nbsp;&nbsp;&nbsp;&nbsp; ;该中断是读键中断,这样信息框能 
+&quot;定&quot;住,要不信息框一闪就没有了</p>
+
+<p>&nbsp; 202C: RTS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;结束</p>
+
+<p>　</p>
+
+<p>&nbsp; 我们 G 2020,看看效果</p>
+
+<p>&nbsp; <img border="0" src="../pic/MESSLI3.JPG" width="388" height="172"></p>
+
+<p>　</p>
+
+<p>&nbsp; <b>这里,告诉大家一个方法,如果我们程序中多次用到信息框,那么是不是每一个信息框都要做表呢?</b></p>
+
+<p><b>其实我们可以让 信息内容的开始地址固定为RAM中的一个地址,然后每次把信息内容发送到那里就可以</b></p>
+
+<p><b>这样我们只要一个表,就可以实现多个信息框</b></p>
+
+<p>&nbsp; </p>
+
+</body>
+
+</html>

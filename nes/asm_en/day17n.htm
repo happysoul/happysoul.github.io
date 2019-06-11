@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>NES ASM - Day 17</title>
+</head>
+<body bgcolor="lavender">
+<h1 align="center" style="color: LightCoral; width: 100%; filter:shadow()">Day 17 - The Sprite Attribute Byte</h1>
+<pre>
+
+
+</pre>
+<h2 align="center" style="color: LightCoral;"><b>The What?</b></h2>
+<p style="color: green;"><pre><b>
+	The Sprite Attribute Byte (SAB) is the third (of 4bytes) byte that you write
+to OAM (SPR-RAM). This byte controls several (4) things including:
+
+    Bits 0-1: 2 Bits of the sprites colors. Will be discussed at a later time.
+    Bits 2-4: UNUSED.
+    Bit #5: 0 = Sprite in front or 1 = Sprite in back of BG.
+    Bit #6: 1 = Flip horizontally.
+    Bit #7: 1 = Flip vertically.
+
+See's see how to do this!
+<h2 align="center" style="color: LightCoral;"><b>Gettin' Goin'</b></h2>
+	When I demonstrate each bit (with code <u>peices</u>) I'll give 2 pieces, of
+code, one for the $2003/$2004 method and one for the Sprite#-BYTE (DMA) method.
+
+	To flip a sprite horizontally, you just need to set bit #6 of the special byte
+of OAM data (the third byte written). Assuming you have your special byte in A (you 
+have to, to be able to do bit operations & math):
+
+	eor #%01000000  ; will toggle bit #6 in A.
+	sta $2004       ; this assumes that you already entered 2 bytes to $2004
+
+Now the DMA method:
+
+	lda Sprite1_S
+	eor #%01000000
+	sta Sprite1_S   ; need to store it back so next time the correct thing happens.
+	sta $2004
+
+As you see, it's not much different.
+To flip a sprite vertically, you need to toggle bit #7 of the special byte.
+
+<h3 align="center" style="color: LightCoral;"><b>Gettin' Goin'</b></h3>
+	Putting sprites <i>behind</i> backgrounds is always cool if you do it right,
+like the Warp Whisle (Whistle?) in Super Mario Bros. 3 ((c)1988? Nintendo, wow I was
+1 year old in 1988...) you have to get BEHIND the background and make to the end of
+the stage to get the whisle, remember that?
+
+	Well, Bit #5 of the special byte is probably how that was done. Just make Bit #5
+a 1 to have your sprite be drawn under/behind the background. Example of toggling bit
+#5:
+	eor #%00100000
+
+That will toggle bit #5, so you can use that instead of the eor in the previous code.
+
+<h3 align="center" style="color: LightCoral;"><b>One Last Thing</b></h3>
+	
+	Remember that you can always toggle more than one bit at a time.
+
+<h3 align="center" style="color: LightCoral;"><b>This Day In Review</b></h3>
+
+	Hopefully I'll get around to talking about color attributes tomorrow. 
+(Bits 0-1 of special byte and the BG Attribute Tables).
+
+	Hope you liked this!,
+		-Mike H a.k.a GbaGuy
+
+P.S. Could someone email me to tell me if this works or not, please?
+
+<center><a href="nesasm.htm">Intro</a> - <a href="day18n.htm">Day 18</a></center>
+
+
+</b></pre></p>
+
+<br />
+<br />
+
+</body>
+</html>

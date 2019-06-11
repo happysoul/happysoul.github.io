@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>NES游戏开发</title>
+    <link rel="stylesheet" href="index.css"/>
+</head>
+
+<body>
+
+<div class="main">
+<p>
+</p><p>简介:
+</p><p>作者nesdoug
+</p><p>他的代码并发布到在github <a href="https://github.com/nesdoug">https://github.com/nesdoug</a>
+</p><p>作者的目的是让所有的开发者尽量不去学习6502汇编，只通过C语音就能开发出来NES游戏
+</p><p>
+</p><p>作者的过时教程地址：https://nesdoug.com/2018/07/11/backup-pdf-archive/ （作者留档用不希望读者看这些代码了，作者是不会再管这些内容了）
+</p><p>可能几乎所有原创的NES游戏都是用汇编写的。（1985年几乎没有人使用过C）。如果您更喜欢汇编的开发方式，那么您可以看看Nerdy Nights教程。
+</p><p>http://nintendoage.com/forum/messageview.cfm?catid=22&threadid=7155
+</p><p>
+</p><p>我们来谈谈NES。
+</p><p>1983年在日本发布（Famicom），1985年在美国发行。1986年在欧洲发行。1987年在澳大利亚发布。
+</p><p>1993年重新发布，去掉了芯片锁。
+</p><p>日本可更换软盘的磁盘驱动器系统。FDS。
+</p><p>
+</p><p>CPU，Ricoh 2A03,1.79 MHz，是带有音频电路的6502（缺少十进制模式）
+</p><p>
+</p><p>256×240像素，可显示53种颜色中的25种。
+</p><p>64个精灵（8×8或8×16），精灵限制为每条水平线8个。
+</p><p>60 fps（50 fps欧版）
+</p><p>
+</p><p>这是CPU的内存映射
+</p><p><img src="img/00_1.png">
+</p><p>
+</p><p>PPU（产生视频图像）是一个独立的芯片，具有自己的存储器。它只能通过一次缓慢的1字节从CPU访问，使用硬件寄存器。
+</p><p>
+</p><p>这是PPU的内存映射
+</p><p><img src="img/00_2.png">
+</p><p>
+</p><p>Nametable是一个技术词，基本上是指tilemap或背景屏幕。
+</p><p>
+</p><p>另外还有另外256字节（0-FF）内存专用于Sprite（OAM）。这个内存特别不稳定，需要每帧重写一次。
+</p><p>
+</p><p>看起来有4个可用的名称表（背景屏幕），但实际上只有2个内部VRAM。磁带硬连线要么处于“水平镜像”或“垂直镜像”。更高级的映射器可以在这些选项之间切换。
+</p><p>
+</p><p>垂直镜像（或水平排列）用于横向滚动游戏，低2个名称表只是上面两个名称表的镜像，像这样...
+</p><p><img src="img/00_3.png">
+</p><p>水平镜像（或垂直排列）用于垂直滚动游戏，右侧2个名称表只是一个镜像或左侧2个名称表，如下所示...
+</p><p><img src="img/00_4.png">
+</p><p>有关更多详细信息，请查看nesdev wiki。
+</p><p>
+</p><p>http://wiki.nesdev.com/w/index.php/Nesdev_Wiki
+</p><p>最后，游戏卡带通常有2个ROM芯片。
+</p><p>一个PRG-ROM（可执行代码）和一个CHR-ROM（图形块）。
+</p><p>但有些游戏，没有CHR-ROM芯片，但是有一个CHR-RAM的芯片。图形位于PRG-ROM中，程序将字节传输到CHR-RAM芯片。
+</p><p>
+</p><p>我的教程将只针对CHR-ROM风格的游戏。因为这样很简单。
+</p><p>
+</p><p>您可能想要读取十六进制数字。以十六进制格式更容易阅读和理解8位数字。我通常使用$表示十六进制，但有时我使用0x。$用于汇编语言，0x用于C语言。你不需要成为一名数学专家，但如果你想知道我在说什么，学会它会对你有所帮助。
+</p><p>
+</p><p>
+</p><p>
+</p><p>
+</p></div>
+<script>
+var h1 = document.getElementsByTagName("h1");
+if(h1.length>0){
+    document.title = h1[0].innerHTML;
+}
+</script>
+</body>
+</html>

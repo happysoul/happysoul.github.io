@@ -1,0 +1,105 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><span lang="zh-cn"><font size="4"><b>//6502寄存器</b></font></span></p>
+<p><span lang="zh-cn">&nbsp; 1.累加寄存器A</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp; <font size="2">
+这是个8位寄存器,既然是8位,那么说明该寄存器中只能存储一个(00-FF)之间的立即数.</font></span></p>
+<p><span lang="zh-cn"><font size="2">它与算术逻辑运算单元一起完成各种算术逻辑运算,它既可存放操作前的初始数据,也可存放</font></span></p>
+<p><span lang="zh-cn"><font size="2">操作结果,所以称为累加器.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 在6502汇编中,这个寄存器应该算是用的最多的</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 
+大家也不要管那么多,只要知道有这个寄存器,该寄存器可以存放一个00-FF之间的立即数</font></span></p>
+<p><span lang="zh-cn"><font size="2">就可以了.</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2.变址寄存器 X</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 
+也是8位寄存器,它在编程中常被当作一个计数器来使用.它可以由指令控制而被置成一个常数</font></span></p>
+<p><span lang="zh-cn"><font size="2">并能方便的用加 1,减 
+1,比较操作来修改和测试其内容,以使得程序能够方便灵活的处理数据块,表格</font></span></p>
+<p><span lang="zh-cn"><font size="2">等问题.</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 3.变址寄存器 Y</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 用法和 变址寄存器 
+X一样,只不过在有些情况下,比如程序中要同时处理两个以上的数据块时,一个变址</font></span></p>
+<p><span lang="zh-cn"><font size="2">寄存器显得不够,所以6502中有两个用于变址的寄存器 X和Y.</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 4.程序计数器 PC</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 
+它是6502中唯一的16位寄存器,PC是用来存放指令地址码的寄存器,由于程序的执行一般为顺序执行方式,每</font></span></p>
+<p><span lang="zh-cn"><font size="2">
+取出一个指令字节后PC即自动加1,为取下一个指令字节做好准备,所以程序计数器PC中的内容往往是指向下一个</font></span></p>
+<p><span lang="zh-cn"><font size="2">指令字节地址,但在执行转移指令时,PC中将被放进要转移的目标地址.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; </font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 5.堆栈指针 S</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 
+它是用来指示堆栈栈顶位置的寄存器,由于6502规定堆栈设在 第 1 页存储器中,所以堆栈指针 S 也是8位寄存器</font></span></p>
+<p><span lang="zh-cn"><font size="2">只用来指出堆栈位置的低 8 位 地址.S 具有数据进栈时自动减 1,出栈时自动加 
+1的功能.</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 6.标志寄存器 P</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 这也是 8位的寄存器,但是只用了其中的 7 
+位,第 5 位空着不用.</font></span></p>
+<p><span lang="zh-cn"><font size="2">每条指令在执行之后往往会发生进位溢出,结果为 0,或是结果为 负数(大于 
+7F的数叫负数)的情况.指令执行完后常常</font></span></p>
+<p><span lang="zh-cn"><font size="2">
+要保留这些情况作为条件分支的依据,标志寄存器P就是为了适应这需要而设计的,在寄存器P中有以下7个标志位,不过</font></span></p>
+<p><span lang="zh-cn"><font size="2">我这里只介绍其中的 5 位</font></span></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="55%">
+  <tr>
+    <td width="5%"><span lang="zh-cn">&nbsp;7</span></td>
+    <td width="6%"><span lang="zh-cn">&nbsp;6</span></td>
+    <td width="6%"><span lang="zh-cn">&nbsp;5 </span></td>
+    <td width="6%"><span lang="zh-cn">&nbsp;4</span></td>
+    <td width="8%"><span lang="zh-cn">&nbsp;3</span></td>
+    <td width="7%"><span lang="zh-cn">&nbsp;2</span></td>
+    <td width="8%"><span lang="zh-cn">&nbsp;1</span></td>
+    <td width="54%"><span lang="zh-cn">&nbsp;0</span></td>
+  </tr>
+  <tr>
+    <td width="5%"><span lang="zh-cn">&nbsp;N</span></td>
+    <td width="6%"><span lang="zh-cn">&nbsp;V</span></td>
+    <td width="6%">　</td>
+    <td width="6%"><span lang="zh-cn">&nbsp;B</span></td>
+    <td width="8%"><span lang="zh-cn">&nbsp;D</span></td>
+    <td width="7%"><span lang="zh-cn">&nbsp;I</span></td>
+    <td width="8%"><span lang="zh-cn">&nbsp;Z</span></td>
+    <td width="54%"><span lang="zh-cn">&nbsp;C</span></td>
+  </tr>
+</table>
+<p><font size="2"><span lang="zh-cn"><b>&nbsp;C--</b>进位标志.指令执行完毕后的最高进位状态,若最高位有进位则使 
+C = 1,若最高位无进位则使 C = 0</span></font></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;Z--零标志.&nbsp; 指令执行完毕后结果为0,那么 Z = 1;否则 
+Z = 0.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;I--中断标志.此位置 0 表示允许中断,置 1 
+表示禁止中断,但非屏蔽中断不受次约束</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;V--溢出标志.指令执行后若产生溢出,则次标志位被置 1</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;N--负数标志.指令执行完毕后,若结果最高位 为1,则该位置 1</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp;下面我们举例来说明:</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;例:&nbsp; 两个正数 61,4A 相加</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 0110 0001</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; + 0100 1010</font></span></p>
+<hr color="#FFFFFF" width="10%" align="left">
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; = 1010 1011</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 两个正数相加,为什么结果变为负数呢?这是也 61 + 4A = 
+AB,超过了八位寄存器所能表示的最大正数 7F,而产生了溢出</font></span></p>
+<p><span lang="zh-cn"><font size="2">那么这时 V = 1,结果不是 0,那么 Z = 0,结果最高位为 1,那么 N = 
+1,结果最高位没有进位,那么 C = 0</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 
+标志位常常在执行条件转移指令时做为条件判断的依据.这在后面的指令系统中会讲到.</font></span></p>
+
+</body>
+
+</html>

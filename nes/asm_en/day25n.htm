@@ -1,0 +1,130 @@
+<html>
+<head>
+<title>NES ASM - Day 25</title>
+</head>
+<body bgcolor="lavender">
+<h1 align="center" style="color: LightCoral; width: 100%; filter:shadow()">Day 25 - Other Instructions</h1>
+<pre>
+
+
+</pre>
+<h2 align="center" style="color: LightCoral;"><b>Other Instructions</b></h2>
+<p style="color: green;"><pre><b>
+<h2 align="center" style="color: LightCoral;"><b>Before we go</b></h2>
+	These are the remaining instructions on the 6502 that I haven't mentioned yet or explained in detail.
+
+<h3 align="center" style="color: LightCoral;"><b>Addressing Modes</b></h3>
+	I ought to go over the addressing modes, so we are clear on how those work...
+
+	Implied:
+		The address mode is implied (like NOP, there isn't an address mode or asl (asl a, sometimes)
+	where A is used without it being mentioned in the instruction.
+
+	Immediate:
+		Example: lda #$3. Loads A with 3. Simple. You should know immediate mode...
+
+	ZP:
+		Things like "lda $88" are zero page, called zero page because the addresses are $0000-$00FF
+	(the high byte is the page). It is faster (slightly) and uses less PRG space (1 byte for ZP addresses)
+	to use Zero Page instead of the Absolute address (which would add another zero byte.)
+
+	Absolute:
+		Example: lda $0332. Use absolute addressing when reading memory that isn't in page zero.
+
+	ZP Indexed:
+		Things like "lda $10,X" or "lda $B,Y" are indexed, meaning that A is loaded with the
+	byte at the address (Must be a zero page address (1 byte)) + either X or Y, so if you
+	do "lda $10,X" when X is 5, A will be loaded with the byte at zero page address $15. Note that
+	if you do "lda $FF,Y" (Y or X doesn't matter, except that fewer instructions can use Y as an index),
+	when Y is 5, you don't get the byte from $0104, you get it from $04 (zero page indexed wraps).
+
+	Absolute Indexed:
+		Pretty much the same as ZP Indexed, except there's no wrapping and the address can be 2 bytes
+	(i.e. a full absolute address). Not sure what exactly happens if you have an index and an address of
+	$FFFF. Would be neat if doing lda $FFFF,X with X swapping in another bank of RAM from $0200-$07FF.
+	EMS on the NES!!!
+
+	Pre Indirect:
+		Example: lda ($10,X). A 1-byte ZP address is given. X is added to the ZP Address (wrapping applies).
+	The final ZP address is used to get an absolute address from memory. That absolute address is then used to
+	load a byte into A.
+
+	Post Indirect:
+		Example: lda ($10),Y. A 1-byte ZP address is given. The final ZP address is used to get an 
+	absolute address from memory. Y is added to the absolute address. That absolute address is then used to
+	load a byte into A.
+	
+	Indirect:
+		This addressing mode is unique to the JMP instruction. Example JMP (label2). It's just like the
+	indexed (Pre/Post) indirect modes, except that there's no index, and the ZP address from the indexed indirect
+	modes is now an Absolute Address.
+
+<h3 align="center" style="color: LightCoral;"><b>The BIT Instruction</b></h3>
+
+	The BIT instruction can be very useful. It does a sort of comparison...
+	The BIT instruction has only 2 addressing modes ZP, and Absolute.
+
+	BIT takes a byte from Memory, ANDs it with A. (note that neither A or Memory will change). It then
+	Sets the Z flag if the result is zero. Sets the V flag to bit 6 of the result and the N flag to bit
+	7 of the result.
+
+	This instruction is commonly used to check for vblank as it uses less cycles and doesn't change A:
+		;--CODE--;
+		waitforVBLANK:
+			bit $2002 ; note that neither $2002 or A are written to. But N flag will
+			; be set if bit 7 of $2002
+			; is set. (bit 7 of $2002, remember that it tells if we are in VBlank).
+			bpl waitforVBLANK  ; will branch if N flag is 0. If N flag is 1, we are 
+			;in VBlank and are done waiting.
+		;--CODE END--;
+
+<h3 align="center" style="color: LightCoral;"><b>The ASL/LSR Instructions</b></h3>
+
+	These instructions are simple shifting instructions. They will either shift the A register or a
+Memory location. Note that they always shift one, and that the bit shifted off is put into the C register.
+The new bit on the opposite end will be a zero. Simple as that. (think the <<1 or >>1 in C/C++). Very useful.
+
+<h3 align="center" style="color: LightCoral;"><b>The ROL/ROR Instructions</b></h3>
+
+	These are just like ASL/LSR, except that it follows a slightly different steps:
+
+	1) The carry (C) flag before the instruction is saved (how?, dunno, just is).
+	2) The byte (A or Memory) is shifted one in the specific direction (L=Left,R=Right).
+	3) The bit shifted out is put into the C flag.
+	4) The old (saved) C flag is the bit that gets put onto the opposite side of the bit that got
+		shifted out.
+
+	Not sure why you'd use ROL/ROR, probably useful for some math routines.
+
+<h3 align="center" style="color: LightCoral;"><b>How the compare really works</b></h3>
+
+	Here are the steps on how CMP/CPY/CPX really work:
+
+	(I will assume CMP, so I don't have to go A/X/Y every time...)
+	1) A-"the byte being compared" is done and saved (how/where?, dunno)
+	2) If the result (the saved thing) is zero, Z flag is set.
+	3) The N flag is set to bit 7 of the result.
+	4) The C flag is set if the result would have ended up being greater than $100 (note
+	that the result actually wraps to a byte).
+
+	So basically, A-byte, and then C if result >= $100 (yes, >=). N = result bit 7,
+	and Z if result is zero.
+
+<h3 align="center" style="color: LightCoral;"><b>This Day In Review</b></h3>
+
+	Can't think of anything else about the base instruction set of the 6502 that I haven't
+	mentioned yet, if there is, please <a href="/cdn-cgi/l/email-protection#3640545853424644595144575b5344765e59425b575f5a1855595b">tell me</a>.
+
+	Have fun (as usual)!,
+		-GbaGuy
+
+<center><a href="nesasm.htm">Intro</a> - Day 26</center>
+
+
+</b></pre></p>
+
+<br />
+<br />
+
+</body>
+</html>

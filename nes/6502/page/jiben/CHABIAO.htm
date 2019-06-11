@@ -1,0 +1,60 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p>//查表程序设计</p>
+<p>&nbsp; 查表程序就是把事先计算出的结果或测得的数据按一定顺序组成表格,再利用</p>
+<p>查表程序查出所出的结果.</p>
+<p>&nbsp; 查表法主要是针对某些复杂的函数的计算,若每次都用计算程序,程序很长,并</p>
+<p>且很费时间,还有一些非线性参数并非一般算术运算可以解决,所以用查表能很</p>
+<p>方便的解决.</p>
+<p>&nbsp; 查表法还可以处理代码转换,键值搜索等.</p>
+<p>&nbsp; 查表程序结果如下:</p>
+<p>&nbsp; ①所需函数计算结果或测量所得数据按一定规律制成表格</p>
+<p>&nbsp; ②数据表一般放程序区</p>
+<p>&nbsp; ③用查表法实现查表</p>
+<p>　</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 例1. 已知0-9十个16进制数,对应的ASCii码为 30-39,编程实现0-9十个数换成ASCii码</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+这里我们这样安排,0-9在地址2000-2009,30-39在地址2010-2019</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 即 2000: 00 01 02 03 04 05 06 
+07 08 09</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2010: 30 
+31 32 33 34 35 36 37 38 39</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 这里我们设寄存器A放16进制数,结果放寄存器Y</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 如果没有找到,设置标志位 C= 0,找到了设置 C = 
+1</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A 2020</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2020: LDX #$0A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;一共10个数据</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2022: CMP 
+$1FFF,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;查表比较</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2025: BEQ $202C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;找到了,转202C</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2027: DEX</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2028: BNE #2022</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 202A: CLC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;没有找到,C = 0</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 202B: RTS</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 202C: LDA 
+$200F,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;把结果送Y</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 202F: TAY</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2030: SEC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;找到了,C = 1</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2031: RTS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+<p>　</p>
+<p>　</p>
+<p>　</p>
+
+</body>
+
+</html>

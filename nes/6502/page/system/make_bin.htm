@@ -1,0 +1,143 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><b><font size="4">//</font><span lang="zh-cn"><font size="4">用NCTOOLS手工建立一个 
+BIN文件</font></span></b></p>
+<p><span lang="zh-cn"><font size="4">&nbsp; </font><font size="2">
+有了前面的知识，我们现在就来在 NCTOOLS里面手工建立一个 BIN文件，以巩固我们前面的知识.</font></span></p>
+<p><span lang="zh-cn"><font size="2">这里由于程序比较小，所以我们决定制作 &lt;8K 的BIN文件.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 我们应该都玩过 电子宠物猫 吧,那么我们这里就制作一个 <b>
+电子宠物猫存档修改器</b></font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 由于 RESET 后,养的猫就 没有了,我们 我们推断,存档一定是存在 
+RAM区域,那么需要我们去查找</font></span></p>
+<p><span lang="zh-cn"><font size="2">存档的位置,方法很简单,如下:</font></span></p>
+<p><img border="0" src="../pic/make1.jpg" width="344" height="163"></p>
+<p><span lang="zh-cn">&nbsp; <font size="2">
+如上,我们先领养一只猫,名字叫做&quot;土豆&quot;,然后马上你就看到一只活蹦乱跳的猫眯了.</font></span></p>
+<p><span lang="zh-cn"><font size="2">然后我们退出游戏,进入 NCTOOLS,查找 
+&quot;土豆&quot;,查找范围当然是RAM区域,地址范围 0000-3FFF</font></span></p>
+<p><span lang="zh-cn"><font size="2">输入 SC 0000 3FFF,输入 &quot;土豆&quot;,然后我们马上就找到了,如图:</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn">&nbsp;<font size="2"> 
+哦,原来是地址06DC啊,居然名字存在这里,那附近一定就是其他参数的存贮位置啊,我们看看我们的 土豆 的参数,如图:</font></span></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="45%">
+  <tr>
+    <td width="42%">
+    <img border="0" src="../pic/make2.jpg" width="327" height="161"></td>
+    <td width="58%">
+    <img border="0" src="../pic/make3.jpg" width="325" height="165"></td>
+  </tr>
+</table>
+<p><span lang="zh-cn">&nbsp;<font size="2"> 好了,我们的 土豆 有 自身状态 和 物品状态</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 自身状态是&nbsp; 07 00 00 03 ..</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 物品状态是&nbsp; C8 09 08 07 ..</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 我们往地址06DC附近看看,是不是有这些数据,结果找到了,如图:</font></span></p>
+<p><img border="0" src="../pic/make5.jpg" width="305" height="160"></p>
+<p><span lang="zh-cn">&nbsp; <font size="2">我们总结如下:</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 地址 06D6: 金钱&nbsp;&nbsp;&nbsp; 06D7: 
+猫粮&nbsp;&nbsp;&nbsp; 06D8: 超级猫粮&nbsp; 06D9: 牛奶&nbsp; 06DA: 鱼&nbsp; 06DB: 球</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 地址 06C3: 体重&nbsp;&nbsp;&nbsp; 06C4: 
+成长&nbsp;&nbsp;&nbsp; 06C5: 天使&nbsp;&nbsp; 06C6: 饥饱度&nbsp; 06C7: 口渴度&nbsp; 06C8: 
+清洁度</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 06C9: 
+训练度&nbsp;&nbsp; 06CA: 兴奋度</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 由于我们这里主要是介绍 手工建立一个 
+BIN,所以这里我们程序尽量简单些,这里我们只是实现把宠物猫的物品数全部调为 200</font></span></p>
+<p><span lang="zh-cn"><font size="2">也就是 #$C8,然后 弹出一个信息框,显示&quot;猫猫所有物品达200&quot;,然后就结束了.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 我们先实现主程序,即将物品全部改为 200个,从地址2010开始编写:</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 同时 按住 Z + H 键,把地址2000-2FFF的内容全部清为 FF</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; A 2010</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2010: LDX #$00</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2012: LDA #$C8</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2014: STA $06D7,X</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2017: INX</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2018: CPX #$06</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 201A: BNE $2014</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 201C:RTS</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 这段程序就实现了改物品的个数,是不是很简单?</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 然后我们实现弹出 的信息框,我 V 2020, 按 输入法,输入 
+&quot; 猫猫物品达200啦&quot;,然后后面再输入 00 00</font></span></p>
+<p><span lang="zh-cn"><font size="2">作为结束标志,如图:</font></span></p>
+<p><img border="0" src="../pic/make7.jpg" width="290" height="148"></p>
+<p><span lang="zh-cn">&nbsp;</span></p>
+<p><span lang="zh-cn">&nbsp; <font size="2">然后我们做表,从地址 203</span>8<span lang="zh-cn">开始 输入如下数据,如图:</span></font></p>
+<p><img border="0" src="../pic/make8.jpg" width="298" height="146"></p>
+<p>&nbsp; <span lang="zh-cn"><font size="2">我们做弹出信息框：</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; A 2048</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2048：LDX #$38</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 204A: LDY #$20</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 204C: LDA #$00</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 204E: INT $C312</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2051: INT $C007</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2054: RTS</font></span></p>
+<p><span lang="zh-cn">&nbsp; <font size="2">然后我们实现主程序,从地址2058开始</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; A 2058</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2058: JSR $2010</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 205B: JSR $2048</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 205E: RTS</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 我们 G 2058 试试,出现下图:</font></span></p>
+<p><img border="0" src="../pic/make9.jpg" width="331" height="158"></p>
+<p><span lang="zh-cn">&nbsp; <font size="2">我们回到游戏,看看物品是不是200个,一看,果然是,如图:</font></span></p>
+<p><img border="0" src="../pic/make10.jpg" width="324" height="164"></p>
+<p><span lang="zh-cn">&nbsp;<font size="2"> 好了，我们已经完成了这个简单的BIN程序,现在我们要做BIN文件了</font></span></p>
+<p><span lang="zh-cn">&nbsp;<font size="2">1.先做文件头</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; E C 2000</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 输入 AA A5 5A</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 输入文件实际长度&nbsp;&nbsp; 60 00 00</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 输入&nbsp; 20</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 输入&nbsp; 4C</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 输入入口地址&nbsp; 58 20</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 输入&nbsp; 70 03 31 03&nbsp; FF FF
+</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 那么就是这样的,如图:</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;
+<img border="0" src="../pic/make11.jpg" width="310" height="148"></font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2.找一块 空闲的闪存,只要有 4K 就可以了.我们在闪存分配表里找 
+FF FF FF FF,然后把地址2000-2FFF内容送相应的闪存地址</font></span></p>
+<p><span lang="zh-cn"><font size="2">这里我们找到了一块空闲的闪存,大家看到 地址 70DC-70DF的内容为&nbsp; 
+FF FF FF FF,那我们就放这里吧,计算一下,发现是 </font></span></p>
+<p><span lang="zh-cn"><font size="2">06 页码的 7000-7FFF,大家应该会算吧?</font></span></p>
+<p><img border="0" src="../pic/make12.jpg" width="292" height="144"></p>
+<p><span lang="zh-cn">&nbsp; <font size="2">然后我们 输入命令&nbsp; W 7000 06,就把数据写入了,如图</font></span></p>
+<p><img border="0" src="../pic/make13.jpg" width="292" height="146"></p>
+<p><span lang="zh-cn">&nbsp;<font size="2"> 3.然后我们修改闪存分配表,即把原来的 FF FF FF FF改为 ?? 
+5E 00 C2,这里??的值不能与其他重复</font></span></p>
+<p><span lang="zh-cn"><font size="2">这里我们取 0F 5E 00 
+C2,这样系统就认为该块闪存已经被利用了,就不会分配数据到该块闪存了.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 4.最后我们修改 BIN文件表,就是加入一个新的文件信息给系统</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 我们先要找到 
+BIN文件表,怎么找呢?在前面已经讲过,这里就不说了,你也可以在 NCTOOLS里,按帮助,按系统信息,</font></span></p>
+<p><span lang="zh-cn"><font size="2">按 文件列表&nbsp; ,按 应用程序,找到了,如图</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;
+<img border="0" src="../pic/make14.jpg" width="295" height="150"></font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 然后我们 从地址 B040开始输入&nbsp; C8 DF </font>
+</span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 然后就是文件名,这里取&nbsp; 猫猫存档修改.bin</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 然后 输入文件建立日期&nbsp;&nbsp;&nbsp; 7A 09 
+04</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 然后输入 FF FF FF</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 然后输入文件大小&nbsp; 00 10 00</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 然后输入 XX 的值&nbsp; 0F&nbsp; (因为先前是 0F 
+5E 00 C2)</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 然后输入&nbsp; 00</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 那么就可以了,按 网络,是不是看见文件了</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;
+<img border="0" src="../pic/make15.jpg" width="446" height="258"></font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 我们执行一下看看,如图:</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;
+<img border="0" src="../pic/make19.jpg" width="438" height="259"></font></span></p>
+
+</body>
+
+</html>

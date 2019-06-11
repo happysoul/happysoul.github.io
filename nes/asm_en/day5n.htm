@@ -1,0 +1,240 @@
+<html>
+<head>
+<title>NES ASM - Day 5</title>
+</head>
+<body bgcolor="lavender">
+<h1 align="center" style="color: LightCoral; width: 100%; filter:shadow()">Day 5 - Displaying A Sprite</h1>
+<pre>
+
+
+</pre>
+<h2 align="center" style="color: LightCoral;"><b>Sprites</b></h2>
+<p style="color: green;"><pre><b>
+	You would think between backgrounds and sprites, that backgrounds would be
+easier. Wrong! Sprites are so much easier than backgrounds. To do sprites, we
+just need to give a few pieces of info to SPR-RAM (sprite x,y positions, tile#, etc.).
+Well I guess we need to draw the sprite's picture first. So let's go! :)
+
+<h3 align="center" style="color: LightCoral;"><b>Tile Layer Pro</b></h3>
+
+	You might be asking how much space we have for sprites. Answer: 4 KiloBytes.
+Alright, download Tile Layer <a href="tilelp.zip">here</a>. Download an empty 4kb
+file <a href="MT.spr">here</a>. Run TLP.exe and open MT.spr . Now click the View
+menu and set the "Format" to NES by hovering the mouse over "Format" and clicking
+"NES". Click the first square in the upper-left of the large grid-window. Now click
+the farthest right rectangle in the "Pallete Editor Window". That's right if you noticed,
+we can only use 4 colors. Now draw a smiley face or something in the "Tile Editor Window".
+Save the file as our.spr . Good we have a sprite! Sorry if I rambled.
+
+If you haven't noticed, spr means SPRite and bkg means BacKGround.
+
+If you couldn't do that, click <a href="our.spr">here</a> to download mine!
+(UPDATE: I think I may have put the sprite in tile zero, the sprite should be
+in tile 1. If this isn't done the rest of the sprites will all have data 
+X=0,Y=0,Tile num=0, so will all show up in top-left corner. Updating the source
+and editing the sprite file is left to you.)
+
+Also, download <a href="MT.spr">again</a> and name it "our.bkg" we won't use our.bkg
+today, but we do need it right now. Just put our.bkg and our.spr in the same folder
+that you are going to use for you code file.
+
+<h3 align="center" style="color: LightCoral;"><b>Bank 2 Becoming More Important</b></h3>
+
+	In a previous Day, we told the PPU that we'll use $0000 in our Bank 2 as background
+picture data, and $1000 as sprite picture data. We will have Bank 2 being 8kb which is
+$2000 bytes. 4kb is 4096 bytes or $1000 in hex. So if we put the .bkg 4kb file first in
+Bank 2 and the 4kb file second, we will end-up having the picture data in perfectly the
+right place where we told Mr. PPU the stuff should be.
+
+In short: Bank 2 has 2 binary files included in this order: our.bkg and our.spr, this
+order is exactly how we told the PPU it would be and it works our because each file is
+4kb and all together we need 8kb. 4*2=8, got it?
+
+Here's how our Bank 2 code looks now:
+
+	.bank 2
+	.org $0000
+	.incbin "our.bkg"
+	.incbin "our.spr"
+
+.incbin includes a binary file.
+
+<h3 align="center" style="color: LightCoral;"><b>Writing To SPR-RAM</b></h3>
+
+	SPR-RAM or otherwise known as "Place for Sprite Info", is written to
+by the two registers: $2003 and $2004. You write 2 times to $2003 giving it
+the address you want to start at and you keep giving $2004 the info until
+your done.
+
+	Remember that we do loads of one byte at a time, so you need to give
+$2003 the two (2) pieces of the address. Like this:
+
+	lda #$00
+	sta $2003
+	sta $2003
+
+Since the address we want is $0000, we just store $00 twice. If we wanted say
+$00A9 for example, we'd give the first 2 digits first and the second two second
+like so:
+
+	;(NOTE: this is just an example, we'll start at $0000 for SPR-RAM writing)
+	lda #$00
+	sta $2003
+	lda #$A9
+	sta $2003
+
+That's how we give a 16bit address to somewhere. Note that we also did this when
+loading the pallete, except we used a different memory register.
+
+<h3 align="center" style="color: LightCoral;"><b>Actually Writing to SPR-RAM</b></h3>
+
+	Now that we've given $2003 what address to start at ($0000), we can just give
+$2004 the info. What info you ask? Each sprite has 4 bytes of info, they are:
+
+	Y - vertical position on the screen.
+	N - 8x8 tile number in the .spr file we include.
+	C - Some funky special stuff I'm not covering yet.
+	X - horizontal position on the screen.
+
+Each of these is one byte, if you didn't notice. :).
+There can be 64 sprites' info stored here. We'll display our sprite at 20,50 and
+our sprite should be the first tile, so the other two bytes can be 0.
+Here goes:
+
+	lda #50     ; note we load a decimal number
+	sta $2004   ; store Y value
+	lda #00     ; tile number is 0 for the first sprite
+	sta $2004   ; store tile number.
+	sta $2004   ; load that 0 again because we don't need any special stuff right now.
+	lda #20
+	sta $2004   ; store X value.
+
+And boom! The sprite appears. (hopefully)
+
+Note that when we give a memory register an address and then write to it's brother register
+repetedly, that brother register puts the number in the right place for us, incrementing
+the address we gave the first register. All we have to do is keep stuffing the second one.
+
+<h3 align="center" style="color: LightCoral;"><b>VBlank</b></h3>
+
+	Ideally, we really should write to SPR-RAM during the time when the little
+electric-beam gun in the TV has just finished the frame and is moving back to the top
+to start drawing the screen again. That's called VBlank. I'm just going to show you
+the code now and not explain it as our main focus here is sprites.
+Here goes:
+
+waitblank:
+	lda $2002  ; load A with value at location $2002
+	bpl waitblank  ; if bit 7 is not set (not VBlank) keep checking
+
+Oh well, I explained it alittle. Don't worry about this. It'll be in the source
+we put together now, but just remember that it makes the SPR-RAM update safe.
+
+<h3 align="center" style="color: LightCoral;"><b>Putting Together Our First Code File</b></h3>
+
+	Alright, create a file called "our.asm" and open it in MS Notepad. Copy in the
+following. And yes it will be commented.
+Indentation is important.
+
+	;;--- CODE START ---;;
+
+	; INES header stuff
+	.inesprg 1   ; 1 bank of code
+	.ineschr 1   ; 1 bank of spr/bkg data
+	.inesmir 1   ; something always 1
+	.inesmap 0   ; we use mapper 0
+
+	.bank 1   ; following goes in bank 1
+	.org $FFFA  ; start at $FFFA
+	.dw 0    ; dw stands for Define Word and we give 0 as address for NMI routine
+	.dw Start ; give address of start of our code for execution on reset of NES.
+	.dw 0   ; give 0 for address of VBlank interrupt handler, we tell PPU not to
+	; make an interrupt for VBlank.
+
+	.bank 0   ; bank 0 - our place for code.
+	.org $8000  ; code starts at $8000
+	
+Start:  
+	lda #%00001000  ; do the setup of PPU
+	sta $2000       ; that we
+	lda #%00011110  ; talked about
+	sta $2001       ; on a previous day
+
+	ldx #$00    ; clear X
+
+	lda #$3F    ; have $2006 tell
+	sta $2006   ; $2007 to start
+	lda #$00    ; at $3F00 (pallete).
+	sta $2006
+
+loadpal:                ; this is a freaky loop
+	lda tilepal, x  ; that gives 32 numbers
+	sta $2007       ; to $2007, ending when
+	inx             ; X is 32, meaning we
+	cpx #32         ; are done.
+	bne loadpal     ; if X isn't =32, goto "loadpal:" line.
+
+waitblank:         ; this is the wait for VBlank code from above
+	lda $2002  ; load A with value at location $2002
+	bpl waitblank  ; if bit 7 is not set (not VBlank) keep checking
+
+	lda #$00   ; these lines tell $2003
+	sta $2003  ; to tell
+	lda #$00   ; $2004 to start
+	sta $2003  ; at $0000.
+
+	lda #50  ; load Y value
+	sta $2004 ; store Y value
+	lda #$00  ; tile number 0
+	sta $2004 ; store tile number
+	lda #$00 ; no special junk
+	sta $2004 ; store special junk
+	lda #20  ; load X value
+	sta $2004 ; store X value
+	; and yes, it MUST go in that order.
+
+infin:
+	jmp infin   ; JuMP to infin. note that this loop never ends. :)
+
+tilepal: .incbin "our.pal" ; include and label our pallete
+
+	.bank 2   ; switch to bank 2
+	.org $0000  ; start at $0000
+	.incbin "our.bkg"  ; empty background first
+	.incbin "our.spr"  ; our sprite pic data
+	; note these MUST be in that order.
+
+	;;--- WERE DONE / CODE END ---;;
+
+I realize that maybe you hoped for something smaller. You may want to research this
+for a day or 2 cross checking with my previous articles to find the inside scoop on
+what each individual thing does. If you have questions, ask me.
+
+<h3 align="center" style="color: LightCoral;"><b>Assembling</b></h3>
+
+	Put everything (our.pal, our.bkg, our.spr, nesasm.exe, your code file) in 
+the same folder and open up DOS. CD to your folder and type:
+
+nesasm <i>Your_Filename.asm</i>
+
+	nesasm.exe will make a .nes file in that folder. Run it in an emulator to
+see the results.	
+
+<h3 align="center" style="color: LightCoral;"><b>This Day In Review</b></h3>
+
+	Wow, that was alot! Don't worry, it looks like alot, but once you know the NES,
+it'll just come to you. I guess it's on to backgrounds tomorrow maybe.
+	
+	Sleep well :),
+		-Mike H a.k.a GbaGuy
+
+<center><a href="nesasm.htm">Intro</a> - <a href="day6n.htm">Day 6</a></center>
+
+
+</b></pre></p>
+
+<br />
+<br />
+
+</body>
+</html>

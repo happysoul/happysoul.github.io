@@ -1,0 +1,47 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><b><font size="4">//BIN</font><span lang="zh-cn"><font size="4">文件结构</font></span></b></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; NC1020的BIN文件分为 2 种,一种是文件大小 &lt; 8K 
+的BIN文件,一种是 &gt;8K 的BIN 文件</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ①若文件大小 &lt; 
+8K,那么该BIN文件执行的时候,系统会自动把该BIN文件装入 RAM $2000开始的地址,然后在 RAM</font></span></p>
+<p><span lang="zh-cn"><font size="2">里执行,其文件格式如下:</font></span></p>
+<p><img border="0" src="../pic/binhead2.jpg" width="290" height="145"></p>
+<p><font size="2">&nbsp; 2000-2002: AA A5 5A</font></p>
+<p><font size="2">&nbsp; 2003-2005: <span lang="zh-cn">文件实际长度</span></font></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2006: 20</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2007: 4C</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2008:文件入口地址低8位</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2009：文件入口地址高8位</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 200A-200F： 70 03 31 03&nbsp; FF FF&nbsp; 
+这可能是 版本号，我不管，照着抄就是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2010开始就是程序了</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ②若文件大于 8K，那么该BIN文件在执行的时候，系统自动寻找一个 
+空闲的页码，然后把该BIN文件送地址 4000 开始的闪存</font></span></p>
+<p><span lang="zh-cn"><font size="2">这就是为什么，在第一次运行一个 BIN文件时，出现 
+“装入中...”的进度条,其文件格式如下:</font></span></p>
+<p><img border="0" src="../pic/binhead1.jpg" width="291" height="148"></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 4000-4006: AE EE EA 00 20 00 20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+这是固定</font></span></p>
+<p><font size="2">&nbsp; 400<span lang="zh-cn">7</span>: 4C</font></p>
+<p><font size="2">&nbsp; 400<span lang="zh-cn">8</span>:<span lang="zh-cn">入口地址 
+低 8 位</span></font></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 4009：入口地址 高 8位</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 400A-400F：70 03 10 03 FF FF&nbsp;&nbsp; 
+这个也是固定的！</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 4010开始就是程序了</font></span></p>
+
+</body>
+
+</html>

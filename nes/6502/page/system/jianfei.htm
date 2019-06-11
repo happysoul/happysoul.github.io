@@ -1,0 +1,61 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><b><font size="4">//</font><span lang="zh-cn"><font size="4">利用系统知识为BIN文件&quot;减肥&quot;</font></span></b></p>
+<p><span lang="zh-cn"><b><font size="4">&nbsp;</font><font size="2"> </font></b>
+<font size="2">NC1020上的很多BIN文件都是从CC800,PC1000上移植过来的,所以还保持了32K的大小,实际上,很多文件实际</font></span></p>
+<p><span lang="zh-cn"><font size="2">是很小的,有的不到8K,就比如 有声读物,即 SPEED.BIN,我看了下,实际大小就 
+8K 多一点,<b>所以我们有必要为</b></font></span></p>
+<p><b><span lang="zh-cn"><font size="2">这个 &quot;超级大肥猪&quot; 减减肥,让我们那本来就小的可怜的闪存空间能够多放些东西.</font></span></b></p>
+<p><span lang="zh-cn"><font size="2"><b>&nbsp; </b>下面我就为 有声读物 
+减肥,一方面是&quot;减肥&quot;,另一方面也可以巩固我们先前所学的知识.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 1.首先,我们下载 SPEED.BIN,运行一下,通过 资料管理 得知SPEED.BIN 
+大小为 32K,如图:</font></span></p>
+<p><img border="0" src="../pic/jianfei3.jpg" width="400" height="186"></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 2.进入 NCTOOLS,找到该BIN文件所在的页码,我这里是 05页码</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 
+利用前面的知识,我们可以很快的找到某个BIN文件所在的页码,不过由于大于8K的文件在闪存中的存储地址是4000</font></span></p>
+<p><span lang="zh-cn"><font size="2">所以我们也可用 V 4000 
+??,这里??是页码,范围是从05-0F,若本机有多个BIN,那么你可以通过 G 4007 ??来确定该</font></span></p>
+<p><span lang="zh-cn"><font size="2">BIN文件的页码,我这里是05页码,如图:</font></span></p>
+<p><img border="0" src="../pic/jianfei1.jpg" width="348" height="162"></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 我们继续往下翻,我们发现 地址&nbsp; 6238 后面的数据全部是 
+FF,那么说明该文件实际长度为 8K + 569字节,由于NC1020</font></span></p>
+<p><span lang="zh-cn"><font size="2">以 4K 为 1 族,那么,该文件大小为 
+12K,不过还是浪费了好多空间啊,这是没有办法的事了,如图:</font></span></p>
+<p><img border="0" src="../pic/jianfei2.jpg" width="334" height="154"></p>
+<p><span lang="zh-cn">&nbsp; <font size="2">下面我们就开始为该BIN文件减肥了,步骤如下:</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 找到 应用程序的 目录,然后找到 有声读物 
+在目录中的信息表,然后修改这里的大小</font></span></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="68%">
+  <tr>
+    <td width="37%">
+    <img border="0" src="../pic/jianfei4.jpg" width="356" height="169"></td>
+    <td width="63%">
+    <img border="0" src="../pic/jianfei5.jpg" width="352" height="158"></td>
+  </tr>
+</table>
+<p><span lang="zh-cn">&nbsp; <font size="2">大家看到,原来这里大小为 7FD0,我们将其改为 30 00,如图:</font></span></p>
+<p><img border="0" src="../pic/jianfei6.jpg" width="326" height="152"></p>
+<p><span lang="zh-cn">&nbsp; <font size="2">不过还没有完,我们还需要在 闪存分配表里 
+释放被解放的闪存空间,我们看到这里 XX = 04</font></span></p>
+<p><span lang="zh-cn"><font size="2">那么我们就在 闪存分配表 里找04 5E 00 C2,就可以了,如图:</font></span></p>
+<p><img border="0" src="../pic/jianfei7.jpg" width="328" height="153"></p>
+<p><span lang="zh-cn">&nbsp; <font size="2">因为我们这里的BIN文件大小为 30 00,所以我们需要将地址 
+70BC-70CF 的内容全部改为 FF,如图:</font></span></p>
+<p><img border="0" src="../pic/jianfei8.jpg" width="323" height="154"></p>
+<p><span lang="zh-cn">&nbsp; <font size="2">现在,我们收工了,到 资料管理 看看,果然小了好多了:</font></span></p>
+<p><img border="0" src="../pic/jianfei10.jpg" width="394" height="190"></p>
+
+</body>
+
+</html>

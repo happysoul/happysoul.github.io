@@ -1,0 +1,278 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><font size="2">//</font><font size="2" color="#808080">addr&nbsp; :代表8位地址&nbsp;&nbsp;&nbsp; addr16:代表16位地址&nbsp;&nbsp;&nbsp;&nbsp; 
+data&nbsp; :立即数</font></p>
+<p><font size="4"><b>[</b></font><b><font size="4" color="#808080">逻辑运算指令]</font></b></p>
+<p><font size="2">1.AND--寄存器与累加器相与,结果送累加器&nbsp; A∧M→A</font></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber1">
+  <tr>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">AND ($addr,X)</font></td>
+    <td width="33%"><font size="2">21</font></td>
+    <td width="34%"><font size="2">先变址X后间址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">AND $addr</font></td>
+    <td width="33%"><font size="2">25</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">AND #$data</font></td>
+    <td width="33%"><font size="2">29</font></td>
+    <td width="34%"><font size="2">立即寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">AND $addr16</font></td>
+    <td width="33%"><font size="2">2D</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">AND ($addr),Y</font></td>
+    <td width="33%"><font size="2">31</font></td>
+    <td width="34%"><font size="2">后变址Y间址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">AND $addr,X</font></td>
+    <td width="33%"><font size="2">35</font></td>
+    <td width="34%"><font size="2">零页X变址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">AND $addr16,Y</font></td>
+    <td width="33%"><font size="2">39</font></td>
+    <td width="34%"><font size="2">绝对Y变址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">AND $addr16,X</font></td>
+    <td width="33%"><font size="2">3D</font></td>
+    <td width="34%"><font size="2">绝对X变址</font></td>
+  </tr>
+</table>
+<p>&nbsp; <font size="2" color="#808080">逻辑与的主要功能是对目的操作数的某些位置0,或测试某位的状态</font></p>
+<p><font size="2" color="#808080">例1: 屏蔽地址2100的高四位,即将地址2100的高四位清零</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp; 2000:LDA $2100</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp; 2003:AND #$7F&nbsp;&nbsp;&nbsp; 
+(7F转化为二进制:0000 1111)</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp; 2005:STA $2100</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp; 2008:RTS</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 
+所以我们可以知道,我们要使地址2100的高四为为0,只要使操作数的高四位为0,低四位为1,即操作数为0000 1111</font></p>
+<p><font size="2" color="#808080">然后再把地址2100的内容送寄存器A,把A的内容和0000 
+1111进行逻辑与运算,那么寄存器A的高四位自然就为0,由于操作数</font></p>
+<p><font size="2" color="#808080">低四位为1,所以寄存器A的低四位不变.</font></p>
+<p>　</p>
+<p><font size="2" color="#808080">例2: 
+测试地址2100的第2位的状态,如果第2位=0,那么把00送寄存器X,否则把01送寄存器X</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp; 2000:LDA $2100</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp; 2003:AND #$04&nbsp;&nbsp;&nbsp; 
+(04转化为二进制:0000 0100)</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp; 2005:CMP #$04</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp; 2007:BNE $200C</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp; 2009:LDX #$01</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp; 200B:RTS</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp; 200C:LDX #$00</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp; 200E:RTS</font></p>
+<p>　</p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 在这个程序中,我们要测试第2位的状态,只要让它与 
+0000 0100 进行逻辑与运算,若第2位为0,那么结果一定为0</font></p>
+<p><font size="2" color="#808080">如果第二位为1,那么由于操作数的第2位也为1,所以结果为0000 
+0100,即十六进制的04,所以我们可以判断结果是不是04</font></p>
+<p><font size="2" color="#808080">如果是04,那么说明第2位为1,否则为0.</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp;&nbsp; 
+随便说个笑话,我们数字电路的老师告诉我们这样的口诀记住逻辑与的用法,那就是 <b>&quot;见0出0,全1出1&quot;</b></font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; </font></p>
+<p><font size="2">2.ORA--寄存器与累加器相或,结果送累加器&nbsp; A∨M→A</font></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber2">
+  <tr>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">ORA ($addr,X)</font></td>
+    <td width="33%"><font size="2">01</font></td>
+    <td width="34%"><font size="2">先变址X后间址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">ORA $addr</font></td>
+    <td width="33%"><font size="2">05</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">ORA #$data</font></td>
+    <td width="33%"><font size="2">09</font></td>
+    <td width="34%"><font size="2">立即寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">ORA $addr16</font></td>
+    <td width="33%"><font size="2">0D</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">ORA ($addr),Y</font></td>
+    <td width="33%"><font size="2">11</font></td>
+    <td width="34%"><font size="2">后变址Y间址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">ORA $addr,X</font></td>
+    <td width="33%"><font size="2">15</font></td>
+    <td width="34%"><font size="2">零页X变址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">ORA $addr16,Y</font></td>
+    <td width="33%"><font size="2">19</font></td>
+    <td width="34%"><font size="2">绝对Y变址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">ORA $addr16,X</font></td>
+    <td width="33%"><font size="2">1D</font></td>
+    <td width="34%"><font size="2">绝对X变址</font></td>
+  </tr>
+</table>
+<p>&nbsp;&nbsp;&nbsp; <font size="2">先告诉大家哪个不登大雅之堂的口诀 <b>&quot;见1出1,全0出0&quot;</b></font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 逻辑或的功能主要是对目的操作数的某些位置1</font></p>
+<p><font size="2">例1: 使地址2100的高4位置1</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2000:LDA $2100</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2003:ORA #$F0&nbsp;&nbsp; 
+(F0的二进制:1111 0000)</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2005:STA $2100</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2008:RTS</font></p>
+<p><font size="2">&nbsp; 这里我就不解释为什么这样做了,大家可以想一下.</font></p>
+<p>　</p>
+<p><font size="2">3.EOR--寄存器与累加器相异或,结果送累加器&nbsp; A≮M→A</font></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber3">
+  <tr>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">EOR ($addr,X)</font></td>
+    <td width="33%"><font size="2">41</font></td>
+    <td width="34%"><font size="2">先变址X后间址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">EOR $addr</font></td>
+    <td width="33%"><font size="2">45</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">EOR #$data</font></td>
+    <td width="33%"><font size="2">49</font></td>
+    <td width="34%"><font size="2">立即寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">EOR $addr16</font></td>
+    <td width="33%"><font size="2">4D</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">EOR ($addr),Y</font></td>
+    <td width="33%"><font size="2">51</font></td>
+    <td width="34%"><font size="2">后变址Y间址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">EOR $addr,X</font></td>
+    <td width="33%"><font size="2">55</font></td>
+    <td width="34%"><font size="2">零页X变址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">EOR $addr16,Y</font></td>
+    <td width="33%"><font size="2">59</font></td>
+    <td width="34%"><font size="2">绝对Y变址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">EOR $addr16,X</font></td>
+    <td width="33%"><font size="2">5D</font></td>
+    <td width="34%"><font size="2">绝对X变址</font></td>
+  </tr>
+</table>
+
+<p>&nbsp; <font size="2">先告诉大家哪个不登大雅之堂的口诀 <b>&quot;相同出0,不同出1&quot;</b></font></p>
+<p><font size="2"><b>&nbsp; </b>异或的功能主要就是求补码,加密等.</font></p>
+<p><font size="2">例1: 求地址2100的内容的反码</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2000:LDA $2100</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2003:EOR #$FF</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2005:STA $2100</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2008:RTS</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 先说明下异或是怎么回事,什么是 <b>&quot;相同出0,不同出1&quot;</b></font></p>
+<p><font size="2"><b>&nbsp; </b>&nbsp;这里我们要把立即数7F,40进行异或运算,过程是这样的</font></p>
+<p><font size="2">&nbsp;&nbsp; 1.先把7F,40转化为二进制形式</font></p>
+<p><font size="2">&nbsp;&nbsp; 2.然后如果相同的位的值都不相同,那么该位为1,否则为0</font></p>
+<p><font size="2">(HEX) 7F&nbsp;&nbsp; (BIN) 0 1 1 1 1 1 1 1&nbsp;&nbsp;&nbsp; (EOR)</font></p>
+<hr color="#FFFFFF" width="21%" align="left">
+<p><font size="2">(HEX) 40&nbsp;&nbsp; (BIN) 0 1 0 0 0 0 0 0</font></p>
+<p><font size="2">(HEX) 3F&nbsp;&nbsp; (BIN) 0 0 1 1 1 1 1 1</font></p>
+<p>　</p>
+<p><font size="2">&nbsp;&nbsp; 所以我们要求反码,只要将该数和FF进行异或运算就可以了.</font></p>
+<p>　</p>
+<p><font size="2">例2: 把地址3000-30FF的数据加密与解密</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 先说明下为什么异或运算可以对数据进行加密,异或运算有一个特性:</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 一个操作数(这里设为D1),和另外一个操作数(这里设为D2)进行异或运算,结果为D3</font></p>
+<p><font size="2">&nbsp;&nbsp; 表达式是这样的 D1 EOR D2 = D3</font></p>
+<p><font size="2">&nbsp;&nbsp; 然后如果我们将D3 再和D2进行异或运算,结果一定为D1,这就是加密的依据.</font></p>
+<p><font size="2">&nbsp;&nbsp; 
+所以我们要对某段数据进行加密时,只要使改段数据均和某个数进行异或运算,解密时再把加密的数据再和该数进行</font></p>
+<p><font size="2">异或运算即可,这里的某个数我们成为密匙,也就是说,一个人要解密,他必须得到密匙才能解密.</font></p>
+<p><font size="2">&nbsp;&nbsp; 当然实际运用时,我们可以搞的稍微复杂些,就比如下面的例子,以寄存器X的内容作为对象进行异或.</font></p>
+<p>　</p>
+<p><font size="2">&nbsp;&nbsp; 加密程序如下:</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2000:LDX #$50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//这里50就是密匙,不过这里的密匙不是不变的,每异或一次就加1</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2002:LDY #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//计数器Y初始化为00</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2004:INX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器X的内容加1,即每异或一次,寄存器X的内容就加1</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2005:TXA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器X的内容发送给寄存器A</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2007:EOR $3000,Y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器A的内容和地址[3000+Y]的内容进行异或运算</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 200A:STA $3000,Y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//结果仍然送回原地址</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 200D:INY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//计数器Y的值加1</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 200E:BNE $2004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//当全部加密完,程序结束,否则继续</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2010:RTS</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; </font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 解密程序如下:</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2100:LDX #$50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//解密时,必须知道加密时X寄存器的初值,否则无法解密</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2102:LDY #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//计数器Y初始化为00</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2104:INX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器X的内容加1,即每异或一次,寄存器X的内容就加1</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2105:LDA $3000,Y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址[3000+Y]的内容送寄存器A</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2108:STX $F0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//X寄存器的内容送地址F0,为下面的指令做好准备,因为没有和寄存器X进行异或运算的指令</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 210A:EOR $F0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器A的内容和地址F0即寄存器X的内容进行异或</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 210C:STA $3000,Y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//结果送回原地址</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 210F:INY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//计数器Y的值加1 </font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2110:BNE $2104&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//当全部解密完,程序结束,否则继续</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2112:RTS</font></p>
+<p>　</p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 
+由上面的程序可以知道,加密程序的密匙是可变的,但是变化规律很明显,就是一直加1,解密程序和加密程序几乎是一样的.</font></p>
+<p><font size="2">当然,这样的加密程序是不管用的,讲这个程序的目的只是抛砖引玉,为了说明EOR在加密中的运用.</font></p>
+
+</body>
+
+</html>

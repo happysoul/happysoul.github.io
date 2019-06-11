@@ -1,0 +1,32 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>8</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><font size="2">8.使用寄存器X的零页变址</font></p>
+<p><font size="2">&nbsp; 现在我们应该不看我的下面的说明就能知道这种寻址方式的用法了吧,其实和上面的寻址方式几乎是一样的</font></p>
+<p><font size="2">只不过这里的基地址仅仅限于零页地址罢了,指令格式如下:</font></p>
+<table border="0" cellspacing="1" width="18%">
+  <tr>
+    <td width="50%">操作码</td>
+    <td width="50%">第一字节</td>
+  </tr>
+  <tr>
+    <td width="50%">零页基地址</td>
+    <td width="50%">第二字节</td>
+  </tr>
+</table>
+<p><font size="2">&nbsp;例如指令 LDA $F0,X 寻址过程如下:</font></p>
+<p><font size="2">&nbsp;设(X) = 03,(F3) = 40</font></p>
+<p><font size="2">&nbsp;基地址F0 + (X) = F0 + 03 = F3</font></p>
+<p><font size="2">&nbsp;这条指令的功能就是将地址F3的内容送寄存器A</font></p>
+
+</body>
+
+</html>

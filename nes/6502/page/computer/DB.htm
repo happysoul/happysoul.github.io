@@ -1,0 +1,66 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p>&nbsp;//字节定义 伪指令 .DB</p>
+<p>&nbsp;&nbsp; 该伪指令可以定义数据,比如字节,也可以定义 字符串,汉字等</p>
+<p>&nbsp;&nbsp; 1. 定义字节</p>
+<p>&nbsp;&nbsp; 在字节前加 $, 代表是十六进制</p>
+<p>&nbsp;&nbsp; 在字节前加 @, 代表是二进制</p>
+<p>&nbsp;&nbsp; 在字节前什么都不加,代表是十进制</p>
+<p>&nbsp;&nbsp; 例如&nbsp; </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .ORG $0000</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .DB $30,$31,$32</p>
+<p>&nbsp;&nbsp; 我们编译一下,选择 查看-内存窗口,发现地址0000开始的内容是 30 31 32</p>
+<p>&nbsp;&nbsp; 例如</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .ORG $0000</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .DB 
+@00110000,@00110001,@00110010</p>
+<p>&nbsp;&nbsp; 我们编译一下,选择 查看-内存窗口,发现地址0000开始的内容是 30 31 32</p>
+<p>&nbsp;&nbsp; 例如&nbsp;&nbsp;&nbsp; </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .ORG $0000</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .DB 48,49,50</p>
+<p>&nbsp;&nbsp; 我们编译一下,选择 查看-内存窗口,发现地址0000开始的内容是 30 31 32</p>
+<p>　</p>
+<p>&nbsp;&nbsp; 2. 定义字符串或汉字</p>
+<p>&nbsp;&nbsp; 例如</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .ORG $0000</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .DB &quot;HELLO WORLD&quot;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .DB &quot;你好啊&quot;</p>
+<p>&nbsp;&nbsp; 一般我们都在 .DB 前加一个标号,这样我们在程序中就可以用这些标号</p>
+<p>　</p>
+<p>&nbsp;&nbsp; 例如,我们在屏幕上显示&quot;HELLO WORLD&quot;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .ORG $2000</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; LCD_BUFFER = $02C0</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; STR:&nbsp; .DB &quot;HELLO WORLD&quot;,0</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDX #$0B</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; L1:&nbsp;&nbsp; LDA STR - 1, X</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STA LCD_BUFFER - 
+1, X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;发送到屏幕RAM</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DEX</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BNE L1</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$01</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STA $0402</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .DB $00,$15,$8A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;由于编译器不支持INT 指令,所以这里直接定义INT $8A15机器码</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .DB $00,$08,$C0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;由于编译器不支持INT 指令,所以这里直接定义INT $C008机器码</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RTS</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 这个程序中,STR就是字符串的首地址</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p>　</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p>　</p>
+<p>&nbsp;&nbsp; </p>
+
+</body>
+
+</html>

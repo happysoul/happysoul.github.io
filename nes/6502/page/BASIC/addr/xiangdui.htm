@@ -1,0 +1,63 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>13</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p>13.相对寻址 </p>
+<p>&nbsp;&nbsp; 该寻址仅用于条件转移指令,指令长度为2个字节.第1字节为操作码,第2字节为条件转移指令的</p>
+<p>跳转步长.又叫偏移量D.偏移量可正可负,D若为负用补码表示.</p>
+<p>&nbsp;&nbsp; 指令格式:</p>
+<p>&nbsp;&nbsp; 操作码&nbsp;&nbsp;&nbsp; 第1字节</p>
+<p>&nbsp;&nbsp; 偏移量D&nbsp;&nbsp; 第2字节</p>
+<p>　</p>
+<p>&nbsp;&nbsp;&nbsp; 相对寻址是用本条指令的第1个字节所在地址和偏移量D相加得到有效地址.</p>
+<p>&nbsp;&nbsp;&nbsp; 由于在实际中,你是用汇编写程序,所以没有必要搞懂其寻址方式,如果你想用<font color="#FF0000">机器码</font>写程序</p>
+<p>那么你必须搞懂,下面的东西你就必须看.</p>
+<p>&nbsp;&nbsp;&nbsp; ①负偏移的计算</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 例如下面的程序</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 2000:A2 9C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+LDA #$9C</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 2002:BD 00 00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA 
+$000,X</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 2005:9D BF 02&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STA 
+$02BF,X</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 2008:CA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+DEX</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 2009:D0 ??&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+BNE $2002</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 200B:60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+RTS</p>
+<p>　</p>
+<p>&nbsp;&nbsp;&nbsp; 这里在地址2009那里的??就是偏移量,这里我们要跳到地址2002,那么怎么计算出偏移量呢?</p>
+<p>&nbsp;&nbsp;&nbsp; 方法是: A = (2009 + 1) - 2002 + 1 = 2009 - 2002 + 2 =9</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 然后 B = 256 
+- 9 = 247</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 然后化为16进制形式 
+B = F7</p>
+<p>&nbsp;&nbsp;&nbsp; 所以这里 ?? = F7</p>
+<p>&nbsp;&nbsp;&nbsp; ②正偏移的计算</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 例如下面的程序</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 2000: A2 00&nbsp;&nbsp;&nbsp;&nbsp; LDX #$00</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 2002: BD 00 00&nbsp; LDA $0000,X</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 2005: 9D C0 02&nbsp; STA $02C0,X</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 2008: E0 9B&nbsp;&nbsp;&nbsp;&nbsp; CPX #$9B</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 200A: F0 ??&nbsp;&nbsp;&nbsp;&nbsp; BEQ $2010</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 200C: E8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+INX</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 200D: 4C 02 20&nbsp; JMP $2002</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 2010: 60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+RTS</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 这里??的计算方法是</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; A = 2010 - 200A -2 = 4</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 所以?? = 04</p>
+
+</body>
+
+</html>

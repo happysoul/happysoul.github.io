@@ -1,0 +1,134 @@
+<html>
+<head>
+<title>NES ASM - Day 13</title>
+</head>
+<body bgcolor="lavender">
+<h1 align="center" style="color: LightCoral; width: 100%; filter:shadow()">Day 13 - Backgrounds</h1>
+<pre>
+
+
+</pre>
+<h2 align="center" style="color: LightCoral;"><b>Intro</b></h2>
+<p style="color: green;"><pre><b>
+	
+	You should know what a background is, it's the stationary picture that
+the sprites move around on and possibly collide with. The background isn't too
+hard to make, but the lack of tools for the NES (a real big problem) makes BGs a
+pain in the you-know-what to make.
+
+<h3 align="center" style="color: LightCoral;"><b>Making The BG</b></h3>
+
+	To make the BG, open your "our.bkg" in Tile Layer Pro and draw some tiles.
+Now, make a map out of the tiles on paper with the tile numbers, how do we get the
+tile numbers? It's quite simple actually, starting with the first tile is #0 it goes
+like this (assuming you have Tile Layer at 16 tiles per line):
+
+	$0  $1  $2  $3  $4  $5  $6  $7  $8  $9  $A  $B  $C  $D  $E  $F
+	$10 $11 $12 $13 $14...
+
+So if #$1 was the top-left 1/4<sup>th</sup> of a smile face, #$2 is the top-right, #$11 is the bottom
+-left and #$12 is the bottom right 1/4<sup>th</sup>, you would write on the paper or in
+a text file:
+
+1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+11 12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+...
+
+Note: The NES Screen is about 32x32 tiles.
+
+The next thing you probably want to do is make that map into a binary file so
+that you can load it to PPU memory like you did with the pallete.
+
+I've written a small program in VB to take a map file like the above (without the '...') and
+make it into a binary file for the above purpose. You don't need all 32 lines, unless
+you want them.
+
+Download it <a href="nesasm.zip">here</a> just run it and type the name of the
+map file (text) in the first box and the name (not extension) of the file you want
+it to create in the second box. If the map file contains alot of map data, the
+program may make more than 1 file.
+
+<h3 align="center" style="color: LightCoral;"><b>Name Tables</b></h3>
+
+	Name Tables is what originally made me avoid NES Assembly, I just couldn't get
+it from the sparce and vague and overly technical docs that currenty exist.
+
+	To put it simply "Name" means Tile Number and "Table" basically means Map, so
+the Name Tables is where we want to put our map in PPU memory. There are two Name Tables;
+typically you'll want to use the first one so we will too. Name Table #1 is at $2020
+in PPU memory, OK... that's a lie, it actually starts at $2000 in PPU memory, but since
+US NESs (and most emulators) don't display the first line (and last for that matter) we
+have to start the load at $2020.
+
+<h3 align="center" style="color: LightCoral;"><b>Making The Code</b></h3>
+
+	I'm going to assume that you already have a source file that has the basic things
+such as:
+
+	1) Bank 1 with the $FFFA stuff (Reset, VBlank etc...)
+	2) Bank 2 incbin(ing) the 2 files "our.spr" and "our.bkg" in the right order.
+	3) Bank 0 ORGed at $8000, with code to setup the PPU and load the pallete.
+	3.5) The binary pallete file incbin(ed) after the infinite loop.
+
+	Now that you have all those things it's time to add the stuff to make the
+BG appear on the screen. 
+
+	Add the following code after the pallete loading loop:
+
+	;;--- CODE START ---;;
+
+	lda #$20
+	sta $2006 ; give $2006 both parts of address $2020.
+	sta $2006 
+
+	ldx #$00
+loadNames:
+	lda ourMap, X ; load A with a byte from address (ourMap + X)
+	inx
+	sta $2007
+	cpx #64 ; map in previous section 64 bytes long
+	bne loadNames ; if not all 64 done, loop and do some more
+
+	;;--- STOP COPYING ---;;
+
+And right after the INCBIN of the pallete add this:
+
+	;;--- CODE START ---;;
+
+ourMap: .incbin "our.map" ; assuming our.map is the binary map file.
+	
+	;;--- STOP COPYING ---;;
+
+Assemble and run!
+
+<h3 align="center" style="color: LightCoral;"><b>Some other things</b></h3>
+
+	If map2bin.exe made more than one file, you'll need one loop and one .incbin
+for each file, make sure to use different label names for each incbin and loop. If
+there's more than one file, make each loop run $FF times by making "cpx #64" into
+"cpx #$FF".
+
+	MAP2BIN, because it's written in VB, makes every file 2 bytes too big because
+VB always adds a newline to writes to files.
+
+	There's also something called Attribute Tables, we'll get to those in a later
+Day.
+
+<h3 align="center" style="color: LightCoral;"><b>This Day In Review</b></h3>
+
+	I realize that wasn't too good, hopefully I'll
+be able to make it better later.
+
+	Happy coding!,
+		-Mike H a.k.a GbaGuy
+
+<center><a href="nesasm.htm">Intro</a> - <a href="day14n.htm">Day 14</a></center>
+
+
+</b></pre></p>
+
+<br />
+<br />
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>NES游戏开发</title>
+    <link rel="stylesheet" href="index.css"/>
+</head>
+
+<body>
+
+<div class="main">
+<p><h1>19、更多的事情</h1>
+</p><p>随机数。
+</p><p>
+</p><p>NES没有很好的方法来生成随机数。
+</p><p>
+</p><p>neslib里面有rand8() 和 rand16()，但是他生成方式有问题。他在启动时使用常量，这就意味着每次重启后的随机数都会是相同的。
+</p><p>
+</p><p>我编写了一个将帧数统计放入到随机数计算的方法。
+</p><p>
+</p><p>seed_rng()
+</p><p>
+</p><p>使用帧数作为随机数种子。所以启动的时候他而不是随机的，而是通过用户的输入指令触发他。
+</p><p>
+</p><p>比如 “PRESS START”
+</p><p>
+</p><p><img src="img/19_1.png">
+</p><p>
+</p><p>https://github.com/nesdoug/23_Random/blob/master/Random.c
+</p><p>
+</p><p>https://github.com/nesdoug/23_Random
+</p><p>
+</p><p>注意：seed_rng() 仅设置种子的低字节，这样就有了256个结果。如果要设置两个种子字节，请使用1个用户输入来触发第一个seed_rng() ，然后调用rand8() 3-4次，然后获取用户输入以触发第二个seed_rng() 
+</p><p>
+</p><p>
+</p><p>
+</p><p>Mappers
+</p><p>到目前为止，我们一直在使用最基本的映射器NROM。我们在crt0.s文件中定义了ines header头信息。
+</p><p>在“HEADER”段中这是一个重要的配置信息在 .cfg文件中。如果想要改变Mapper我们只需要改变配置文件中的Mapper配置，NES_MAPPER，value =＃。
+</p><p>
+</p><p>为什么要修改Mapper呢？如果我们想要更多的PRG或者CHR或者更多的RAM，我们需要具有这些功能的特殊游戏卡带。
+</p><p>
+</p><p>拥有了更大的ROM文件，将一部分重新映射到CPU的$8000地址来实现（8000是举例）
+</p><p>
+</p><p>用C编程的话，使用Mapper功能很费劲。一个函数可能会调用另外一个函数，如果调用不到，就会导致游戏崩溃。
+</p><p>
+</p><p>你可能需要将数据放到几个小的块中，并在游戏进行的过程中交换位置。你还可以做的是将音乐数据放到备用的库中。
+</p><p>这个有些高级，暂时先跳过了。
+</p><p>
+</p><p>说些简单的。
+</p><p>
+</p><p>CNROM，允许切换整个图形（下面有例子）
+</p><p>
+</p><p>AxROM和UxROM没有CHR ROM。图形都位于PRG ROM中存放（PRG的体积也会比较大），使用的时候需要将他们加载到 CHR的RAM中才能使用。AxROM允许您更改整个$8000-$FFFF bank。UNROM固定了$C000-$FFFF，并允许您更改$8000-BFFF bank。比起AxROM我更喜欢UNROM，因为你可以将你的C代码放在固定的存储区中方便数据的使用，用C开发AxROM非常困难，很多地方只有ASM汇编才能实现。
+</p><p>
+</p><p>在UNROM上有一个自制软件版本，mapper 30，UNROM 256，比任何商业游戏都要大得多。NESmaker使用它。用C开发的话会很有用。
+</p><p>
+</p><p>Mojon twins 用标准的UNROM开发出了至少1个完整的游戏。
+</p><p>http://forums.nesdev.com/viewtopic.php?p=169438#p169438
+</p><p>
+</p><p>对于任何Mapper，你都可以在头信息配置$6000-7fff是RAM地址。byte 10, bit 4
+</p><p>如果你在启动的时候读写此区域，很多模拟器都会认为游戏拥有PRG RAM芯片。
+</p><p>如果你希望你的游戏有记录功能（电池记录RAM），你需要在头信息配置 byte 6, bit 1
+</p><p>
+</p><p>GNROM，Mapper编号66（或Wisdom Tree / Color Dreams，mapper 11）可以交换整个PRG和CHR。
+</p><p>当然这与AxROM一样的问题，一个数据块中的方法调用另一个数据块中的方法，而且还要确保整个CRT库一直可用。
+</p><p>
+</p><p>
+</p><p>更高级的Mapper，比如MMC1
+</p><p>cppchriscpp 在他的C项目中使用了MMC1 (SxROM)
+</p><p>https://github.com/cppchriscpp/nes-starter-kit
+</p><p>
+</p><p>一些bank块转换的代码
+</p><p>https://github.com/cppchriscpp/nes-starter-kit/tree/master/source/library
+</p><p>
+</p><p>您可以更改$8000-bfff区域。你可以改变tileset（ppu 0-fff或ppu 1000-1fff）。
+</p><p>并且您可以将镜像从H更改为V。这个功能非常牛X
+</p><p>
+</p><p>更高级，MMC3（TxROM）。您可以更改$8000-9fff和/或$a000-bfff bank。
+</p><p>你可以更改部分CHR ROM。小到只有$800 大小。可以用在动画背景（瀑布）
+</p><p>您可以使用扫描线计数器IRQ进行多次背景分割。但是 IRQ需要ASM汇编写。
+</p><p>
+</p><p>我做了一个简单的CNROM示例。有4个CHR文件，我只是在它们之间切换，并更改调色板。
+</p><p>
+</p><p>CNROM有个技术问题，叫做总线冲突。Mapper通过写rom来工作
+</p><p>
+</p><p>
+</p></div>
+<script>
+var h1 = document.getElementsByTagName("h1");
+if(h1.length>0){
+    document.title = h1[0].innerHTML;
+}
+</script>
+</body>
+</html>

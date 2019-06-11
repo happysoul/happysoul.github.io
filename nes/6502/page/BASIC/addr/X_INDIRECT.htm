@@ -1,0 +1,41 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>11</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><font size="2">11.先变址X后间接寻址</font></p>
+<p><font size="2">&nbsp; 两字节指令</font></p>
+<p><font size="2">&nbsp; 指令格式:</font></p>
+<table border="0" cellspacing="1" width="18%">
+  <tr>
+    <td width="50%">操作码</td>
+    <td width="50%">第一字节</td>
+  </tr>
+  <tr>
+    <td width="50%">零页基地址</td>
+    <td width="50%">第二字节</td>
+  </tr>
+</table>
+<p><font size="2">&nbsp; 这种寻址方式是先以X作为变址寄存器和零页基地址IND相加 IND+X,不过这个变址计算得到的只是一个间接地址,还必须</font></p>
+<p><font size="2">经过两次间接寻址才得到有效地址</font></p>
+<p><font size="2">&nbsp; 第一次对 IND + X 间址得到有效地址低 8 位</font></p>
+<p><font size="2">&nbsp; 第二次对 IND + X + 1 间址得到有效地址高 8 位</font></p>
+<p><font size="2">&nbsp; 然后把两次的结果合起来,就得到有效地址.</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 我们看一个例子:</font></p>
+<p><font size="2">&nbsp; 指令 LDA ($F0,X) 的寻址过程如下:</font></p>
+<p><font size="2">&nbsp; 这里设 (X) = 02,(F2) = 30,(F3) = 40</font></p>
+<p><font size="2">&nbsp; 那么先得到间接地址 = F0 + (X) = F0 + 02 = F2</font></p>
+<p><font size="2">&nbsp; 第一次对地址F0 + (X) = F2间址得到有效地址低8位 = 30</font></p>
+<p><font size="2">&nbsp; 第二次对地址F0 + (X) + 1 = F3间址得到有效地址高8位 = 40</font></p>
+<p><font size="2">&nbsp; 那么有效地址就是地址4030了,该指令功能就是将地址4030的内容送寄存器A,大家可以在NCTOOLS中试一下</font></p>
+
+</body>
+
+</html>

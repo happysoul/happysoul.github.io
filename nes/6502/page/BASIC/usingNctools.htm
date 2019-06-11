@@ -1,0 +1,343 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><b><font size="4">//</font><span lang="zh-cn"><font size="4">全面接触NCTOOLS</font></span></b></p>
+<p><span lang="zh-cn">&nbsp; <font size="2">NCTOOLS是我为NC1020写的一个DEBUG软件，大家可以到我的网站 
+<a href="http://wqxmcode.8u8.com下载">http://wqxmcode.8u8.com下载</a></font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 因为在我的6502教程中，大量使用了NCTOOLS这个工具，所以你必须拥有这个软件.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 下面我讲讲这个软件的用法：</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 1.界面 </font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 进入NCTOOLS后，你看到下面的界面，这是最新版本的界面，你可以到我的网站下载</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;
+<img border="0" src="../pic/jieman.jpg" width="391" height="175"></font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 最左上面的 00 代表当前页码是 00</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 左边的 2000代表地址当前地址是2000，后面的 2800 
+2900 2A00 2B00代表地址的内容，但一行显示8个地址的内容</font></span></p>
+<p><span lang="zh-cn"><font size="2">
+比如第1行，显示的是地址2000，2001，2002，2003.......2007的内容</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 所以一个屏幕最大显示 48个地址的内容,大家可以看到的</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">2.按键的用法</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ①I,K键</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 按 I 键,当前页码减 1,比如当前页码是&nbsp; 
+02,那么按了 I ,当前页码变为 01</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 按 K 键,当前页码加 1,比如当前页码是&nbsp; 
+02,那么按了 K, 当前页码变为 03了</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ②中英数 键&nbsp; 切换显示模式，在 十六进制 和 字符 
+模式下切换</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 比如当前显示模式是 十六进制，那么 按 
+中英数，就切换到了 字符显示模式</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ③输入法 键</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 按 输入法 
+，以汉字，数字，字符，符号等修改当前内存的内容</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ④ 0 键</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 
+在查找时，若查找的结果不只一个，查找到了一个后，按 0 键可以继续查找</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ⑤ 求助 键</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 
+显示本程序附加功能，附加功能将在后面介绍</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ⑥ Z + H 键</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 同时按住 Z，H两个键，可以使地址 
+2000-2FFF全部为 FF，并且当前地址转到地址2000</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 
+当你要写程序时，一般先用这个命令，使得地址2000-2FFF全部为FF，比较干净</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ⑦ 双上箭头 键 </font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 按 双上箭头 键，当前地址&nbsp; 
+减 1，比如当前地址是2000，按了 双上箭头，当前地址变为 1FFF</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 单左箭头 键</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 按 单左箭头 键，当前地址&nbsp; 
+加 1，比如当前地址是2000，按了 左箭头，当前地址变为 2001</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 单上箭头 键</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 按 单上箭头 键，当前地址&nbsp; 
+减 #$10</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 单下箭头 键</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 按 单下箭头 键，当前地址 加 
+#$10</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 双下箭头 键</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 按 双下箭头 键，当前地址 减 
+#$30</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 单右箭头 键</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 按 单右箭头 键，当前地址 加 
+#$30</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; <b>按 Z ,同时按 
+双下箭头或单右箭头,可以快速查看地址内容</b></font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 
+注：由于一个屏幕显示的地址有限，为了看全部的地址的内容，我们必须按 这些键来显示其他地址的内容</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; ⑧ R 键</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 当执行 G 
+命令后,可以用该命令查看 寄存器的状态</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">3.命令的使用</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;<b> 说明:每个命令是以 = 号,作为 确认键</b></font></span></p>
+<p><span lang="zh-cn"><font size="2"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 字符 B 用 . 
+代替</b></font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ①内存查看命令 V</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 格式:V XX</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+V XXXX</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+V XXXXYY</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 这里 XX 代表零页地址(00-FF)</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XXXX 
+代表直接地址(0000-FFFF)</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; YY 
+代表页码</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 例如 V 
+30,就是查看当前地址为 30 的48个地址的内容,如图:</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;
+<img border="0" src="../pic/VXX.JPG" width="298" height="151"></font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 例如 V 
+4000 03,就是查看03页码的当前地址为4000的48个地址内容,如图:</font></span></p>
+<p><img border="0" src="../pic/Vxxxxyy.JPG" width="300" height="150"></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; </font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ②内存修改命令 E C</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 该命令功能非常强大,可以修改 FLASH 
+ROM,RAM</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 格式: E C XX</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+E C XXXX</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+E C XXXXYY</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 例如 输入&nbsp; E C F0,然后按 
+&quot;=&quot;,出现下图:</font></span></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="52%">
+  <tr>
+    <td width="46%">
+    <img border="0" src="../pic/Eczero.JPG" width="297" height="150"></td>
+    <td width="54%">
+    <img border="0" src="../pic/ei2.jpg" width="299" height="148"></td>
+  </tr>
+</table>
+<p><span lang="zh-cn"><font size="2">&nbsp;这时我们就可以输入字节了,注意这里输入的是十六进制,<b>如果输入错了,可以按 
+单左箭头删除 最近输入</b></font></span></p>
+<p><b><span lang="zh-cn"><font size="2">的一个字节.</font></span></b></p>
+<p><span lang="zh-cn"><font size="2"><b>&nbsp; ③</b>插入字节命令 E I</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 该命令对于用机器码编写程序的人来说很有用</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 格式&nbsp; E I XXXX</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 
+这里可能有些人搞不清楚这个命令的用法,我做详细的说明:</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; XXXX:代表结束地址,由于 
+插入了字节,那么当前地址后的内容就必然要往后偏移,那么是不是当前地址后的</font></span></p>
+<p><span lang="zh-cn"><font size="2">所以地址都要往后偏移呢?这显然不是,所以这里有个参数 XXXX,这样就规定了当前地址到 
+地址XX往后偏移.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 例如 假设当前地址是 2000</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 我输入&nbsp; E I 
+2007,那么说明地址2000-2007的内容往后偏移,那么往后偏移多少字节呢?这是由你插入的</font></span></p>
+<p><span lang="zh-cn"><font size="2">字节数来决定的.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 这里 我输入 E I 2007,然后按 = ,然后输入 
+0102030405,然后按 =,我们看下图:</font></span></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="61%">
+  <tr>
+    <td width="31%"><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    使用 E I命令前</font></span></td>
+    <td width="69%"><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    使用 E I命令后</font></span></td>
+  </tr>
+  <tr>
+    <td width="31%">
+    <img border="0" src="../pic/ei1.jpg" width="295" height="145"></td>
+    <td width="69%">
+    <img border="0" src="../pic/ei2.jpg" width="299" height="148"></td>
+  </tr>
+</table>
+<p><span lang="zh-cn"><font size="2"><b>&nbsp; </b>
+为什么需要这个命令呢,有时候,我们需要往某地址增加几个字节的内容,但如果用E C命令,势必</font></span></p>
+<p><span lang="zh-cn"><font size="2">会破坏别的字节,这时候&nbsp; E I命令就发挥很大作用了.</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ③ 执行 程序命令 G</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 格式: G XXXX</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+G XXXXYY</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+例如 G 4040,就是执行当前页码的4040开始的程序</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+例如 G 4040 03,就是执行 03 页码的4040开始的程序</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 注:执行该命令后,可以 按 R,显示寄存器的状态</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ④ 4K闪存数据装入地址2000-2FFF 命令 L</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 格式:L XXXXYY</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+注意这里的XXXX,只能是 4000,5000,6000,7000,8000....B000</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 因为是将整整 
+4K 闪存的数据装入RAM</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 例如 L 
+5000 08,就是将08页码的地址 5000-5FFF的内容送地址 2000-2FFF</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 该命令的作用是修改闪存,例如我们要修改 08 
+页码的5000-5FFF的内容</font></span></p>
+<p><span lang="zh-cn"><font size="2">我们可以先 L 5000 08,然后用 E C 命令修改地址 
+2000-2FFF的内容,修改完后,用 W 5000 08命令</font></span></p>
+<p><span lang="zh-cn"><font size="2">就可以将地址&nbsp; 2000-2FFF的内容送 08页码的 5000-5FFF.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 这里大家可能很纳闷,E C 
+命令不是可以直接修改闪存吗,为什么还要这个命令,大家知道闪存的擦写次数是一定的</font></span></p>
+<p><span lang="zh-cn"><font size="2">因为每次修改闪存就需要擦写闪存一次,如果用 E 
+C命令频繁的修改闪存,是不是会加快闪存的老化呢?这我不得而知</font></span></p>
+<p><span lang="zh-cn"><font size="2">不过我建议大家修改大量闪存数据时,还是使用 L 
+命令先将闪存数据送RAM,然后修改RAM,然后用W 命令将数据送回.</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ⑤地址 2000-2FFF的内容送闪存 命令 W </font>
+</span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 格式: W XXXXYY</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 
+该命令可以将地址2000-2FFF的内容送4K闪存,这里XXXX同样只能是 4000,5000,6000.....B000</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 例如&nbsp; W 5000 08,就是将地址 
+2000-2FFF的内容送08页码的地址 5000-5FFF</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ⑥擦除闪存命令 F R</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 格式 F R XXXXNNNNYY</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 这里XXXX是开始地址,NNNN是结束地址,YY是页码</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 例如 F R 4000 4010 
+08,就是擦除08页码地址 4000-4010的内容为 FF</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 注意:NC1020擦除的基本单位是 
+2K,但是我这里可以擦除任意大小的闪存,这并没有否定NC1020以2K为一个单位</font></span></p>
+<p><span lang="zh-cn"><font size="2">我因为做过程序处理,所以有擦除任意大小闪存的功能.</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ⑦擦除指定字节的某个范围的地址内容&nbsp; F D</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 格式: F D XXXXNN</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 这里 XXXX是结束地址,NN是擦除的字节数</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 例如我 V 4000 08,那么当前地址是4000,页码是08</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 我输入 F D 400703,那么功能是地址 
+4003-4007的内容送地址4000-4004,地址4005-4007的内容擦除为 FF</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 我举个例子,当前地址是 4000,我输入 F D 4007 02,按 
+=,看结果如图:</font></span></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="56%">
+  <tr>
+    <td width="45%"><span lang="zh-cn"><font size="2">使用 F D 命令前</font></span></td>
+    <td width="55%"><span lang="zh-cn"><font size="2">使用 F D 命令后</font></span></td>
+  </tr>
+  <tr>
+    <td width="45%">
+    <img border="0" src="../pic/fd1.jpg" width="301" height="150"></td>
+    <td width="55%">
+    <img border="0" src="../pic/fd2.jpg" width="302" height="146"></td>
+  </tr>
+</table>
+<p><span lang="zh-cn"><font size="2">&nbsp; 可见后面的字节往前移了.</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ⑧反汇编命令 U</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 格式: U XX</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+U XXXX</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+U XXXXYY</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 这里XX是零页地址,XXXX是直接地址,YY是页码</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 该命令可以反汇编,例如 U 4040 
+03,就是反汇编03页码的地址4040开始的内容,如图:</font></span></p>
+<p><img border="0" src="../pic/u1.jpg" width="442" height="201"></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 这里 &quot;-&quot;前面的4个字节是地址,后面的十六进制是 
+机器码,再后面的就是反汇编汇编结果了.</font></span></p>
+<p><span lang="zh-cn"><font size="2">不懂机器码的朋友只有用这个命令了,可以看程序.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 反汇编状态下,按 跳出,返回</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 反汇编状态下,可以使用 A 命令写汇编</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 按 其他键,反汇编下一地址内容&nbsp; </font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ⑨写汇编命令 A</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 格式:A XXXX</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 注意:该命令不可以在闪存地址写汇编,那么XXXX的范围是 
+00页码的 4000-5FFF,0000-3FFF</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 符号定义:</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; '#' : 双上箭头</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; '$' : 单上箭头</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; '(' : 双下箭头</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; ')' : 单左箭头</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; ',' : 单下箭头</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 'Y' : 单右箭头&nbsp;&nbsp; </font>
+</span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 'X' : 就是原来的 X 键&nbsp;&nbsp; 
+</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 'B' : 这里用 '.' 代替</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 错误提示:</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 1.语法出错,请重试!</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 说明您写错了指令</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 2.偏移量发生溢出</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 您可以能使用的条件转移指令的跳转步长过大了</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 3.寻址越位,请重试</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 不支持这种寻址方式</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; <b>按 K 键可以删除最近输入的一个字符</b></font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2"><b>&nbsp; </b>⑩查找十六进制命令 S H</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 格式: S H XXXXNNNN</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+S H XXXXNNNNYY</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+S H XXXXNNNNYYKK</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 这里有三种格式</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; S H XXXXNNNN&nbsp; 
+在当前页码地址范围XXXX - NNNN 查找</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; S H XXXXNNNNYY 在YY页码地址范围XXXX 
+- NNNN 查找</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; S H XXXXNNNNYYKK 在YY-KK多个连续的页码地址范围 
+XXXX - NNNN查找,实现多页码的数据的查找</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 例如: 在当前页码 
+地址范围4000-BFFF查找 121314</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+输入&nbsp; S H 4000BFFF,按 =</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+然后输入 查找的数据 121314,按 =</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+如果查找到了,当前地址自动转到该地址</font></span></p>
+<p><span lang="zh-cn"><font size="2"><b>&nbsp;&nbsp;&nbsp; 这时,还可以按 0 键继续查找下一个</b></font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2"><b>&nbsp; </b>&nbsp;例如: 在页码 01- 03的地址 
+4000-7FFF 查找 10111213</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+输入 S H 40007FFF0103,按 =,输入 10111213,按 = ,开始查找</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ⑩① 查找 汉字,字符,符号,数字 命令&nbsp; S C</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 和上面一样,不过查找的是 汉字,字符,符号,数字</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 很有用的命令哦.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; ⑩②&nbsp; 中断地址 获取命令 X</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 格式: X NNNN</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 例如有中断指令 INT 
+$8A15,那么该指令是执行哪里的程序呢,使用该命令就使当前地址自动转到程序入口点</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 输入 X 8A15,按 = </font></span></p>
+<p>　</p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 3.附加功能</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; 附加功能有下面几样</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; .屏幕RAM</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 显示小字模式的屏幕RAM的地址</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 显示大字模式的屏幕RAM的地址</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; .键盘扫描</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+若你不知道某个键的扫描码,按 该键就显示了</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; .字符ASCⅡ码</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 常见的ASCii码</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; .出厂信息</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 你的机器的出厂信息</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; .目录列表</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; .文件列表</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; .闪存利用表</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; .保存代码</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 
+保存地址2000-2FFF的内容,我们写程序的时候,写好了,最好先保存下</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; .导入代码</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 
+保存的数据还原到地址2000-2FFF</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; .制作程序</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 制作BIN程序</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 
+你先在地址2010后写好程序,注意地址2000-200F这里不要放东西,因为这里是文件头</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 然后保证程序的入口地址是 2010</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 然后制作程序,输入文件名,就可以了</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; .GMUD存档</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; GMUD存档备份和还原</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; .密码清除</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; .系统重新启动</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp;&nbsp; .版本信息</font></span></p>
+
+</body>
+
+</html>

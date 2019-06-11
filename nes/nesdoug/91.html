@@ -1,0 +1,428 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>NES游戏开发</title>
+    <link rel="stylesheet" href="index.css"/>
+</head>
+
+<body>
+
+<div class="main">
+<p><h1>附录，neslib库</h1>
+</p><p>
+</p><p>Shiru为NES开发编写了neslib代码。这些都是关于一切如何运作的详细说明。我稍后会添加示例代码。我主要使用的是neslib的略微修改版本
+</p><p>
+</p><p>http://shiru.untergrund.net/files/nes/chase.zip
+</p><p>(<a src="chase.zip">本地下载</a>)
+</p><p>
+</p><p>示例代码
+</p><p>http://shiru.untergrund.net/files/src/cc65_nes_examples.zip
+</p><p>(<a src="cc65_nes_examples.zip">本地下载</a>)
+</p><p>
+</p><p>此链接有一个neslib版本，适用于最新版本的cc65（截至2016年）版本2.15
+</p><p>http://forums.nesdev.com/viewtopic.php?p=154078#p154078
+</p><p>
+</p><p>pal_all(const char *data);
+</p><p>
+</p><p>const unsigned char game_palette [] = {...} //定义一个32字节的字符数组
+</p><p>
+</p><p>pal_all(game_palette);
+</p><p>-传入一个完整的32byte的调色板指针
+</p><p>-复制32byte到缓冲区
+</p><p>-随时调用，但只在v-blank时候更新
+</p><p>
+</p><p>pal_bg(bg_palette); //仅16字节，背景
+</p><p>
+</p><p>pal_spr(sprite_palette);  //仅限16个字节，sprites 
+</p><p>-跟pal_all一样，但只有16个字节
+</p><p>
+</p><p>pal_col(unsigned char index,unsigned char color);
+</p><p>-精灵或背景，设置任意1个调色板的1个颜色
+</p><p>-随时调用，但只在v-blank时候更新
+</p><p>-index = 0 – 31 (0-15 bg, 16-31 sprite)
+</p><p>
+</p><p>#define RED 0x16
+</p><p>pal_col(0, RED);  //将背景颜色设置为红色
+</p><p>pal_col(0, 0x30); //将背景颜色设置为白色= 0x30
+</p><p>
+</p><p>pal_col() 旋转颜色(超级玛丽中的硬币变色) 或者闪烁的精灵
+</p><p>注意：调色板缓冲区设置为0x1c0-0x1df（参看示例代码）
+</p><p>
+</p><p>PAL_BUF = $01c0，在crt0.s中定义
+</p><p>- 这是在硬件堆栈中。如果子程序调用深度超过16，它将开始覆盖缓冲区，可能导致错误的颜色或游戏崩溃
+</p><p>
+</p><p>pal_clear(void);//将所有颜色设置为黑色，可随时执行
+</p><p>
+</p><p>pal_bright(unsigned char bright); //使所有颜色变亮或变暗
+</p><p>- 0-8,4 =正常，3 2 1更暗，5 6 7更亮
+</p><p>- 0是黑色，4是正常，8是白色
+</p><p>pal_bright(4); //正常亮度
+</p><p>注意：在init期间必须至少调用一次 pal_bright() 它设置指向颜色的指针，需要为调色板更新设置颜色。（在crt0.s中）
+</p><p>
+</p><p>Shiru在Chase源代码游戏中具有淡化功能
+</p><p><pre>
+</p><p>void pal_fade_to(unsigned to)
+</p><p>{
+</p><p>  if(!to) music_stop();
+</p><p>  while(bright!=to)
+</p><p>  {
+</p><p>    delay(4);
+</p><p>    if(bright<to) ++bright; 
+</p><p>    else --bright;
+</p><p>    pal_bright(bright);
+</p><p>  }
+</p><p>  if(!bright)
+</p><p>  {
+</p><p>    ppu_off();
+</p><p>    set_vram_update(NULL);
+</p><p>    scroll(0,0);
+</p><p>  }
+</p><p>}
+</p><p></pre>
+</p><p>
+</p><p>pal_spr_bright(unsigned char bright);
+</p><p>-仅设置精灵亮度
+</p><p>
+</p><p>pal_bg_bright(unsigned char bright);
+</p><p>-设置背景亮度，使用0-8，与 pal_bright() 相同
+</p><p>
+</p><p>ppu_wait_nmi(void);
+</p><p>- 等待下一帧
+</p><p>
+</p><p>ppu_wait_frame(void);
+</p><p>-每5帧等一个额外的帧，对于NTSC电视
+</p><p>-不使用它，我删除它
+</p><p>-可能有错误的分屏
+</p><p>
+</p><p>ppu_off(void);
+</p><p>-关闭屏幕
+</p><p>
+</p><p>ppu_on_all(void);
+</p><p>-重新打开精灵和背景
+</p><p>
+</p><p>ppu_on_bg(void);
+</p><p>-仅打开背景，不影响精灵
+</p><p>
+</p><p>ppu_on_spr(void);
+</p><p>-只打开sprite，不影响背景
+</p><p>
+</p><p>ppu_mask(unsigned char mask);
+</p><p>-手动设置2001寄存器，请参阅nesdev wiki
+</p><p>-可用于设置颜色强调或灰度模式
+</p><p>
+</p><p>ppu_mask(0x1e);	//正常模式，屏幕打开
+</p><p>ppu_mask(0x1f);	//灰度模式，屏幕打开
+</p><p>ppu_mask(0xfe);	//屏幕打开，所有颜色强调位设置，使屏幕变暗
+</p><p>
+</p><p>ppu_system(void);   //PAL返回0，NTSC返回0
+</p><p>- 在init期间，它会执行一些定时代码，并确定正在运行的电视系统类型。这是一种访问该信息的方法，如果你想对每种类型的电视进行不同的编程
+</p><p>-例如：a = ppu_system();
+</p><p>
+</p><p>oam_clear(void);    //清除OAM缓冲区，使所有精灵消失
+</p><p>OAM_BUF =$0200，在crt0.s中定义
+</p><p>
+</p><p>oam_size(unsigned char size);	//将精灵大小设置为8×8或8×16模式
+</p><p>oam_size(0); // 8×8 mode
+</p><p>oam_size(1); // 8×16 mode
+</p><p>注意：在每个循环开始时，将sprid设置为0 
+</p><p>sprid = 0; ，然后每次将精灵推送到OAM缓冲区时，它返回下一个索引值(sprid)
+</p><p>
+</p><p>oam_spr(unsigned char x,unsigned char y,unsigned char chrnum,unsigned char attr,unsigned char sprid);
+</p><p>-返回sprid （当前OAM缓冲区的索引）
+</p><p>-sprid是缓冲区中精灵的数量乘以4（每个精灵4个字节）
+</p><p>
+</p><p>sprid = oam_spr(1,2,3,0,sprid);
+</p><p>-将一个精灵放在X = 1，Y = 2，使用tile＃3，palette＃0，我们正在使用sprid来跟踪缓冲区中的索引
+</p><p>
+</p><p>sprid = oam_spr (1,2,3,0|OAM_FLIP_H,sprid);		//相同，但水平翻转精灵
+</p><p>sprid = oam_spr (1,2,3,0|OAM_FLIP_V,sprid);		//相同，但垂直翻转精灵
+</p><p>sprid = oam_spr (1,2,3,0|OAM_FLIP_H|OAM_FLIP_V,sprid);	//相同，但水平和垂直翻转精灵
+</p><p>sprid = oam_spr (1,2,3,0|OAM_BEHIND,sprid);		//精灵将在背景后面，但在通用背景颜色的前面（第一个bg调色板条目）
+</p><p>
+</p><p>
+</p><p>oam_meta_spr(unsigned char x,unsigned char y,unsigned char sprid,const unsigned char *data);
+</p><p>-返回sprid（当前OAM缓冲区的索引）
+</p><p>-sprid是缓冲区中精灵的数量乘以4（每个精灵4个字节）
+</p><p>
+</p><p>sprid = oam_meta_spr(1,2,sprid, metasprite1)
+</p><p>
+</p><p>metasprite1[] = …;  //metasprite的定义，chars数组
+</p><p>-metasprite是精灵的集合
+</p><p>-你不能轻易翻转它
+</p><p>-你可以使用nes屏幕工具制作metasprite
+</p><p>-每个tile为4个字节的数组= 
+</p><p>-x offset，y offset，tile，attribute(每个tile调色板/flip)
+</p><p>-你必须传递一个指向这个数据数组的指针
+</p><p>-数据不能超过 128 (0x80)
+</p><p>-每个循环（帧）期间你将精灵推送到OAM缓冲区
+</p><p>-在v-blank期间自动转到OAM（nmi代码的一部分）
+</p><p>
+</p><p>oam_hide_rest(unsigned char sprid);
+</p><p>-在每个循环结束时将其余的精灵移出屏幕
+</p><p>-这是必需做的，如果你没有在每个循环开始时清除精灵
+</p><p>-如果屏幕上的精灵数量正好是64，那么值会回到0，这个函数会意外地将所有精灵移出屏幕（通过0会将所有精灵移出屏幕）
+</p><p>-如果由于某种原因你传递了一个不能被4整除的值（如3），这个函数会在无限循环中使游戏崩溃
+</p><p>-在每个循环开始时调用 oam_clear(), 不要再用 oam_hide_rest()
+</p><p>
+</p><p>music_play(unsigned char song);
+</p><p>-发送一个歌曲编号，它设置一个指向歌曲开头的指针，在v-blank他将自动播放
+</p><p>music_play(0);	//播放0号音乐
+</p><p>
+</p><p>music_stop(void);   //停止播放歌曲，再想播放需要调用 music_play()，但这样会从头开始播放音乐
+</p><p>
+</p><p>music_pause(unsigned char pause);   //暂停一首歌、取消暂停继续播放
+</p><p>music_pause(1);	    //暂停 
+</p><p>music_pause(0);	    //继续播放
+</p><p>
+</p><p>sfx_play(unsigned char sound,unsigned char channel);	//设置一个指向音效开头的指针，它将自动播放
+</p><p>sfx_play(0, 0);	    //播放音效＃0，优先级＃0
+</p><p>-通道3的优先级超过2.
+</p><p>- 3> 2> 1> 0.如果2个声音效果冲突，将播放更高的优先级。
+</p><p>
+</p><p>sample_play(unsigned char sample);  //播放DMC音效
+</p><p>sample_play(0);	    //播放DMC示例＃0
+</p><p>
+</p><p>pad_poll(unsigned char pad);
+</p><p>-读取控制器
+</p><p>-通过 0或1 获取不同手柄的值
+</p><p>-每帧只能调用一次
+</p><p>pad1 = pad_poll(0); //读取控制器＃1，存储在pad1 
+</p><p>pad1 = pad_poll(1); //读取控制器＃2，存储在pad2中
+</p><p>
+</p><p>pad_trigger(unsigned char pad);	    //新按下的按钮，而不是按住的状态
+</p><p>a = pad_trigger(0);	    //取控制器＃1,仅在此帧新按下
+</p><p>b = pad_trigger(1);	    //取控制器＃2,仅在此帧新按下
+</p><p>-这实际上调用了pad_poll()   //但只返回新的按键，而不是按住的按钮
+</p><p>
+</p><p>pad_state(unsigned char pad);
+</p><p>-get last poll without polling again
+</p><p>-do pad_poll() first, every frame
+</p><p>-this is so you have a consistent value all frame
+</p><p>-can do this multiple times per frame and will still get the same info
+</p><p>pad1 = pad_state(0); // controller #1, get last poll
+</p><p>pad2 = pad_state(1); // controller #2, get last poll
+</p><p>注意：按钮定义与我使用的按钮定义相反，因为它们以向右移位而不是向左移动存储
+</p><p>
+</p><p>
+</p><p>// scrolling //
+</p><p>你预先定义了2个int（每个2个字节），ScrollX和ScrollY。
+</p><p>你需要手动将它们保持在0到0x01ff之间（y为0x01df，只有240条扫描线，而不是256条）
+</p><p>在示例代码9中，shiru执行此操作
+</p><p>–-y;
+</p><p>if(y<0) y=240*2-1;  //将Y保持在两个名称表的总高度内
+</p><p>
+</p><p>scroll(unsigned int x,unsigned int y);
+</p><p>-设置x和y滚动。可以随时执行,这些数字不会转到2005寄存器直到下一个v-blank
+</p><p>-高位更改基本名称表，寄存器2000 (在下一个v-blank)
+</p><p>-假设您已正确设置镜像，它将滚动进入下一个nametable
+</p><p>
+</p><p>scroll(scroll_X,scroll_Y);
+</p><p>*注意，我不使用这个滚动功能，但我自己的类似功能，你不需要将Y保持在0和$ 1df之间。
+</p><p>
+</p><p>split(unsigned int x,unsigned int y);
+</p><p>-waits for sprite zero hit, then changes the x scroll
+</p><p>-will only work if you have a sprite currently in the OAM at the zero position, and it’s somewhere on-screen with a non-transparent portion overlapping the non-transparent portion of a BG tile.
+</p><p>
+</p><p>-i’m not sure why it asks for y, since it doesn’t change the y scroll
+</p><p>-it’s actually very hard to do a mid-screen y scroll change, so this is probably for the best
+</p><p>-warning: all CPU time between the function call and the actual split point will be wasted!
+</p><p>-don’t use ppu_wait_frame() with this, you might have glitches
+</p><p>
+</p><p>*note I changed split in my example code to only take 1 arguement (x).
+</p><p>
+</p><p>
+</p><p>Tile banks
+</p><p>
+</p><p>-there are 2 sets of 256 tiles loaded to the ppu, ppu addresses 0-0x1fff
+</p><p>-sprites and bg can freely choose which tileset to use, or even both use the same set
+</p><p>
+</p><p>bank_spr(unsigned char n); // which set of tiles for sprites
+</p><p>
+</p><p>bank_spr(0); // use the first set of tiles
+</p><p>bank_spr(1); // use the second set of tiles
+</p><p>
+</p><p>bank_bg(unsigned char n); // which set of tiles for background
+</p><p>
+</p><p>bank_bg(0); // use the first set of tiles
+</p><p>bank_bg(1); // use the second set of tiles
+</p><p>
+</p><p>rand8(void); // get a random number 0-255
+</p><p>a = rand8(); // a is char
+</p><p>
+</p><p>rand16(void); // get a random number 0-65535
+</p><p>a = rand16(); // a is int
+</p><p>
+</p><p>set_rand(unsigned int seed); // send an int (2 bytes) to seed the rng
+</p><p>
+</p><p>-note, crt0 init code auto sets the seed to 0xfdfd
+</p><p>-you might want to use another seeding method, if randomness is important, like checking FRAME_CNT1 at the time of START pressed on title screen
+</p><p>
+</p><p><hr>
+</p><p>
+</p><p>
+</p><p>set_vram_update(unsigned char *buf);
+</p><p>-sets a pointer to an array (a VRAM update buffer, somewhere in the RAM)
+</p><p>-when rendering is ON, this is how BG updates are made
+</p><p>
+</p><p>usage…
+</p><p>set_vram_update(Some_ROM_Array); // sets a pointer to the data in ROM
+</p><p>
+</p><p>(or)
+</p><p>
+</p><p>memcpy(update_list,updateListData,sizeof(updateListData));
+</p><p>– copies data from ROM to a buffer, the buffer is called ‘update_list’
+</p><p>set_vram_update(update_list); // sets a pointer, and a flag to auto-update during the next v-blank
+</p><p>
+</p><p>also…
+</p><p>set_vram_update(NULL);
+</p><p>-to disable updates, call this function with NULL pointer
+</p><p>
+</p><p>The vram buffer should be filled like this…
+</p><p>
+</p><p>Non-sequential:
+</p><p>-non-sequential means it will set a PPU address, then write 1 byte
+</p><p>-MSB, LSB, 1 byte data, repeat
+</p><p>-sequence terminated in 0xff (NT_UPD_EOF)
+</p><p>
+</p><p>MSB = high byte of PPU address
+</p><p>LSB = low byte of PPU address
+</p><p>
+</p><p>Sequential:
+</p><p>-sequential means it will set a PPU address, then write more than 1 byte to the ppu
+</p><p>-left to right (or) top to bottom
+</p><p>-MSB|NT_UPD_HORZ, LSB, # of bytes, a list of the bytes, repeat
+</p><p>or
+</p><p>-MSB|NT_UPD_VERT, LSB, # of bytes, a list of the bytes, repeat
+</p><p>-NT_UPD_HORZ, means it will write left to right, wrapping around to the next line
+</p><p>-NT_UPD_VERT, means is will write top to bottom, but a new address needs to be set after it reaches the bottom of the screen, as it will never wrap to the next column over
+</p><p>-sequence terminated in 0xff (NT_UPD_EOF)
+</p><p>
+</p><p>#define NT_UPD_HORZ 0x40 = sequential
+</p><p>#define NT_UPD_VERT 0x80 = sequential
+</p><p>#define NT_UPD_EOF 0xff
+</p><p>
+</p><p>Example of 4 sequential writes, left to right, starting at screen position x=1,y=2
+</p><p>tile #’s are 5,6,7,8
+</p><p>{
+</p><p>MSB(NTADR_A(1,2))|NT_UPD_HORZ,
+</p><p>LSB(NTADR_A(1,2)),
+</p><p>4, // 4 writes
+</p><p>5,6,7,8, // tile #’s
+</p><p>NT_UPD_EOF
+</p><p>};
+</p><p>
+</p><p>Interestingly, it will continually write the same data, every v-blank, unless you send a NULL pointer like this…
+</p><p>set_vram_update(NULL);
+</p><p>…though, it may not make much difference.
+</p><p>The data set (aka vram buffer) must not be > 256 bytes, including the ff at the end of the data, and should not push more than…I don’t know, maybe * bytes of data to the ppu, since this happens during v-blank and not during rendering off, time is very very limited.
+</p><p>
+</p><p>
+</p><p><pre>
+</p><p>* Max v-ram changes per frame, with rendering on, before BAD THINGS start to happen…
+</p><p>
+</p><p>sequential max = 97 (no palette change this frame),
+</p><p>74 (w palette change this frame)
+</p><p>
+</p><p>non-sequential max = 40 (no palette change this frame),
+</p><p>31 (w palette change this frame)
+</p><p>
+</p><p>the buffer only needs to be…
+</p><p>3 * 40 + 1 = 121 bytes in size
+</p><p>…as it can’t push more bytes than that, during v-blank.
+</p><p>
+</p><p>(this hasn’t been tested on hardware, only FCEUX)
+</p><p></pre>
+</p><p>
+</p><p>// all following vram functions only work when display is disabled
+</p><p>
+</p><p>vram_adr(unsigned int adr);
+</p><p>-sets a PPU address
+</p><p>(sets a start point in the background for writing tiles)
+</p><p>vram_adr(NAMETABLE_A); // start at the top left of the screen
+</p><p>vram_adr(NTADR_A(x,y));
+</p><p>vram_adr(NTADR_A(5,6)); // sets a start position x=5,y=6
+</p><p>
+</p><p>vram_put(unsigned char n); // puts 1 byte there
+</p><p>-use vram_adr(); first
+</p><p>vram_put(6); // push tile # 6 to screen
+</p><p>
+</p><p>vram_fill(unsigned char n,unsigned int len); // repeat same tile * LEN
+</p><p>-use vram_adr(); first
+</p><p>-might have to use vram_inc(); first (see below)
+</p><p>vram_fill(1, 0x200); // tile # 1 pushed 512 times
+</p><p>
+</p><p>vram_inc(unsigned char n); // mode of ppu
+</p><p>vram_inc(0); // data gets pushed into vram left to right (wraping to next line)
+</p><p>vram_inc(1); // data gets pushed into vram top to bottom (only works for 1 column (30 bytes), then you have to set another address).
+</p><p>-do this BEFORE writing to the screen, if you need to change directions
+</p><p>
+</p><p>vram_read(unsigned char *dst,unsigned int size);
+</p><p>-reads a byte from vram
+</p><p>-use vram_adr(); first
+</p><p>-dst is where in RAM you will be storing this data from the ppu, size is how many bytes
+</p><p>
+</p><p>vram_read(0x300, 2); // read 2 bytes from vram, write to RAM 0x300
+</p><p>
+</p><p>NOTE, don’t read from the palette, just use the palette buffer at 0x1c0
+</p><p>
+</p><p>vram_write(unsigned char *src,unsigned int size);
+</p><p>-write some bytes to the vram
+</p><p>-use vram_adr(); first
+</p><p>-src is a pointer to the data you are writing to the ppu
+</p><p>-size is how many bytes to write
+</p><p>
+</p><p>vram_write(0x300, 2); // write 2 bytes to vram, from RAM 0x300
+</p><p>vram_write(TEXT,sizeof(TEXT)); // TEXT[] is an array of bytes to write to vram.
+</p><p>(For some reason this gave me an error, passing just an array name, had to cast to char * pointer)
+</p><p>vram_write((unsigned char*)TEXT,sizeof(TEXT));
+</p><p>
+</p><p>vram_unrle(const unsigned char *data);
+</p><p>-pass it a pointer to the RLE data, and it will push it all to the PPU.
+</p><p>-this unpacks compressed data to the vram
+</p><p>-this is what you should actually use…this is what NES screen tool outputs best.
+</p><p>vram_unrle(titleRLE);
+</p><p>
+</p><p>usage:
+</p><p>-first, disable rendering, ppu_off();
+</p><p>-set vram_inc(0) and vram_adr()
+</p><p>-wait for start of frame, with ppu_wait_nmi();
+</p><p>-call vram_unrle();
+</p><p>-then turn rendering back on, ppu_on_all()
+</p><p>-only load 1 nametable worth of data, per frame
+</p><p>
+</p><p>NOTE:
+</p><p>-nmi is turned on in init, and never comes off
+</p><p>
+</p><p>memcpy(void *dst,void *src,unsigned int len);
+</p><p>-moves data from one place to another…usually from ROM to RAM
+</p><p>
+</p><p>memcpy(update_list,updateListData,sizeof(updateListData));
+</p><p>
+</p><p>memfill(void *dst,unsigned char value,unsigned int len);
+</p><p>-fill memory with a value
+</p><p>
+</p><p>memfill(0x200, 0, 0x100);
+</p><p>-to fill 0x200-0x2ff with zero…that is 0x100 bytes worth of filling
+</p><p>
+</p><p>delay(unsigned char frames); // waits a # of frames
+</p><p>
+</p><p>delay(5); // wait 5 frames
+</p><p>
+</p><p>TECHNICAL NOTES, ON ASM BITS IN NESLIB.S:
+</p><p>-vram (besides the palette) is only updated if VRAM_UPDATE + NAME_UPD_ENABLE are set…
+</p><p>-ppu_wait_frame (or) ppu_wait_nmi, sets ‘UPDATE’
+</p><p>-set_vram_update, sets ‘ENABLE’
+</p><p>-set_vram_update(0); disables the vram ‘UPDATE’
+</p><p>-I guess you can’t set a pointer to the zero page address 0x0000, or it will never update.
+</p><p>-music only plays if FT_SONG_SPEED is set, play sets it, stop resets it, pause sets it to negative (ORA #$80), unpause clears that bit
+</p><p>
+</p></div>
+<script>
+var h1 = document.getElementsByTagName("h1");
+if(h1.length>0){
+    document.title = h1[0].innerHTML;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>NES游戏开发</title>
+    <link rel="stylesheet" href="index.css"/>
+</head>
+
+<body>
+
+<div class="main">
+<p><h1>13、向上滚动</h1>a
+</p><p>
+</p><p>向上滚动要比向右滚动难的多。如果是向下滚动，可能会很容易，因为向上滚动就像是向左滚动一样。
+</p><p>
+</p><p>只要你使用我的函数add_scroll_y() 和sub_scroll_y() 就可以解决这个问题，跳过0xf0-ff的Y值并没有太困难。我们还是需要将他们放到BG背景碰撞中，因为有一种可能是一半的显示在一个nametable中，一半是在另一个nametable中。且代码判断Y位置在0和$ef之间
+</p><p>
+</p><p>由于向上滚动后，我们从最大值的位置开始滚动，滚动后变回0.
+</p><p>
+</p><p>我不得不从后向前构造房间数组。
+</p><p>
+</p><p>const unsigned char * const Rooms[]= {
+</p><p>Room5, Room4, Room3, Room2, Room1
+</p><p>};
+</p><p>
+</p><p>通常，我用Tiled创建5个ROOM房间，并导出了5个以上的csv文件，转换为C数组，然后将它们导入到代码中。
+</p><p>
+</p><p><img src="img/13_1.png">
+</p><p>
+</p><p>经过几天的调试，终于正常了，我必须对制作像Kid Icarus，Metroid或Ice Climber等游戏的玩家给予一些应有的尊重，因为向上滚动并不容易。
+</p><p>
+</p><p><img src="img/13_2.png">
+</p><p>
+</p><p>https://github.com/nesdoug/16_Scroll_Up/blob/master/scroll_up.c
+</p><p>
+</p><p>https://github.com/nesdoug/16_Scroll_Up
+</p><p>
+</p></div>
+<script>
+var h1 = document.getElementsByTagName("h1");
+if(h1.length>0){
+    document.title = h1[0].innerHTML;
+}
+</script>
+</body>
+</html>

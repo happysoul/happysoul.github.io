@@ -1,0 +1,121 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p>//<span lang="zh-cn">标号</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 标号代表该行指令的地址,标号的出现,极大的方便了我们编写程序,我们</span></p>
+<p><span lang="zh-cn">从此不再需要记地址了,我举一个例子来说明</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; A 2000</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 2000: LDX #$00</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 2002: LDA #$00</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 2004: STA $3000,X</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 2007: CPX #$FF</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 2009: BEQ $200F</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 200B: INX</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 200C: JMP $2004</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 200F: RTS</span></p>
+<p>　</p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 
+大家应该知道,我们写上面的程序是多么艰难,还要算出下一指令的地址,在使用跳转指令时就更加不方便了.</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 我们来看看用 6502_Macroassembler &amp;Simulator 
+编写上面的程序是多么的容易</span></p>
+<p>　</p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+.ORG $2000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;定义程序开始地址为 $2000</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+.DB &quot;HELLO WORLD&quot;&nbsp;&nbsp;&nbsp; ;定义字符</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+LDX #$00</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+LDA #$00</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; L1:&nbsp;&nbsp; 
+STA $3000,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;这里L1就是标号,代表当前指令的地址</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+CPX #$FF</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+BEQ L2</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+INX</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+JMP L1</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; L2:&nbsp; 
+RTS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;这里L2也是标号,代表当前指令的地址</span></p>
+<p>　</p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 这里我们使用了两个标号,L1,L2,他们分别代表当前指令的地址,在编译的时候,编译器会算出</span></p>
+<p><span lang="zh-cn">该标号代表的地址,所以说,标号的出现,使得我们不再把大量的时间用在地址的计算上,而且在修改</span></p>
+<p><span lang="zh-cn">程序的时候也显得更加方便</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+例如,我们如果要在下面的程序中,插入一个指令,那么所有的地址都要发生变化,大家请看</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp; A 2000</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 2000: LDX #$00</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 2002: LDA #$00</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 2004: STA $3000,X</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 2007: CPX #$FF</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 2009: BEQ $200F</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 200B: INX</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 200C: JMP $2004</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 200F: RTS</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 假如我们要在地址2002那里加一指令 LDY #$00</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 那么我们整个程序是不是都要变,大家请看,红的部分代表要修改的</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; </span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; A 2000</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 2000: LDX #$00</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 2002: LDY #$00</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 200<font color="#FF0000">4</font>: LDA #$00</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 200<font color="#FF0000">6</font>: STA 
+$3000,X</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 200<font color="#FF0000">9</font>: CPX #$FF</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 200<font color="#FF0000">B</font>: BEQ $200F</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 200<font color="#FF0000">D</font>: INX</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 200<font color="#FF0000">E</font>: JMP $<font color="#FF0000">2006</font></span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 200<font color="#FF0000">11</font>: RTS</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 才加那么一个字节,就要修改怎么多,这是多么令人痛苦的事了,不过在电脑上就不一样了,要</span></p>
+<p><span lang="zh-cn">加指令,其他更本就不要变,大家看,红色的代表加进去的指令,其他指令没有变化</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+.ORG $2000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;定义程序开始地址为 $2000</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+.DB &quot;HELLO WORLD&quot;&nbsp;&nbsp;&nbsp; ;定义字符</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+LDX #$00</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+LDA #$00</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<font color="#FF0000">&nbsp;LDY #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font></span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; L1:&nbsp;&nbsp; 
+STA $3000,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;这里L1就是标号,代表当前指令的地址</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+CPX #$FF</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+BEQ L2</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+INX</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+JMP L1</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; L2:&nbsp; 
+RTS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;这里L2也是标号,代表当前指令的地址</span></p>
+<p>　</p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 看到了吧,多方便啊!</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 注意:&nbsp; ①标号不能以数字开头</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+②标号不能为指令码,例如 LDA,LDX等,否则编译器可能误认为是指令</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+③标号一定要顶格写,否则要发生编译错误</span></p>
+
+</body>
+
+</html>

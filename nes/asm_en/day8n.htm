@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>NES ASM - Day 8</title>
+</head>
+<body bgcolor="lavender">
+<h1 align="center" style="color: LightCoral; width: 100%; filter:shadow()">Day 8 - Comparing Stuff</h1>
+<pre>
+
+
+</pre>
+<h2 align="center" style="color: LightCoral;"><b>What do you mean?</b></h2>
+<p style="color: green;"><pre><b>
+	To be perfectly honest, I forgot to cover the comparison instructions in Day 6
+so I'm going to have this Day 8 just be a short one on compares.
+
+<h3 align="center" style="color: LightCoral;"><b>How?</b></h3>
+
+	There are three compare instructions:
+
+	CPX - Compare a value with X
+	CPY - Compare a value with Y
+	CMP - Compare a value with A
+	*where "value" is either a number, or a value from a memory location*
+
+Have you noticed that there's no compare instruction to compare the <i>registers</i> together?
+Weird! :)
+
+Some examples of use:
+
+	cpx #32   ; remember to put a '#' (decimal) or a '#$' (hex) before immediate
+	; numbers. (immediate==just a number, not an address)
+	cpy $2002  ; compares Y with contents of $2002
+	cmp #$20  ; compares A with 20 in hex.
+	beq IfEqual ; branches to label IfEqual, if A was equal to #$20.
+
+Compare instructions are used to set those conditions we talked about in <a href="day6n.htm">Day 6</a>,
+so that we can use the conditional jumps (BEQ, BNE, BCC, etc...).
+
+<h3 align="center" style="color: LightCoral;"><b>This Day In Review</b></h3>
+
+	Sorry about leaving this out of Day 6, I guess my mind just slipped.
+	
+	Until Next Time,
+		-Mike H a.k.a GbaGuy
+
+<center><a href="nesasm.htm">Intro</a> - <a href="day9n.htm">Day 9</a></center>
+
+
+</b></pre></p>
+
+<br />
+<br />
+
+</body>
+</html>

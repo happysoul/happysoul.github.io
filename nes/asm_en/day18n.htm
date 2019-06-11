@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>NES ASM - Day 18</title>
+</head>
+<body bgcolor="lavender">
+<h1 align="center" style="color: LightCoral; width: 100%; filter:shadow()">Day 18 - BG Scrolling</h1>
+<pre>
+
+
+</pre>
+<h2 align="center" style="color: LightCoral;"><b>How?</b></h2>
+<p style="color: green;"><pre><b>
+	I had already done some experimenting to see how exactly background scrolling
+works. It appears that (without a mapper) you can only scroll in the direction that
+you are (possibly aren't?) having mirroring (the ".inesmir 1" we always use).
+
+<h2 align="center" style="color: LightCoral;"><b>Registers?</b></h2>
+	The background scroll <i>port</i> is $2005, I call it a port instead of a
+register because, even though it takes 2 writes, those two writes aren't used as
+one big number like in other registers and do two different things.	
+
+	The first write to $2005 will be the vertical scroll and the second
+write will be the horizontal scroll (according to Fayzullin's doc).
+
+<h3 align="center" style="color: LightCoral;"><b>Some things...</b></h3>
+	Unless you set-up your cartridge (.NES file) to have the 2Kb needed to use
+all 4 Name Tables (which I don't <i>yet</i> know how to do), it seems that you can
+only scroll a certain way. If anyone knows how it scrolls vs. mirroring or how to
+use all 4 Name Tables, please <a href="/cdn-cgi/l/email-protection#3345515d564743415c5441525e5641735b5c475e525a5f1d505c5e">E-Mail</a> me.
+
+	You will know that you are possibly scrolling the wrong way if the background
+moves funky or possibly disappears (happened to me).
+
+<h3 align="center" style="color: LightCoral;"><b>No Code?</b></h3>
+	I'd like for you people to actually try and do it yourselves, if you do, feel
+free to send me some code. I know that you can do it, you have all the info you need.
+If enough people complain or even if enough people send me code, I'll put my code
+up here...
+
+	Seriously, you <b>can</b> do it. The basic things you need are:
+		1. Variables for Vertical and Horizontal scroll.
+		2. Have atleast a simple background displayed.
+		3. Handle keypad presses (up,down,left,right).
+		4. Write vert. and hori. scroll to $2005
+		
+<h3 align="center" style="color: LightCoral;"><b>This Day In Review</b></h3>
+	
+	I've decided that tomorrow will <b><i>definitely</i></b> be about loading
+up to like 64KB easily (we will use the method to load the Zelda title screen (1KB)).
+	
+	Happy Coding!,
+		-Mike H a.k.a GbaGuy
+
+<center><a href="nesasm.htm">Intro</a> - <a href="day19n.htm">Day 19</a></center>
+
+
+</b></pre></p>
+
+<br />
+<br />
+
+</body>
+</html>

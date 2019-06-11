@@ -1,0 +1,111 @@
+<html>
+<head>
+<title>NES ASM - Day 2</title>
+</head>
+<body bgcolor="lavender">
+<h1 align="center" style="color: LightCoral; width: 100%; filter:shadow()">Day 2 - A Source Code File's Structure</h1>
+<pre>
+
+
+</pre>
+<h2 align="center" style="color: LightCoral;"><b>What's Happening?</b></h2>
+<p style="color: green;"><pre><b>
+	Well, you white-belt NES programer you, today we're going to learn the structure
+a NESASM code file. Unfortunately, our assembler is very finicky about the indentation of
+our code. All labels start right at the begining of a line and everything else gets tabbed
+in once. Even though this may sound bad, it really helps with readability and understanding
+of the code, especially in big programs.
+
+<h3 align="center" style="color: LightCoral;"><b>About Banks</b></h3>
+
+	No, banks don't hold your money for you. They hold your program and all it's 
+data. There are 3 banks that we will typically use, they are:
+
+	Bank 0 - We're our code goes starting at $8000.
+
+	Bank 1 - An Interrupt Table. Important. Starts at $FFFA for us.
+
+	Bank 2 - Where we will be putting our sprite and background data.
+		 Starting at $0000.
+
+	I'm not sure how many banks there are, but it's obvious there's atleast 3.
+We will use the .bank instruction to move banks. And we'll use .org to tell the 
+assembler where we are starting from in that bank.
+
+<h3 align="center" style="color: LightCoral;"><b>The INES Header</b></h3>
+
+	The INES header comes at the beginning of every ROM file and tells the
+emulator several things. The header pieces are:
+
+	.inesprg     - tells how many program code banks there are.
+	.ineschr     - tells how many picture data banks there are.
+	.inesmir     - tells something I don't remember, but will be always 1.
+	.inesmap     - We always use Mapper 0.
+
+Our typical settings for these are:
+
+	.inesprg 1   ; one (1) bank of program code
+	.ineschr 1   ; one (1) bank of picture data
+	.inesmap 0   ; we use mapper 0
+	.inesmir 1   ; Mirror setting always 1.
+
+Those four (4) lines will be at the (almost) very beginning of EVERY code file.
+
+<h3 align="center" style="color: LightCoral;"><b>Bank 0 and .ORGing</b></h3>
+
+	We will use Bank 0 to hold our code and start it at location $8000.
+Here's how we'll do it:
+
+	.bank 0   ; bank 0.
+	.org $8000  ; goto location $8000.
+
+	; program's code would go here.
+
+That's all there is to that. Note that a semi-colon (;) means comment and the assembler
+ignores anything past the semi-colon on the line.
+
+<h3 align="center" style="color: LightCoral;"><b>Bank 1 And The 3 Interrupts</b></h3>
+
+	Instead of a long paragraph, how 'bout some yummy code:
+
+	.bank 1     ; change to bank 1
+	.org $FFFA  ; start at $FFFA
+
+	.dw 0        ; location of NMI Interrupt
+	.dw Start    ; code to run at reset, we give address of Start label that
+	; we will eventually put in bank 0
+	.dw 0        ; location of VBlank Interrupt I think. either way, we don't need
+	; it right now.
+
+	Wasn't that easy, that's ALL that goes in bank 1, simple!
+
+<h3 align="center" style="color: LightCoral;"><b>Bank 2 And Our Picture Data</b></h3>
+
+	Bank 2, we will be starting at $0000 and in it we will include our picture data
+for backgrounds and sprites. Here goes:
+
+	.bank 2        ; change to bank 2
+	.org $0000    ; start at $0000
+
+	.incbin "our.bkg"  ; INClude BINary file that will contain our background pic
+	; data.
+	.incbin "our.spr"  ; INClude BINary file that will contain our sprite pic data
+
+<h3 align="center" style="color: LightCoral;"><b>This Day In Review</b></h3>
+
+	That's really all for today. I gotta go slow, as the NES is slightly more a
+pain in the @$$ to program for than the GBA. Tomorrow, we will find out somemore stuff.
+	
+	See ya tomorrow!,
+		-Mike H a.k.a GbaGuy
+
+<center><a href="nesasm.htm">Intro</a> - <a href="day3n.htm">Day 3</a></center>
+
+
+</b></pre></p>
+
+<br />
+<br />
+
+</body>
+</html>

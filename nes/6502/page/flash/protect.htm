@@ -1,0 +1,462 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><b><font size="5">//nc1020内核保护原理</font></b></p>
+
+<p><b><font size="5">&nbsp;</font><font size="4"> 注意:这里需要你的汇编语言能力已经较强了,如果看不懂,说明你</font></b></p>
+
+<p><font size="4"><b>功底不够,先练练再来吧!</b></font></p>
+<p><font size="5"><b>&nbsp; </b></font><font size="2">我们有时候RESET后，系统显示 
+升级的选项，如图所示：</font></p>
+<p><img border="0" src="../pic/shengji.jpg" width="297" height="142"></p>
+<p>&nbsp; <font size="2">一般来说，只要内核的数据被改动后，RESET后，系统就会出现这种情况.之所以我没有在前面讲解内核区闪存的修改</font></p>
+<p><font size="2">就是因为这个原因，即使你能修改内核，但是如果不懂内核保护原理，RESET后，就出现上面的情况，所以，今天我要讲解</font></p>
+<p><font size="2">内核保护原理.</font></p>
+<p><font size="2">&nbsp; 首先我们需要找到检验内核是否被修改的程序,其实是很简单的过程，我们就从上面显示的汉字作为突破点.</font></p>
+<p><font size="2">&nbsp; 进入 NCTOOLS，输入 S C 4000 BFFF 80 A0，然后输入要查找的汉字 &quot;*升级系统程序*&quot;</font></p>
+<p><font size="2">不过没有找到，没有关系，继续 输入 S C 4000 BFFF 00 03，输入要查找的汉字&quot;*升级系统程序*&quot;</font></p>
+<p><font size="2">不过很不幸，还是没有找到，这时大家别泄气，想想还有什么地方可找呢？对了当地址0A的内容为00时，C000-DFFF也是闪存啊</font></p>
+<p><font size="2">立刻&nbsp; S C C000 DFFF 00，输入 &quot;*升级系统程序*&quot;，找到了，在地址 CA73 开始，按 中英数 
+切换到汉字模式</font></p>
+<p><font size="2">CA73：*升级系统程序* 1.经串口升级&nbsp; 2.经红外升级</font></p>
+<p>　</p>
+<p><font size="2">现在好了,因为必然有一段程序将这些汉字显示在屏幕上,所以根据经验,应该可能存在有这样的代码</font></p>
+<p><font size="2">LDA $CA73,X&nbsp; 机器码: BD 73 CA</font></p>
+<p><font size="2">查找, S H C000 DFFF 00,输入 BD 73 CA,找到了,在地址CACC有这样的代码</font></p>
+<p><font size="2">CACC: BD 73 CA 99 D4 02 BD 81</font></p>
+<p><font size="2">CAD4: CA 99 E8 02 BD 8F CA 99</font></p>
+<p><font size="2">CADC: FC 02 88 CA 10 EA 8A 48</font></p>
+<p><font size="2">CAE4: A9 00 A2 09 9D F8 03 CA </font></p>
+<p><font size="2">CAEC: D0 FA AD F8 03 29 3F 8D</font></p>
+<p><font size="2">CAF4: F8 03 68 AA A9 FF 8D 2D</font></p>
+<p><font size="2">CAFC: 04 A9 FF 8D 2E 04 00 15</font></p>
+<p><font size="2">CB04: 8A A9 00 85 C7 A9 00 8D</font></p>
+<p><font size="2">CB0C: 6E 04 8D AE 04 A5 C7 10</font></p>
+<p><font size="2">CB14: F4 29 7F 85 C7 C9 6E F0</font></p>
+<p><font size="2">CB1C: 29 C9 62 D0 E8 20 5C CE</font></p>
+<p><font size="2">CB24: F0 03 4C 9D CA A9 10 8D</font></p>
+<p><font size="2">CB2C: 00 17 A9 11 8D 02 17 A9</font></p>
+<p><font size="2">CB34: F0 8D 01 17 A9 12 8D 03</font></p>
+<p><font size="2">CB3C: 17 A9 00 8D 04 17 00 10</font></p>
+<p><font size="2">CB44: 8B 60 20 5C CE F0 03 4C</font></p>
+<p><font size="2">CB4C: 9D CA A9 B0 8D 00 17 A9</font></p>
+<p><font size="2">CB54: 00 8D 03 17 A9 11 8D 02 </font></p>
+<p><font size="2">CB5C: 17 A9 F0 8D 01 17 A9 00</font></p>
+<p><font size="2">CB64: 8D 04 17 00 10 8B 60 A9 </font></p>
+<p><font size="2">&nbsp; 现在我们将其反汇编,来让大家明白是什么意思</font></p>
+<p><font size="2">CACC: BD 73 CA&nbsp;&nbsp;&nbsp; LDA $CA73,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//读取*升级系统程序*中的汉字,发送到屏幕RAM</font></p>
+<p><font size="2">CACF: 99 D4 02&nbsp;&nbsp;&nbsp; STA $02D4,Y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font></p>
+<p><font size="2">CAD2: BD CA 81&nbsp;&nbsp;&nbsp; LDA $CA81,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//读取 &quot;1.经串口升级&quot;,发送到屏幕RAM</font></p>
+<p><font size="2">CAD5: 99 E8 02&nbsp;&nbsp;&nbsp; STA $02E8,Y</font></p>
+<p><font size="2">CAD8: BD 8F CA&nbsp;&nbsp;&nbsp; LDA $CA8D,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//读取 &quot;2.经红外升级&quot;,发送到屏幕RAM</font></p>
+<p><font size="2">CADB: 99 FC 02&nbsp;&nbsp;&nbsp; STA $02FC,Y</font></p>
+<p><font size="2">CADE: 88&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+DEY</font></p>
+<p><font size="2">CADF: CA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+DEX</font></p>
+<p><font size="2">CAE0: 10 EA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BPL $CACC</font></p>
+<p><font size="2">CAE2: 8A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+TXA</font></p>
+<p><font size="2">CAE3: 48&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+PHA</font></p>
+<p><font size="2">CAE4: A9 00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$00</font></p>
+<p><font size="2">CAE6: A2 09&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDX #$09</font></p>
+<p><font size="2">CAE8: 9D F8 03&nbsp;&nbsp;&nbsp; STA $03F8,X</font></p>
+<p><font size="2">CAEB: CA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+DEX</font></p>
+<p><font size="2">CAEC: D0 FA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BNE $CAE8</font></p>
+<p><font size="2">CAEE: AD F8 03&nbsp;&nbsp;&nbsp; LDA $03F8</font></p>
+<p><font size="2">CAF1: 29 3F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND #$3F</font></p>
+<p><font size="2">CAF3: 8D F8 03&nbsp;&nbsp;&nbsp; STA $03F8</font></p>
+<p><font size="2">CAF6: 68&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+PLA</font></p>
+<p><font size="2">CAF7: AA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+TAX</font></p>
+<p><font size="2">CAF8: A9 FF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$FF</font></p>
+<p><font size="2">CAFA: 8D 2D 04&nbsp;&nbsp;&nbsp; STA $042D</font></p>
+<p><font size="2">CAFD: A9 FF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$FF</font></p>
+<p><font size="2">CAFF: 8D 2E 04&nbsp;&nbsp;&nbsp; STA $042E</font></p>
+<p><font size="2">CB02: 00 15 8A&nbsp;&nbsp;&nbsp; INT $8A15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//看到INT $8A15,就应该知道上面的代码就是显示汉字到屏幕上用的</font></p>
+<p>　</p>
+<p><font size="2">CB05: A9 00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址C7是用户按键的扫描码,这里没有调用 INT $C008,或INT $C007</font></p>
+<p><font size="2">CB07: 85 C7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STA $C7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//数据00送地址C7</font></p>
+<p><font size="2">CB09: A9 00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//立即数00送地址046E,因为这里是无限循环,若不把数据00送046E,过5秒就死机</font></p>
+<p><font size="2">CB0B: 8D 6E 04&nbsp;&nbsp;&nbsp; STA $046E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+所以如果是无限循环,每次循环都应该加这代码</font></p>
+<p><font size="2">CB0E: 8D AE 04&nbsp;&nbsp;&nbsp; STA $04AE</font></p>
+<p><font size="2">CB11: A5 C7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA $C7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//读取地址 C7的值,若用户按了键盘,就转到地址CB15</font></p>
+<p><font size="2">CB13: 10 F4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BPL $CB09</font></p>
+<p><font size="2">CB15: 29 7F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AND #$7F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//把按键的值和7F异或送回地址C7,那么得到的就是键盘扫描码</font></p>
+<p><font size="2">CB17: 85 17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STA $C7</font></p>
+<p><font size="2">CB19: C9 6E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CMP #$6E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//用户是否 按&nbsp; 2 键?</font></p>
+<p><font size="2">CB1B: F0 29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BEQ $CB46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//若是 则转到地址CB46,执行&nbsp; 经红外升级 代码</font></p>
+<p><font size="2">CB1D: C9 62&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CMP #$62&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//若 否,那么用户是不是按 1 键?</font></p>
+<p><font size="2">CB1F: D0 E8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BNE $CB09&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//若不是,转地址CB09,继续查询用户的按键</font></p>
+<p><font size="2">CB21: 20 5C CE&nbsp;&nbsp;&nbsp; JSR $CE5C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//调用子程序CE5C,是检查电量 的子程序</font></p>
+<p><font size="2">CB24: F0 03&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BEQ $CB29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//若电量充足,则Z=1,否则Z=0,这里若电量足,程序转到地址CB29</font></p>
+<p><font size="2">CB26: 4C 9D CA&nbsp;&nbsp;&nbsp; JMP $CA9D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//若电量不足,则程序转地址CA9D,在屏幕上显示 &quot;电池电力已不足,不能做升级操作&quot;</font></p>
+<p>　</p>
+<p><font size="2">CB29: A9 10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//这是 从串口升级 的程序</font></p>
+<p><font size="2">CB2B: 8D 00 17&nbsp;&nbsp;&nbsp; STA $1700</font></p>
+<p><font size="2">CB2E: A9 11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$11</font></p>
+<p><font size="2">CB30: 8D 02 17&nbsp;&nbsp;&nbsp; STA $1702</font></p>
+<p><font size="2">CB33: A9 F0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$F0</font></p>
+<p><font size="2">CB35: 8D 01 17&nbsp;&nbsp;&nbsp; STA $1701</font></p>
+<p><font size="2">CB38: A9 12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$12</font></p>
+<p><font size="2">CB3A: 8D 03 17&nbsp;&nbsp;&nbsp; STA $1703</font></p>
+<p><font size="2">CB3D: A9 00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$00</font></p>
+<p><font size="2">CB3F: 8D 04 17&nbsp;&nbsp;&nbsp; STA $1704</font></p>
+<p><font size="2">CB42: 00 10 8B&nbsp;&nbsp;&nbsp; INT $8B10</font></p>
+<p><font size="2">CB45: 60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+RTS</font></p>
+<p>　</p>
+<p><font size="2">CB46: 20 5C CE&nbsp;&nbsp;&nbsp; JSR $CE5C&nbsp;&nbsp;&nbsp; 
+//这是 从红外升级 的开始地址</font></p>
+<p><font size="2">CB49: F0 03&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BEQ $CB4E</font></p>
+<p><font size="2">CB4B: 4C 9D CA&nbsp;&nbsp;&nbsp; JMP $CA9D</font></p>
+<p><font size="2">CB4E: A9 B0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$B0</font></p>
+<p><font size="2">CB50: 8D 00 17&nbsp;&nbsp;&nbsp; STA $1700</font></p>
+<p><font size="2">CB53: A9 00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$00</font></p>
+<p><font size="2">CB55: 8D 03 17&nbsp;&nbsp;&nbsp; STA $1703</font></p>
+<p><font size="2">CB58: A9 11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$11</font></p>
+<p><font size="2">CB5A: 8D 02 17&nbsp;&nbsp;&nbsp; STA $1702</font></p>
+<p><font size="2">CB5D: A9 F0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA $F0</font></p>
+<p><font size="2">CB5F: 8D 01 17&nbsp;&nbsp;&nbsp; STA $1701</font></p>
+<p><font size="2">CB62: A9 00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$00</font></p>
+<p><font size="2">CB64: 8D 04 17&nbsp;&nbsp;&nbsp; STA $1704</font></p>
+<p><font size="2">CB67: 00 10 8B&nbsp;&nbsp;&nbsp; INT $8B10</font></p>
+<p><font size="2">CB6A: 60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+RTS </font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 这里经过反汇编,我们有理由相信,当检查到内核被修改时,一定会调用上面的程序</font></p>
+<p><font size="2">但是我们还应该找到这段程序的最开始代码,上面的代码是不完全的,这很简单</font></p>
+<p><font size="2">只要再往前些字节就应该是了,我们按 双下箭头 ,看到这样的代码:</font></p>
+<p><font size="2">CA9C: 20 00 2E 8A A2 28 BD 94</font></p>
+<p><font size="2">CAA4: CE 9D D3 02 CA D0 F7 A9</font></p>
+<p><font size="2">CAAC: FF 8D 2D 04 A9 FF 8D 2E </font></p>
+<p><font size="2">CAB4: 04 00 15 8A A9 00 8D 6E </font></p>
+<p><font size="2">CABC: 04 A5 C7 10 F7 29 7F 85</font></p>
+<p><font size="2">CAC4: C7 00 2E 8A A2 0D A0 10</font></p>
+<p>　</p>
+<p><font size="2">我们可以继续反汇编,可能大家觉得非常疲劳了吧,不过没有办法啊,就是这样找的啊,可没有人告诉你哦!</font></p>
+<p><font size="2">我们目测,应该可以知道应该从地址CA9D开始反汇编,因为 00 2E 8A,我们是熟悉的,就是清屏的中断调用</font></p>
+<p><font size="2">所以我们就可以猜想,地址 CA9D就是入口地址了.还是先看看反汇编结果吧</font></p>
+<p><font size="2">CA9D: 00 2E 8A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INT $8A2E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//这是清屏的中断调用</font></p>
+<p><font size="2">CAA0: A2 28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+LDX #$28</font></p>
+<p><font size="2">CAA2: BD 94 CE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA $CE94,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//通过看地址CE94的内容,发现是&quot;电池电力已不足&nbsp;&nbsp;&nbsp;&nbsp; 不能作升级操作&quot;</font></p>
+<p><font size="2">CAA5: 9D D3 02&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STA $02D3,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//把汉字送屏幕RAM</font></p>
+<p><font size="2">CAA8: CA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+DEX</font></p>
+<p><font size="2">CAA9: D0 F7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+BNE $CAA2</font></p>
+<p><font size="2">CAAB: A9 FF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+LDA #$FF</font></p>
+<p><font size="2">CAAD: 8D 2D 04&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STA $042D</font></p>
+<p><font size="2">CAB0: A9 FF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+LDA #$FF</font></p>
+<p><font size="2">CAB2: 8D 2E 04&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STA $042E</font></p>
+<p><font size="2">CAB5: 00 15 8A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INT $8A15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//显示&nbsp; &quot;电池电力已不足&nbsp;&nbsp;&nbsp;&nbsp; 不能作升级操作&quot;到屏幕</font></p>
+<p><font size="2">CAB8: A9 00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+LDA #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //这是按键程序,若用户没有按键,则一直等待</font></p>
+<p><font size="2">CABA: 8D 6E 04&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STA $046E</font></p>
+<p><font size="2">CABD: A5 C7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+LDA $C7</font></p>
+<p><font size="2">CABF: 10 F7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+BPL $CAB8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //没有按键,则转地址CAB8,继续等待</font></p>
+<p><font size="2">CAC1: 29 7F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+AND #$7F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //按了键,继续执行下面的</font></p>
+<p><font size="2">CAC3: 85 C7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+STA $C7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font></p>
+<p><font size="2">CAC5: 00 2E 8A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INT $8A2E</font></p>
+<p><font size="2">CAC8: A2 0D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+LDX #$0D</font></p>
+<p><font size="2">CACA: A0 10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+LDY #$10</font></p>
+<p><font size="2">&nbsp;&nbsp; 通过反汇编,我们可以发现,主程序并不是从地址CA9D开始,我们 G CA9D 
+,发现屏幕上显示&quot;电池电力已不足&nbsp;&nbsp;&nbsp;&nbsp; 不能作升级操作&quot;</font></p>
+<p><font size="2">那说明用户按了1,2中的某个键,如果检测到电量不足,才去执行CA9D,若用户按了任意键,则执行从地址 
+CAC5开始的程序,所以</font></p>
+<p><font size="2">地址CAC5才是主程序</font></p>
+<p><font size="2">&nbsp; 好了,那么如果系统检测到内核被修改了,一定会调用地址CAC5开始的程序,我们于是可以判断存在这样的代码:</font></p>
+<p><font size="2">那就是&nbsp; JSR $CAC5 或者 JMP $CAC5,机器码 分别是 20 C5 CA,4C C5 CA</font></p>
+<p><font size="2">我们先查找 20 C5 CA,因为这个可能性大些,结果找到了,在地址C9CC</font></p>
+<p><font size="2">C9CC: 20 C5 CA 4C 94 C9 A9 FF</font></p>
+<p><font size="2">这里反汇编就是</font></p>
+<p><font size="2">C9CC: 20 C5 CA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR $CAC5 </font></p>
+<p><font size="2">C9CF: 4C 94 C9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JMP $C994</font></p>
+<p><font size="2">我们可以想象,一定是有一段条件判断代码,当满足某个条件,程序才转到地址 CAC5,但这里我们没有发现</font></p>
+<p><font size="2">我们继续 按 双下箭头 往前看,看见这样的数据:</font></p>
+<p><font size="2">C994: A9 03 85 00 AD F8 BF C9</font></p>
+<p><font size="2">C99C: 7F F0 33 20 6B CB A9 00</font></p>
+<p><font size="2">C9A4: 8D 6E 04 8D 77 04 8D AE </font></p>
+<p><font size="2">C9AC: 04 A9 2D 8D 76 04 20 B1 </font></p>
+<p><font size="2">C9B4: DD AD 62 04 10 12 AD 62</font></p>
+<p><font size="2">C9BC: 04 09 04 8D 62 04 AD BF</font></p>
+<p><font size="2">C9C4: 05 09 10 85 18 8D BF 05</font></p>
+<p><font size="2">C9CC: 20 C5 CA 4C 94 C9 </font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 我们继续反汇编,得到下面代码:</font></p>
+<p><font size="2">C994: A9 03&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$03&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//03送寄存器A</font></p>
+<p><font size="2">C996: 85 00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STA $00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//切换到 03 页码</font></p>
+<p><font size="2">C998: AD F8 BF&nbsp;&nbsp;&nbsp; LDA $BFF8&nbsp;&nbsp;&nbsp;&nbsp; 
+//读取地址BFF8的内容送寄存器A</font></p>
+<p><font size="2">C99B: C9 7F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CMP #$7F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//若地址BFF8的内容是不是等于 7F</font></p>
+<p><font size="2">C99D: F0 33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BEQ $C9D2&nbsp;&nbsp;&nbsp;&nbsp; 
+//等于7F ,程序转到地址C9D2</font></p>
+<p><font size="2">C99F: 20 6B CB&nbsp;&nbsp;&nbsp; JSR $CB6B&nbsp;&nbsp;&nbsp;&nbsp; 
+//不等于,则执行下面的程序</font></p>
+<p><font size="2">C9A2: A9 00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$00</font></p>
+<p><font size="2">C9A4: 8D 6E 04&nbsp;&nbsp;&nbsp; STA $046E</font></p>
+<p><font size="2">C9A7: 8D 77 04&nbsp;&nbsp;&nbsp; STA $0477</font></p>
+<p><font size="2">C9AA: 8D AE 04&nbsp;&nbsp;&nbsp; STA $04AE</font></p>
+<p><font size="2">C9AD: A9 2D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDA #$2D</font></p>
+<p><font size="2">C9AF: 8D 76 04&nbsp;&nbsp;&nbsp; STA $0476</font></p>
+<p><font size="2">C9B2: 20 B1 DD&nbsp;&nbsp;&nbsp; JSR $DDB1</font></p>
+<p><font size="2">C9B5: AD 62 04&nbsp;&nbsp;&nbsp; LDA $0462</font></p>
+<p><font size="2">C9B8: 10 12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BPL $C9CC</font></p>
+<p><font size="2">C9BA: AD 62 04&nbsp;&nbsp;&nbsp; LDA $0462</font></p>
+<p><font size="2">C9BD: 09 04&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORA #$04</font></p>
+<p><font size="2">C9BF: 8D 62 04&nbsp;&nbsp;&nbsp; STA $0462</font></p>
+<p><font size="2">C9C2: AD BF 05&nbsp;&nbsp;&nbsp; LDA $05BF</font></p>
+<p><font size="2">C9C5: 09 10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORA #$10</font></p>
+<p><font size="2">C9C7: 85 18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STA $18</font></p>
+<p><font size="2">C9C9: 8D BF 05&nbsp;&nbsp;&nbsp; STA $05BF</font></p>
+<p><font size="2">C9CC: 20 C5 CA&nbsp;&nbsp;&nbsp; JSR $CAC5</font></p>
+<p><font size="2">C9CF: 4C 94 C9&nbsp;&nbsp;&nbsp; JMP $C994</font></p>
+<p>　</p>
+<p><font size="2">这里我们发现,若03 页码 的地址BFF8 的内容不等于 7F,那么就会出现要求升级的画面,如果等于 7F</font></p>
+<p><font size="2">程序就转到地址C9D2 开始执行那里的程序.我们这里应该清楚,内核被修改了的检测程序应该就从地址C9D2开始</font></p>
+<p><font size="2">为什么呢?因为检测03页码地址BFF0的内容并不能检查出内核是否被修改,所以我们转到地址C9D2开始分析那里代码</font></p>
+<p><font size="2">C9D2: A9 FF 8D 0A 17 8D 0B 17</font></p>
+<p><font size="2">C9DA: A9 01 8D 04 17 AD 04 17</font></p>
+<p><font size="2">C9E2: 85 00 A9 00 85 D2 A9 40</font></p>
+<p><font size="2">C9EA: 85 D3 A9 00 85 80 A9 80</font></p>
+<p><font size="2">C9F2: 85 81 20 23 CC EE 04 17</font></p>
+<p><font size="2">C9FA: AD 04 17 C9 03 90 DE A9</font></p>
+<p><font size="2">CA02: 03 85 00 A9 00 85 D2 A9 </font></p>
+<p><font size="2">CA0A: 40 85 D3 A9 F0 85 80 A9</font></p>
+<p><font size="2">CA12: 7F 85 18 20 23 CC A9 0F</font></p>
+<p><font size="2">CA1A: 85 00 A9 00 85 D2 A9 80</font></p>
+<p><font size="2">CA22: 85 D3 A9 00 85 80 A9 40</font></p>
+<p><font size="2">CA2A: 85 81 20 23 CC A9 03 85</font></p>
+<p><font size="2">CA32: 00 AD F0 BF 49 FF CD 0A</font></p>
+<p><font size="2">CA3A: 17 D0 0B AD F1 BF 49 FF</font></p>
+<p><font size="2">CA42: CD 0B 17 D0 01 60 AD BF</font></p>
+<p><font size="2">CA4A: 05 29 FB 85 18 A9 1F 85</font></p>
+<p><font size="2">CA52: 57 A9 00 85 58 A9 F8 85</font></p>
+<p><font size="2">CA5A: 59 A9 0F 85 5A A9 00 85</font></p>
+<p><font size="2">CA62: 54 00 0F C0 AD BF 05 09</font></p>
+<p><font size="2">CA6A: 04 85 18 8D BF 05 4C 94</font></p>
+<p><font size="2">CA72: C9 2A C9 FD BC B6 CF B5</font></p>
+<p><font size="2">&nbsp; 哎呀,我都感觉很累了,不过马上就完了,大家撑着啊,马上就完了.</font></p>
+<p><font size="2">C9D2: A9 FF&nbsp;&nbsp;&nbsp;&nbsp; LDA #$FF</font></p>
+<p><font size="2">C9D4: 8D 0A 17&nbsp; STA $170A</font></p>
+<p><font size="2">C9D7: 8D 0B 17&nbsp; STA $170B</font></p>
+<p>　</p>
+<p><font size="2">C9DA: A9 01&nbsp;&nbsp;&nbsp;&nbsp; LDA #$01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//这段是检查 01-02页码的地址4000-BFFF的数据</font></p>
+<p><font size="2">C9DC: 8D 04 17&nbsp; STA $1704</font></p>
+<p><font size="2">C9DF: AD 04 17&nbsp; LDA $1704</font></p>
+<p><font size="2">C9E2: 85 00&nbsp;&nbsp;&nbsp;&nbsp; STA $00</font></p>
+<p><font size="2">C9E4: A9 00&nbsp;&nbsp;&nbsp;&nbsp; LDA #$00</font></p>
+<p><font size="2">C9E6: 85 D2&nbsp;&nbsp;&nbsp;&nbsp; STA $D2</font></p>
+<p><font size="2">C9E8: A9 40&nbsp;&nbsp;&nbsp;&nbsp; LDA #$40</font></p>
+<p><font size="2">C9EA: 85 D3&nbsp;&nbsp;&nbsp;&nbsp; STA $D3</font></p>
+<p><font size="2">C9EC: A9 00&nbsp;&nbsp;&nbsp;&nbsp; LDA #$00</font></p>
+<p><font size="2">C9EE: 85 80&nbsp;&nbsp;&nbsp;&nbsp; STA $80</font></p>
+<p><font size="2">C9F0: A9 80&nbsp;&nbsp;&nbsp;&nbsp; LDA #$80</font></p>
+<p><font size="2">C9F2: 85 81&nbsp;&nbsp;&nbsp;&nbsp; STA $81</font></p>
+<p><font size="2">C9F4: 20 23 CC&nbsp; JSR $CC23</font></p>
+<p><font size="2">C9F7: EE 04 17&nbsp; INC $1704</font></p>
+<p><font size="2">C9FA: AD 04 17&nbsp; LDA $1704</font></p>
+<p><font size="2">C9FD: C9 03&nbsp;&nbsp;&nbsp;&nbsp; CMP #$03</font></p>
+<p><font size="2">C9FF: 90 DE&nbsp;&nbsp;&nbsp;&nbsp; BCC $C9DF</font></p>
+<p>　</p>
+<p><font size="2">CA01: A9 03&nbsp;&nbsp;&nbsp;&nbsp; LDA #$03&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//这段是检查 03页码的地址4000-BFEF的数据</font></p>
+<p><font size="2">CA03: 85 00&nbsp;&nbsp;&nbsp;&nbsp; STA $00</font></p>
+<p><font size="2">CA05: A9 00&nbsp;&nbsp;&nbsp;&nbsp; LDA #$00</font></p>
+<p><font size="2">CA07: 85 D2&nbsp;&nbsp;&nbsp;&nbsp; STA $D2</font></p>
+<p><font size="2">CA09: A9 40&nbsp;&nbsp;&nbsp;&nbsp; LDA #$40</font></p>
+<p><font size="2">CA0B: 85 D3&nbsp;&nbsp;&nbsp;&nbsp; STA $D3</font></p>
+<p><font size="2">CA0D: A9 F0&nbsp;&nbsp;&nbsp;&nbsp; LDA #$F0</font></p>
+<p><font size="2">CA0F: 85 80&nbsp;&nbsp;&nbsp;&nbsp; STA $80</font></p>
+<p><font size="2">CA11: A9 7F&nbsp;&nbsp;&nbsp;&nbsp; LDA #$7F</font></p>
+<p><font size="2">CA13: 85 81&nbsp;&nbsp;&nbsp;&nbsp; STA $81</font></p>
+<p><font size="2">CA15: 20 23 CC&nbsp; JSR $CC23</font></p>
+<p>　</p>
+<p><font size="2">CA18: A9 0F&nbsp;&nbsp;&nbsp;&nbsp; LDA #$0F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//这段是检查 0F页码的地址8000-BFEF的数据</font></p>
+<p><font size="2">CA1A: 85 00&nbsp;&nbsp;&nbsp;&nbsp; STA $00</font></p>
+<p><font size="2">CA1C: A9 00&nbsp;&nbsp;&nbsp;&nbsp; LDA #$00</font></p>
+<p><font size="2">CA1E: 85 D2&nbsp;&nbsp;&nbsp;&nbsp; STA $D2</font></p>
+<p><font size="2">CA20: A9 80&nbsp;&nbsp;&nbsp;&nbsp; LDA #$80</font></p>
+<p><font size="2">CA22: 85 D3&nbsp;&nbsp;&nbsp;&nbsp; STA $D3</font></p>
+<p><font size="2">CA24: A9 00&nbsp;&nbsp;&nbsp;&nbsp; LDA #$00</font></p>
+<p><font size="2">CA26: 85 80&nbsp;&nbsp;&nbsp;&nbsp; STA $80</font></p>
+<p><font size="2">CA28: A9 40&nbsp;&nbsp;&nbsp;&nbsp; LDA #$40</font></p>
+<p><font size="2">CA2A: 85 81&nbsp;&nbsp;&nbsp;&nbsp; STA $81</font></p>
+<p><font size="2">CA2C: 20 23 CC&nbsp; JSR $CC23</font></p>
+<p>　</p>
+<p><font size="2">CA2F: A9 03&nbsp;&nbsp;&nbsp;&nbsp; LDA #$03</font></p>
+<p><font size="2">CA31: 85 00&nbsp;&nbsp;&nbsp;&nbsp; STA $00</font></p>
+<p><font size="2">CA33: AD F0 BF&nbsp; LDA $BFF0</font></p>
+<p><font size="2">CA36: 49 FF&nbsp;&nbsp;&nbsp;&nbsp; EOR #$FF</font></p>
+<p><font size="2">CA38: CD 0A 17&nbsp; CMP $170A</font></p>
+<p><font size="2">CA3B: D0 0B&nbsp;&nbsp;&nbsp;&nbsp; BNE $CA48</font></p>
+<p><font size="2">CA3D: AD F1 BF&nbsp; LDA $BFF1</font></p>
+<p><font size="2">CA40: 49 FF&nbsp;&nbsp;&nbsp;&nbsp; EOR #$FF</font></p>
+<p><font size="2">CA42: CD 0B 17&nbsp; CMP $170B</font></p>
+<p><font size="2">CA45: D0 01&nbsp;&nbsp;&nbsp;&nbsp; BNE $CA48</font></p>
+<p><font size="2">CA47: 60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RTS</font></p>
+<p><font size="2">CA48: ......&nbsp;&nbsp;&nbsp;&nbsp; 因为下面的代码和主题那样什么关系</font></p>
+<p><b><font size="2">在上面的程序里,频繁的调用了子程序 CC23,这就是最关键的算法</font></b></p>
+<p><font size="2">我们也将地址CC23反汇编如下:</font></p>
+<p><font size="2">CC23:SEI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//设置中断标志</font></p>
+<p><font size="2">CC24:CLC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//进位标志C = 0</font></p>
+<p><font size="2">CC25:LDA $80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址80的内容 与 地址 D2 的内容相加，结果放 地址 80</font></p>
+<p><font size="2">CC27:ADC $D2 </font></p>
+<p><font size="2">CC29:STA $80</font></p>
+<p><font size="2">CC2B:LDA $81&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址81的内容 与 地址D3的内容相加， 结果放地址 81</font></p>
+<p><font size="2">CC2D:ADC $D3</font></p>
+<p><font size="2">CC2F:STA $81</font></p>
+<p><font size="2">CC31:LDY #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器Y的内容为 0</font></p>
+<p><font size="2">CC33:LDA ($D2),Y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//以地址 D2的内容为 低8位，地址 D3的内容为高8位，组成一个16位地址，读取该地址内容送 A</font></p>
+<p><font size="2">CC35:EOR $170A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//把寄存器 A 的内容 和地址 170A 的内容 进行 逻辑异或 运算</font></p>
+<p><font size="2">CC38:TAX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//把运算的结果送 寄存器X</font></p>
+<p><font size="2">CC39:LDA $170B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//把地址170B的内容送寄存器 A</font></p>
+<p><font size="2">CC3C:EOR $CD5C,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器A的内容和 地址 [CD5C+X]的内容 进行逻辑异或 运算</font></p>
+<p><font size="2">CC3F:STA $170A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//然后把异或 的结果送地址 170A</font></p>
+<p><font size="2">CC42:LDA $CC5C,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//读取地址 [CC5C+X]的内容 到寄存器A</font></p>
+<p><font size="2">CC45:STA $170B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//寄存器A的内容送地址 170B</font></p>
+<p><font size="2">CC48:INC $D2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址D2的内容加1</font></p>
+<p><font size="2">CC4A:BNE $CC4E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font></p>
+<p><font size="2">CC4C:INC D3</font></p>
+<p><font size="2">CC4E:LDA $D3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址D3 的内容和 地址 81的内容比较，不相同就转 CC58，继续</font></p>
+<p><font size="2">CC50:CMP $81&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font></p>
+<p><font size="2">CC52:BNE $CC58 </font></p>
+<p><font size="2">CC54:LDA $D2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址 D2的内容和地址80的内容比较，小于就转 CC33</font></p>
+<p><font size="2">CC56:CMP $80</font></p>
+<p><font size="2">CC58:BCC $CC33&nbsp; </font></p>
+<p><font size="2">CC5A:CLI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//这里表示已经全部结束</font></p>
+<p><font size="2">CC5B:RTS</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 子程序 CC23是整个校验程序的算法，我来分析一下其算法：</font></p>
+<p><font size="2">&nbsp;1.&nbsp; 地址80 的内容和地址 D2的内容相加,结果送地址 80,地址81的内容和地址 
+D3的内容相加,结果送地址81</font></p>
+<p><font size="2">这样,地址 D2,D3就是要检查的地址的 开始地址</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 地址 80,81就是要检查的地址的 结束地址 - 1</font></p>
+<p><font size="2">比如 开始时 (D2) = 00, (D3) = 40, (80) = 00, (81) = 
+80,那么经过这样运算,结果是这样的:</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+(D2) = 00, (D3) = 40, (80) = 00, (81) = C0,</font></p>
+<p><font size="2">那么可见检查的地址范围是 4000-BFFF,即检查整个闪存,见下面程序</font></p>
+<p><font size="2">CC25:LDA $80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址80的内容 与 地址 D2 的内容相加，结果放 地址 80</font></p>
+<p><font size="2">CC27:ADC $D2 </font></p>
+<p><font size="2">CC29:STA $80</font></p>
+<p><font size="2">CC2B:LDA $81&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址81的内容 与 地址D3的内容相加， 结果放地址 81</font></p>
+<p><font size="2">CC2D:ADC $D3</font></p>
+<p><font size="2">CC2F:STA $81</font></p>
+<p><font size="2">2.逐个读取 地址4000-BFFF的内容,和地址 170A的内容进行逻辑异或运算,结果 送 寄存器 X</font></p>
+<p><font size="2">3.把地址 170B 的内容和 地址[CD5C+X)的内容进行逻辑异或运算,结果送地址 170A</font></p>
+<p><font size="2">4.读取 地址[CC5C+X]的内容送地址 170B</font></p>
+<p><font size="2">5.一直循环这样的过程,直到检查完毕</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 检查数据是否被修改的算法就是这样,那么最后是如何检查的呢?请看下面的程序:</font></p>
+<p><font size="2">CA2F: A9 03&nbsp;&nbsp;&nbsp;&nbsp; LDA #$03&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//03送寄存器A</font></p>
+<p><font size="2">CA31: 85 00&nbsp;&nbsp;&nbsp;&nbsp; STA $00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//切换到03页码</font></p>
+<p><font size="2">CA33: AD F0 BF&nbsp; LDA $BFF0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//03页码的地址 BFF0的内容和 FF 进行异或</font></p>
+<p><font size="2">CA36: 49 FF&nbsp;&nbsp;&nbsp;&nbsp; EOR #$FF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font></p>
+<p><font size="2">CA38: CD 0A 17&nbsp; CMP $170A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//异或的结果和地址 170A的内容比较</font></p>
+<p><font size="2">CA3B: D0 0B&nbsp;&nbsp;&nbsp;&nbsp; BNE $CA48&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//不同转CA48,我们&nbsp; G CA48,出现 要求你升级的画面</font></p>
+<p><font size="2">CA3D: AD F1 BF&nbsp; LDA $BFF1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//地址BFF1的内容和 FF 进行异或运算</font></p>
+<p><font size="2">CA40: 49 FF&nbsp;&nbsp;&nbsp;&nbsp; EOR #$FF</font></p>
+<p><font size="2">CA42: CD 0B 17&nbsp; CMP $170B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//结果和地址&nbsp; 170B 比较</font></p>
+<p><font size="2">CA45: D0 01&nbsp;&nbsp;&nbsp;&nbsp; BNE $CA48&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//不同转CA48</font></p>
+<p><font size="2">CA47: 60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RTS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//相同就结束</font></p>
+<p><font size="2">CA48: ......&nbsp;&nbsp;&nbsp;&nbsp; 因为下面的代码和主题那样什么关系</font></p>
+<p>　</p>
+<p><font size="2">&nbsp; 我们于是可以知道,最后面 是切换到 03 页码,读取地址BFF0的内容,和 FF 异或,然后和地址 
+170A比较</font></p>
+<p><font size="2">如果不同,说明内核被修改了,如果相同,还要读取地址 BFF1 的内容,和 FF 异或,再和地址 170B 的内容比较</font></p>
+<p><font size="2">如果相同,说明内核没有被修改,那么RESET 成功.</font></p>
+<p><font size="2">&nbsp; 这里要注意的是,该段检查内核被修改的地址范围如下:</font></p>
+<p><font size="2">&nbsp; 01-02页码 4000-BFFF</font></p>
+<p><font size="2">&nbsp; 03页码&nbsp;&nbsp;&nbsp; 4000-BFF0&nbsp;&nbsp; 注意这里不是BFFF</font></p>
+<p><font size="2">&nbsp; 0F页码&nbsp;&nbsp;&nbsp; 8000-BFFF</font></p>
+<p><font size="2">&nbsp; </font></p>
+<p><font size="2">&nbsp; 现在我们豁然开朗了,我们只要在修改了内核后,同样进行这样的检查运算,最后,把地址 170A的内容和 FF 进行 
+异或,保存在</font></p>
+<p><font size="2">03 页码的地址 BFF0,把地址 170B 的内容和 FF 进行 异或,结果保存在03 页码的地址BFF1 就可以了.</font></p>
+<p><font size="2">&nbsp; 这段检查内核被修改的算法,叫CRC32算法,它的全称叫 &quot;Cyclic Redundancy 
+Check&quot;,中文名字: 循环冗余校验码</font></p>
+<p><font size="2">该算法主要就是保证数据的完整性,比如 现在的压缩软件,在压缩数据的时候,应该也会对 数据进行CRC校验,然后把校验值放在某个地址</font></p>
+<p><font size="2">当解压缩后,就再次对数据进行 CRC校验,把校验值和以前的比较,如果不同,说明数据已经被破坏.</font></p>
+<p><font size="2">&nbsp;&nbsp; 本节内容比较复杂, 如果大家有什么不懂的,可以 EMAIL 我, syj22@163.net</font></p>
+
+</body>
+
+</html>

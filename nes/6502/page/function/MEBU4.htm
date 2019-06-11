@@ -1,0 +1,52 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p>//系统菜单D</p>
+<p>&nbsp; 实现下面的菜单</p>
+<p><img border="0" src="../pic/menuD.jpg" width="426" height="188"></p>
+<p>&nbsp; 注意,实现的只是右边的那菜单</p>
+<p>&nbsp; 中断调用: INT $C312</p>
+<p>&nbsp; 入口参数: 寄存器X 放参数表地址低8位</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 寄存器Y 
+放参数表地址高8位</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 寄存器 A 的内容 
+= 03</p>
+<p>　</p>
+<p>&nbsp; 参数表定义: </p>
+<p>&nbsp; 偏移 00: <b>80</b></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 01:菜单项文字内容 开始地址 低8位</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 02:菜单项文字内容 开始地址 高8位</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 03:菜单在 X 轴 位置</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 04:菜单在 Y 轴 位置</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 05:菜单项字节数 (如果显示是4个汉字,这里就是08,每个菜单项大小必须一样)</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 06:菜单宽度, 04&nbsp; 代表显示两个菜单项,06 代表显示 
+3个菜单项 ...</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 07: 立即数 02 所在地址低8位</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 08: 立即数 02 所在地址高8位&nbsp; </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 09: 执行菜单项开始地址低8位</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0A: 执行菜单项开始地址高8位</p>
+<p>　</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 说明: 每个菜单项文字内容 后 要加 FF</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 立即数 
+02在什么地址,由你自己选择,但你最好在参数表的最后偏移 0B,然后偏移 07,08就写这个地址</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 执行菜单项开始地址是这样定义:</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+AAAABBBBCCCCDDDDEEEEFFFF......</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AAAA 是第一个菜单项执行地址</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BBBB 是第二个菜单项执行地址</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...... </p>
+
+<p>　</p>
+
+</body>
+
+</html>

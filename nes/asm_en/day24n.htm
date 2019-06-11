@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>NES ASM - Day 24</title>
+</head>
+<body bgcolor="lavender">
+<h1 align="center" style="color: LightCoral; width: 100%; filter:shadow()">Day 24 - Full Byte of Keys</h1>
+<pre>
+
+
+</pre>
+<h2 align="center" style="color: LightCoral;"><b>Full Byte of Keys</b></h2>
+<p style="color: green;"><pre><b>
+<p style="color: red;">NOTE: I don't know if this code works or not. I have not had a chance to test it yet.</p>
+
+	Someone emailed me with this question. If I understood the email correctly, this is what
+he wanted to know.
+
+<h2 align="center" style="color: LightCoral;"><b>The Code</b></h2>
+	This following code will assume you've already strobed/reset $4016:
+
+; after code is done, key will be in A
+;--CODE START--;
+ReadKeyByte:
+	ldx #8
+loopKeybyte:
+	ora $4016
+	asl
+	dex
+	bne loopKeybyte
+;--CODE END--;
+
+<h3 align="center" style="color: LightCoral;"><b>This Day In Review</b></h3>
+
+	My appologies to the person who emailed me about this, I had this file sitting around
+for some time. This file (if I haven't figured out if the code works yet) is part of my new policy
+of putting up things even if tests aren't done or are inconclusive.
+
+	Greetings 1337 Person!,
+		-Mike H a.k.a GbaGuy
+
+<center><a href="nesasm.htm">Intro</a> - <a href="day25n.htm">Day 25</a></center>
+
+
+</b></pre></p>
+
+<br />
+<br />
+
+</body>
+</html>

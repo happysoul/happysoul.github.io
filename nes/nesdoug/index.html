@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>NES游戏开发</title>
+    <link rel="stylesheet" href="index.css"/>
+</head>
+<body>
+<div class="main">
+<p>
+</p><p><h1>用C语言开发NES游戏</h1>
+</p><p>作者网站更新日期 2018年9月
+</p><p>翻译日期从2018年11月底开始逐步翻译，基于浏览器的翻译，重要地方逐句对比原和译文，有时候会加入些个人见解，让文字变得能像是句人话。
+</p><p>作者github地址: <a href="https://github.com/nesdoug">https://github.com/nesdoug</a>
+</p><p>作者的网站：<a href="https://nesdoug.com">nesdoug</a>
+</p><p>CC65及工程打包下载地址：<a href="CC65.zip">点我下载(11MB)</a>包含CC65-win32环境 和 github上的27个工程
+</p><p><hr>
+</p><p><pre>
+</p><p><a href="00.html">简介</a>
+</p><p><a href="000.html">准备工作</a>
+</p><p><a href="0000.html">CC65如何工作</a>
+</p><p>&nbsp;
+</p><p><a href="01.html">01、第一个程序</a>
+</p><p><a href="02.html">02、v-blank是什么</a>
+</p><p><a href="03.html">03、VRAM缓冲区</a>
+</p><p><a href="04.html">04、完整的背景</a>
+</p><p><a href="05.html">05、调色板</a>
+</p><p><a href="06.html">06、精灵</a>
+</p><p><a href="07.html">07、控制器（和精灵碰撞）</a>
+</p><p><a href="08.html">08、背景、碰撞</a>
+</p><p><a href="09.html">09、滚动</a>
+</p><p><a href="10.html">10、游戏循环</a>
+</p><p><a href="11.html">11、Metatiles 图块</a>
+</p><p><a href="12.html">12、向右滚动</a>
+</p><p><a href="13.html">13、向上滚动</a>
+</p><p><a href="14.html">14、游戏平台</a>
+</p><p><a href="15.html">15、音乐</a>
+</p><p><a href="16.html">16、声音效果</a>
+</p><p><a href="17.html">17、DPCM声音</a>
+</p><p><a href="18.html">18、零精灵</a>
+</p><p><a href="19.html">19、更多的东西，绘制地图</a>
+</p><p><a href="20.html">20、再次开发游戏平台</a>
+</p><p><a href="21.html">21、成品游戏</a>
+</p><p>&nbsp;
+</p><p><a href="91.html">附录，neslib库</a>
+</p><p><a href="92.html">附录，nesdoug库</a>
+</p><p><a href="93.html">下载，免费游戏</a>
+</p><p><a href="94.html">链接和杂项</a>
+</p><p><a href="95.html">ASM Basics (6502)</a>
+</p><p></pre>
+</p><p>
+</p><p><pre>
+</p><p>特殊名词解释：
+</p><p>sprite		精灵
+</p><p>sprite zero	0号精灵
+</p><p>tiled		图块、贴图
+</p><p>tiledset	图块集
+</p><p>metasprite	组合精灵(指由多个tiled组成的一个精灵，像超级玛丽吃蘑菇后的人)
+</p><p>nametable	命名表(0,1,2,3通常会因为横纵镜像导致相同，也有类似RPG的游戏使用卡带RAM内存使用4个命名表)
+</p><p></pre>
+</p><p><hr>
+</p><p><center>CC65游戏开发</center>
+</p></div>
+<script>
+var h1 = document.getElementsByTagName("h1");
+if(h1.length>0){
+    document.title = h1[0].innerHTML;
+}
+</script>
+</body>
+</html>

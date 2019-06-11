@@ -1,0 +1,149 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p>//内核区闪存的擦除</p>
+<p>&nbsp;&nbsp; <font size="2">
+对于想修改NC1020的朋友来说,已经掌握了内核保护原理,最想知道的事莫过于如何修改内核闪存了,不过要想修改</font></p>
+<p><font size="2">内核的闪存,必须先知道如何擦除内核的闪存了,现在我就向大家介绍方法.</font></p>
+<p><font size="2">&nbsp; 由于前面已经讲了非内核区闪存的擦除,我这里就把不同点给大家列出,其他的完全和前面非内核区的一样.</font></p>
+<p><font size="2">&nbsp; 1.在 擦除的最前 加这段代码: </font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; LDA #$00</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; STA $18</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 最后擦除完毕,加这代码:</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; LDA #$1C</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; STA $18</font></p>
+<p><font size="2">&nbsp; 2.代码要变了,请看表:</font></p>
+<p><font size="2">表1:</font></p>
+<table border="0" cellspacing="1" width="247" height="256">
+  <tr>
+    <td width="96" height="16"><font size="2">非内核区</font></td>
+    <td width="144" height="16"><font size="2">内核区</font></td>
+  </tr>
+  <tr>
+    <td width="96" height="230"><font size="2">&nbsp; LDA #$F0&nbsp;&nbsp;&nbsp; </font>
+<p><font size="2">&nbsp; STA $8000 </font></p>
+<p><font size="2">&nbsp; LDA #$AA</font></p>
+<p><font size="2">&nbsp; STA $5555</font></p>
+<p><font size="2">&nbsp; LDA #$55</font></p>
+<p><font size="2">&nbsp; STA $AAAA</font></p>
+<p><font size="2">&nbsp; LDA #$80</font></p>
+<p><font size="2">&nbsp;  STA $5555</font></p>
+<p><font size="2">&nbsp;  LDA #$AA</font></p>
+<p><font size="2">&nbsp;  STA $5555</font></p>
+<p><font size="2">&nbsp;  LDA #$55</font></p>
+<p><font size="2">&nbsp;  STA $AAAA</font></p>
+    <p>　</td>
+    <td width="144" height="230"><font size="2">&nbsp; LDA #$AA</font><p><font size="2">&nbsp; 
+    STA $D555</font></p>
+<p><font size="2">&nbsp; LDA #$55</font></p>
+<p><font size="2">&nbsp; STA $AAAA</font></p>
+<p><font size="2">&nbsp; LDA #$80</font></p>
+<p><font size="2">&nbsp;  STA $D555</font></p>
+<p><font size="2">&nbsp;  LDA #$AA</font></p>
+<p><font size="2">&nbsp;  STA $D555</font></p>
+<p><font size="2">&nbsp;  LDA #$55</font></p>
+<p><font size="2">&nbsp;  STA $AAAA</font></p>
+    <p>　</p>
+    <p>　</td>
+  </tr>
+</table>
+<p><font size="2">表2:</font></p>
+<table border="0" cellspacing="1" width="31%" height="211">
+  <tr>
+    <td width="53%" height="13"><font size="2">非内核区</font></td>
+    <td width="47%" height="13"><font size="2">内核区</font></td>
+  </tr>
+  <tr>
+    <td width="53%" height="192"><font size="2">&nbsp; 2038:LDA $8000&nbsp;&nbsp;&nbsp; </font>
+<p><font size="2">&nbsp; 203B:AND #$88</font></p>
+<p><font size="2">&nbsp; 203D:CMP #$88</font></p>
+<p><font size="2">&nbsp; <b>203F:BNE $2038&nbsp;&nbsp; </b></font></p>
+<p><font size="2">&nbsp; 2041:LDA #$F0</font></p>
+<p><font size="2">&nbsp; 2043:STA $8000</font></p>
+    <p>　</td>
+    <td width="47%" height="192"><font size="2">&nbsp; 2038:LDA $C000&nbsp;&nbsp;&nbsp; </font>
+<p><font size="2">&nbsp; 203B:AND #$88</font></p>
+<p><font size="2">&nbsp; 203D:CMP #$88</font></p>
+<p><font size="2">&nbsp; <b>203F:BNE $2038&nbsp;&nbsp; </b></font></p>
+<p><font size="2">&nbsp; 2041:LDA #$F0</font></p>
+<p><font size="2">&nbsp; 2043:STA $C000</font></p>
+    <p>　</td>
+  </tr>
+</table>
+<p><font size="2">&nbsp; 怕大家还是搞不清楚,我们还是举个例子吧</font></p>
+<p><font size="2">&nbsp; 例: 擦除 03 页码的 B000-B7FF,因为这段地址全是 
+FF,擦除了后对系统没有影响,如果你想验证你是否真的擦除</font></p>
+<p><font size="2">你可以先往里面写入几个字节,然后再擦除,我们这里就不写入字节了.</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; A 2000</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2000:SEI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//设置中断</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2001:LDA #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//最关键一段,一定要把 00 送地址 18</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2003:STA $18&nbsp; </font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2005:LDA $00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//保护地址00 0D 0A的内容进栈</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2007:PHA</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2008:LDA $0A</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 200A:PHA</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 200B:LDA $0D</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 200D:PHA</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 200E:LDA $0A</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2010:AND #$7F</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2012:STA $0A</font></p>
+<p>　</p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2014:LDA #$03&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//切换到 03 页码</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2016:STA $00</font></p>
+<p><font size="2">&nbsp;&nbsp; </font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2018:LDA #$AA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//擦除闪存的代码,固定不变的</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 201A:STA $D555</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 201D:LDA #$55</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 201F:STA $AAAA</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2022:LDA #$80</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2024:STA $D555</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2027:LDA #$AA</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2029:STA $D555</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 202C:LDA #$55</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 202E:STA $AAAA</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; </font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2031:LDA #$30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//把 30 送闪存块头地址,这里是擦除B000-B7FF,所以是 B000</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2033:STA $B000</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; </font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2036:LDA $C000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//这里也是固定的,注意和擦除 非闪存区 的不同</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2039:AND #$88</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 203B:CMP #$88</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 203D:BNE $2036</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 203F:LDA #$F0</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2041:STA $C000</font></p>
+<p>　</p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2044:LDA #$1C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//擦除完毕,把 1C 送地址 18</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2046:STA $18</font></p>
+<p>　</p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2048:CLI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//恢复被保护的数据</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2049:PLA</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 204A:STA $0D</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 204C:PLA</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 204D:STA $0A</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 204F:PLA</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2050:STA $00</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 2052:RTS</font></p>
+<p>　</p>
+<p><font size="2">注:上面的程序在 NC1020的NCTOOLS中通过.</font></p>
+
+</body>
+
+</html>

@@ -1,0 +1,234 @@
+<html>
+<head>
+<title>NES ASM - Day 14</title>
+</head>
+<body bgcolor="lavender">
+<h1 align="center" style="color: LightCoral; width: 100%; filter:shadow()">Day 14 - Sound Channels 1-3</h1>
+<pre>
+
+
+</pre>
+<h2 align="center" style="color: LightCoral;"><b>Intro</b></h2>
+<p style="color: green;"><pre><b>
+	Yep, sound. It's actually not that hard to make the NES output a sound. One can
+make a simple (perhaps ugly) sound by just messing with the necessary mem. regs and
+turning on the channel in $4015.
+
+	Please note that this pretty much just a rewording of <a href="http://nesdev.parodius.com/NESSOUND.txt">Brad Taylor's Sound Doc</a>
+in more words that will, hopefully, make it a small bit easier to understand.
+
+	So please read that doc a few times and then come back. Don't worry, this
+isn't going anywhere! ;)
+
+	One last thing before we begin, bits are <u><i>always</i></u> numbered from
+#0 on the right and #7 on the far left.
+
+<h3 align="center" style="color: LightCoral;"><b>Square Wave/Channel #1</b></h3>
+
+	I'm not sure what the technical description of a square wave is, but it probably
+(based on the name) looks something like this: _|-|_|-|_ assuming the |s are shorter.
+
+	The Square Wave Channel 1 has the following features:
+
+	1) 54.6 Hz to 12.4 KHz in frequency .
+	2) Frequency sweep or constant tone .
+	3) output duty cycle adjustment (anyone have any idea what this means?) .
+
+The easiest thing to do is get a constant tone. The second hardest is actually having
+control over the frequency, the most hardest is the frequency sweep as it took me
+several tries to get to work. Also, please note that I use 2 emulators for code testing
+FCEU (FCE Ultra) and Rew if it works on either one, I consider the code "working".
+
+The registers that are for Channel #1 are $4000-$4003 and as usual $4015 for enabling
+the channel. Please use the sound doc for the specific bit definitions.
+
+<h4 align="center" style="color: green;">$4000</h4>
+
+Register $4000 controls (as far as I can tell from all Taylor's tech mumbo-jumbo),
+starting frequency, and can enable/disable the channel. Most of the time I don't 
+bother with it and just write #$FF to it like so:
+
+	lda #$FF   ; typical
+	sta $4000  ; write
+
+The important bits here are #0-3 and #5, bits #0-3 (according to the doc) are the
+volume / envelope decay rate, I'm not sure exactly what this means so I just set
+all the bits. Bit #5 seems to enable and disable the channel (yes, you still need
+to enable the channel in $4015 for sound to come out). The others I'm assuming
+can be set so just send #$FF to $4000 if you don't want too much to worry about.
+
+<h4 align="center" style="color: green;">$4001</h4>
+
+Register $4001 controls the sweep feature. Sweep (if you didn't know) is when the
+sound fades in or out.
+
+Because we need good control over individual bits here, we'll load A in binary instead
+of hex.
+
+Bits #0-2 control how much $4002 is shifted by to get the new frequency.
+
+Bit #3 controls whether to increase or decrease frequency for sweep. (1=increase, 0=decrease).
+
+Bits #4-6 control how fast the sweep runs (range is 0-7).
+
+Bit #7 enables sweep, if sweep is off, the channel will output continuous tone.
+
+So if we want a shift value of 3, the sweep to run at speed 5, increase frequency, and
+(of course) enable sweep, here's the code:
+
+	lda #%11011011  ; % means binary number, remember the '#' for immediate values.
+	sta $4001  ; immediate means "not an address, just a number".
+
+<h4 align="center" style="color: green;">$4002</h4>
+	Register $4002 is just the first 8bits of the frequency. Set it to whatever
+ya want, the higher the number the lower the frequency (I think).
+
+I'll write $A5 to it (a rather low sound):
+
+	lda #$A5
+	sta $4002
+
+<h4 align="center" style="color: green;">$4003</h4>
+	Register $4003 contains some wavelength stuff in bits #0-2, which I leave
+set to 2. And bits #3-7 load the down-counter (thing that tells NES when its time
+to shut off the sweep), with a value. I leave bits #3-7 loaded with 13. 
+
+	I'm not too sure what any of the stuff in this register means, but #$AB seems
+to be a fairly good value to store in $4003.
+Code:
+	lda #$AB
+	sta $4003
+
+<h4 align="center" style="color: green;">$4015</h4>
+	I'm just going to discuss register $4015 once in this "Day". $4015 controls
+which channels are enabled, the bit layout is as follows:
+
+	Bit 0 = Square Wave Channel 1
+	Bit 1 = Square Wave Channel 2
+	Bit 2 = Triangle Wave Channel 3
+	Bit 3 = Noise Channel 4
+	Bit 4 = DMC/PCM Playback Channel
+	Bits 5-7 = unused
+
+So to turn on Square Wave Ch. 1 we go like so:
+
+	lda #%00000001
+	sta $4015
+
+<h4 align="center" style="color: green;">The Full Code</h4>
+	I think you should be able to put sample code into a skeleton code file by
+now, but I'll make a full code listing just because I'm way too much of a nice guy.
+Here it is:
+
+	;;---CODE START---;;
+
+	.inesprg 1
+	.inesmap 0
+	.inesmir 1
+	.ineschr 0  ; note that we have no CHR-ROM bank in this code
+	
+	.bank 1
+	.org $FFFA
+	.dw 0 ; no VBlank routine
+	.dw Start 
+	.dw 0 ; we'll get to this at a later time
+
+	.bank 0
+	.org $8000
+; note that I just copy/pasted code from the register sections
+Start:
+	lda #$FF   ; typical
+	sta $4000  ; write
+
+	lda #%11011011  ; % means binary number, remember the '#' for immediate values.
+	sta $4001  ; immediate means "not an address, just a number".
+
+	lda #$A5
+	sta $4002
+
+	lda #$AB
+	sta $4003
+
+	lda #%00000001
+	sta $4015
+
+infinite:
+	jmp infinite
+
+	;;--- END OF CODE FILE ---;;
+
+Assemble and <u>Listen</u>! Note that we don't even setup the PPU because we didn't
+do anything graphical. The code <i>should</i> output a nice rising sweep.
+
+<h3 align="center" style="color: LightCoral;"><b>Square Wave Channel 2</b></h3>
+
+	Square Wave 2 is nearly exactly the same as Square Wave 1, we won't discuss
+the (VERY small difference) here. Square Wave 2 uses the exact same bit layout as
+Square Wave 1 except for different registers at $4004-4007. Here's how the registers
+compare to Square Wave 1's registers:
+
+	$4004 is same as $4000
+	$4005 is same as $4001
+	$4006 is same as $4002
+	$4007 is same as $4003
+
+And to turn on the channel, write a 1 to bit #2 of $4015.
+
+<h3 align="center" style="color: LightCoral;"><b>Triangle Wave Channel 3</b></h3>
+
+	Ah, a new type of channel to discuss, I don't know the technical description
+of what a "Triangle Wave" is, but I'd bet it looks something like this: /\/\/\/\/\/
+
+	The features of the Triangle Wave Channel are:
+
+	1) 27.3 Hz to 55.9 KHz
+	2) analog triangle wave output (I don't know what this means)
+	3) linear counter (Taylor's doc infers that you can make timed tones
+	with this channel.)
+
+	The Triangle Wave Channel's registers are at $4008-$400B.
+
+<h4 align="center" style="color: green;">$4008</h4>
+	Register $4008 contains whether or not to time the tone or make it continuous
+and the load to the timer that .. well, does the timing.
+
+	Bits #0-6 is the timer load value.
+	
+	Bit 7 enables/disables timing (1=enable)
+
+	As I haven't used the Triangle Wave Channel much yet I haven't tried this
+yet so this infered info should be considered *UNTESTED/POSSIBLY INACCURATE*.
+
+<h4 align="center" style="color: green;">$4009</h4>
+	Register $4009 is unused.
+
+<h4 align="center" style="color: green;">$400A</h4>
+	Register $400A is the same as $4002.
+	Note: I'm not sure if Triangle Wave supports sweep or not.
+
+<h4 align="center" style="color: green;">$400B</h4>
+	Register $400B is the same as $4003.
+
+<h4 align="center" style="color: green;">Enabling Triangle Wave Channel 3</h4>
+	To enable the Triangle Wave Channel, set (to 1) bit #2 in $4015.
+
+You should be able to come up with something from that, I hope.
+
+<h3 align="center" style="color: LightCoral;"><b>This Day In Review</b></h3>
+
+	I hope the code works for you, and that you enjoyed today's info.
+I'll do the noise channel in a separate Day tomorrow (it may or may not be short).
+
+	Happy listenings,
+		-Mike H a.k.a GbaGuy
+
+<center><a href="nesasm.htm">Intro</a> - <a href="day15n.htm">Day 15</a></center>
+
+
+</b></pre></p>
+
+<br />
+<br />
+
+</body>
+</html>

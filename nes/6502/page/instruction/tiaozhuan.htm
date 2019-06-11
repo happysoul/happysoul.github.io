@@ -1,0 +1,198 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p><font size="2">//</font><font size="2" color="#808080">addr&nbsp; :代表8位地址&nbsp;&nbsp;&nbsp; addr16:代表16位地址&nbsp;&nbsp;&nbsp;&nbsp; 
+data&nbsp; :立即数</font></p>
+<p><b><font size="4" color="#808080">[转</font></b><font size="4" color="#808080"><b>移指令]</b></font></p>
+<p><font size="2">&nbsp;<font color="#808080"> 
+程序在大多数的情况下是按顺序执行的,即依靠程序计数器PC不断自动加1的操作,指示出下一条指令所在地址,这样</font></font></p>
+<p><font size="2" color="#808080">计算机就可以按照程序中指令的排列顺序一条接一条的执行下去.</font></p>
+<p><font size="2" color="#808080">&nbsp; 
+不过在某些条件下,需要改变程序顺序执行的次序,而转入执行另一个地址中存放的指令,这就要依靠转移指令来实现</font></p>
+<p><font size="2" color="#808080">&nbsp; 
+在6502中有无条件转移和条件转移,无条件转移是无条件的将程序转向另外一个地址,而条件转移是当满足某些条件时</font></p>
+<p><font size="2" color="#808080">程序才发生转移,比如C=0,C=1,Z=1,Z=0等条件.</font></p>
+<p><font size="2" color="#808080">&nbsp; <b>无条件转移的跳转步长为整个64K内存,即可以跳转到任意地址</b></font></p>
+<p><b><font size="2" color="#808080">&nbsp; 条件跳转指令的跳转步长是有限制的&nbsp; <i>正跳转127个字节&nbsp;&nbsp; 
+负跳转128个字节</i></font></b></p>
+<p>　</p>
+<p><font color="#808080" size="2">1. JMP--无条件转移指令</font></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber1">
+  <tr>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">JMP&nbsp; $data16</font></td>
+    <td width="33%"><font size="2">4C</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
+  </tr>
+  <tr>
+    <td width="33%"><font size="2">JMP ($data16)</font></td>
+    <td width="33%"><font size="2">5C</font></td>
+    <td width="34%"><font size="2">间接寻址</font></td>
+  </tr>
+</table>
+<p><font size="2">2. 条件转移指令</font></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber2">
+  <tr>
+    <td width="15%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="12%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="12%"><b><font color="#808080" size="2">寻址方式</font></b></td>
+    <td width="61%"><font size="2" color="#808080"><b>指令功能</b></font></td>
+  </tr>
+  <tr>
+    <td width="15%"><font size="2">BEQ $data16</font></td>
+    <td width="12%"><font size="2">F0</font></td>
+    <td width="12%"><font size="2">相对寻址</font></td>
+    <td width="61%"><font size="2">如果标志位Z=1则转移，否则继续</font></td>
+  </tr>
+  <tr>
+    <td width="15%"><font size="2">BNE $data16</font></td>
+    <td width="12%"><font size="2">D0</font></td>
+    <td width="12%"><font size="2">相对寻址</font></td>
+    <td width="61%"><font size="2">如果标志位Z=0则转移，否则继续</font></td>
+  </tr>
+  <tr>
+    <td width="15%"><font size="2">BCS $data16</font></td>
+    <td width="12%"><font size="2">B0</font></td>
+    <td width="12%"><font size="2">相对寻址</font></td>
+    <td width="61%"><font size="2">如果标志位C=1则转移，否则继续</font></td>
+  </tr>
+  <tr>
+    <td width="15%"><font size="2">BCC $data16</font></td>
+    <td width="12%"><font size="2">90</font></td>
+    <td width="12%"><font size="2">相对寻址</font></td>
+    <td width="61%"><font size="2">如果标志位C=0则转移，否则继续</font></td>
+  </tr>
+  <tr>
+    <td width="15%"><font size="2">BMI $data16</font></td>
+    <td width="12%"><font size="2">30</font></td>
+    <td width="12%"><font size="2">相对寻址</font></td>
+    <td width="61%"><font size="2">如果标志位N=1则转移，否则继续</font></td>
+  </tr>
+  <tr>
+    <td width="15%"><font size="2">BPL $data16</font></td>
+    <td width="12%"><font size="2">10</font></td>
+    <td width="12%"><font size="2">相对寻址</font></td>
+    <td width="61%"><font size="2">如果标志位N=0则转移，否则继续</font></td>
+  </tr>
+  <tr>
+    <td width="15%"><font size="2">BVS $data16</font></td>
+    <td width="12%"><font size="2">70</font></td>
+    <td width="12%"><font size="2">相对寻址</font></td>
+    <td width="61%"><font size="2">如果标志位V=1则转移，否则继续</font></td>
+  </tr>
+  <tr>
+    <td width="15%"><font size="2">BVC $data16</font></td>
+    <td width="12%"><font size="2">50</font></td>
+    <td width="12%"><font size="2">相对寻址</font></td>
+    <td width="61%"><font size="2">如果标志位V=0则转移，否则继续</font></td>
+  </tr>
+</table>
+<p>&nbsp; <font size="2">这里我重点讲讲用的最多的 BEQ，BNE，BCC，BCS</font></p>
+<p><font size="2">&nbsp; ①BNE 如果标志位 Z = 0则转移，否则继续</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 在6502中，要判断两个数是不是相同，就可以使用该指令</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 例1： 判断 地址3000与地址3001的内容是不是相同，若相同，则送 01 
+到地址3002，否则送 00</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A 2000</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2000:LDA $3000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;读取地址3000的内容到寄存器A</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2003:CMP $3001&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;和地址3001的内容比较,其实就是把地址3000的内容减去地址3001的内容</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2006:BNE $200E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;若Z = 0,说明结果不等于 0 ,那么说明两个地址的内容不同,程序转到地址200E</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2008:LDA #$01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;这里说明Z = 1,那么说明两个数相同</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200A:STA $3002</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200D:RTS</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200E:LDA #$00</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2020:STA $3002</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2023:RTS</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+从上面的程序,我们知道,要比较两个数是不是相同,需要先使用比较指令,然后通过标志寄存器的状态位来判断是不是相同</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; ②BEQ 如果标志位 Z = 1,那么就转移,否则继续</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 例: 判断 
+地址3000与地址3001的内容是不是相同，若相同，则送 01 到地址3002，否则送 00</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A 2000</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2000:LDA $3000</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2003:CMP $3001</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2006:BEQ $200E</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2008:LDA #$00</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200A:STA $3002</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200D:RTS</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200E:LDA #$01</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2020:STA $3002</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2023:RTS</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 该程序和上面的几乎是一样的,大家分析一下吧.</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; ③BCC 如果标志为 C = 0,转移,否则继续</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 该指令可以用来判断两个数谁大谁小</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+例:判断地址3000和地址3001的内容,谁大谁小,若地址3000的内容大,送 01 到地址3002,若地址3001的内容大,送 02到地址3002</font></p>
+<p><font size="2">如果都是一样大,送00到地址3002</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A 2000</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2000:LDA $3000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;读取地址3000的内容到寄存器A</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2003:CMP $3001&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;和地址3001的内容比较,其实就是把地址3000的内容减去地址3001的内容</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2006:BEQ $2010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;如果 Z = 1,那么说明相同,转地址2010,送 00 到地址3002</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2008:BCC $2016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;如果 C = 0,那么说明地址 3000的内容 &lt; 地址3001的内容,转地址2016,送 02到地址3002</font></p>
+<p>　</p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200A:LDA #$01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+;这里说明 C = 1,那么说明地址3000的内容 &gt; 地址3001的内容</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200C:STA $3002</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200F:RTS</font></p>
+<p>　</p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2010:LDA #$00</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2012:STA $3002</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2015:RTS</font></p>
+<p>　</p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2016:LDA #$02</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2018:STA $3002</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 201B:RTS</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ④BCS 若 C = 1,则转移,否则继续</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+和上面的用法是一样的,大家用该指令完成上面的功能吧!</font></p>
+<p><font size="2">&nbsp; </font></p>
+<p><font size="2">3. 转移到子程序指令JSR和从主程序返回指令RTS</font></p>
+<p><font size="2">JSR指令仅仅是 绝对寻址，它的操作码是 20</font></p>
+<p><font size="2">RTS指令是&nbsp;&nbsp;&nbsp;&nbsp; 隐含寻址，它的操作码是 60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font> </p>
+<p><font size="2">在程序设计中，如果程序比较大，那么一般是采取模块化设计方法，把一个大的程序分割成若干小程序，然后在主程序调用这些小程序</font></p>
+<p><font size="2">在6502中就是用JSR这条指令调用子程序的.</font></p>
+<p><font size="2">转子指令和转移指令的区别在于转移指令控制程序转出后就不再返回了，而转子指令使程序转向子程序后，当子程序被执行完后还要返回</font></p>
+<p><font size="2">主程序被打断处，实现这个返回是依靠在子程序末尾使用一条子程序返回指令RTS，就可以控制程序自动返回到主程序被打断处</font></p>
+<p><font size="2">例如：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 指令</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .</font></p>
+
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2000:JSR 2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//程序执行到这里时，就跳转到地址2100开始执行那里的程序</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2003：.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font>
+</p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2100:指令</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RTS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//当程序执行到这里后，会自动返回主程序被打断处，即跳转到地址2003那里继续执行</font></p>
+
+</body>
+
+</html>

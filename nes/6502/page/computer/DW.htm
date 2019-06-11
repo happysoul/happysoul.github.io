@@ -1,0 +1,23 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+</head>
+
+<body text="#FFFFFF" bgcolor="#000000">
+
+<p>//<span lang="zh-cn">字定义 .DW</span></p>
+<p><span lang="zh-cn">&nbsp; 该指令是定义字的，一个字是两个字节,所以一次要定义两个字节</span></p>
+<p><span lang="zh-cn">&nbsp; 比如</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .ORG $0000</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .DW $1234</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 但是注意的是,编译后地址(0000) = 34,(0001) = 12,所以大家不要搞错了</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 大家不要用它来定义汉字和字符,最好用 .DB. </span></p>
+
+</body>
+
+</html>
