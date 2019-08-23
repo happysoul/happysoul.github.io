@@ -1,205 +1,203 @@
 <html>
 
 <head>
-<meta charset="GBK">
-<meta http-equiv="Content-Language" content="zh-cn">
-<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
-<meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=gbk">
-<title>�½���ҳ 1</title>
+<meta charset="utf-8">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>新建网页 1</title>
 </head>
 
 <body text="#FFFFFF" bgcolor="#000000">
 
-<p><font size="2">//</font><font size="2" color="#808080">addr&nbsp; :����8λ��ַ&nbsp;&nbsp;&nbsp; addr16:����16λ��ַ&nbsp;&nbsp;&nbsp;&nbsp; 
-data&nbsp; :������</font></p>
-<p><font color="#808080" size="2">//�Ƚ�ָ��</font></p>
-<p><font color="#808080" size="2">1. CMP--�ۼ����ʹ洢���Ƚ�</font></p>
+<p><font size="2">//</font><font size="2" color="#808080">addr&nbsp; :代表8位地址&nbsp;&nbsp;&nbsp; addr16:代表16位地址&nbsp;&nbsp;&nbsp;&nbsp; 
+data&nbsp; :立即数</font></p>
+<p><font color="#808080" size="2">//比较指令</font></p>
+<p><font color="#808080" size="2">1. CMP--累加器和存储器比较</font></p>
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber1">
   <tr>
-    <td width="33%"><b><font color="#808080" size="2">�������ʽ</font></b></td>
-    <td width="33%"><b><font color="#808080" size="2">ָ�������</font></b></td>
-    <td width="34%"><b><font color="#808080" size="2">Ѱַ��ʽ</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">CMP ($addr,X)</font></td>
     <td width="33%"><font size="2">C1</font></td>
-    <td width="34%"><font size="2">�ȱ�ַX���ַ</font></td>
+    <td width="34%"><font size="2">先变址X后间址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">CMP $addr</font></td>
     <td width="33%"><font size="2">C5</font></td>
-    <td width="34%"><font size="2">��ҳѰַ</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">CMP #$data</font></td>
     <td width="33%"><font size="2">C9</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">立即寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">CMP $addr16</font></td>
     <td width="33%"><font size="2">CD</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">CMP ($addr),Y</font></td>
     <td width="33%"><font size="2">D1</font></td>
-    <td width="34%"><font size="2">���ַY��ַ</font></td>
+    <td width="34%"><font size="2">后变址Y间址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">CMP $addr,X</font></td>
     <td width="33%"><font size="2">D5</font></td>
-    <td width="34%"><font size="2">��ҳX��ַ</font></td>
+    <td width="34%"><font size="2">零页X变址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">CMP $addr16,Y</font></td>
     <td width="33%"><font size="2">D9</font></td>
-    <td width="34%"><font size="2">����Y��ַ</font></td>
+    <td width="34%"><font size="2">绝对Y变址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">CMP $addr16,X</font></td>
     <td width="33%"><font size="2">DD</font></td>
-    <td width="34%"><font size="2">����X��ַ</font></td>
+    <td width="34%"><font size="2">绝对X变址</font></td>
   </tr>
 </table>
-<p><font color="#808080" size="2">��ָ��Ҳ������������,���Ĵ��������ݼ�ȥ�洢��������,�����ͼ���ָ����2������:</font></p>
-<p><font color="#808080" size="2">&nbsp; һ�ǽ�λ��־C���μ�����,��������CMPָ��ؼ�ָ��SEC</font></p>
-<p><font color="#808080" size="2">&nbsp; ���Ǽ����Ľ��������Ĵ���A</font></p>
-<p><font color="#808080" size="2">��ָ�����к�,��Ӱ���־λ C��Z��N.������ʵ��������Ҫע���������Ӱ���־λC�ͱ�־λZ</font></p>
-<p><font color="#808080" size="2">&nbsp; ��ִ��ָ��CMP��,C=1��ʾ�޽�λ,��A��M</font></p>
-<p><font color="#808080" size="2">&nbsp; ��ִ��ָ��CMP��,C=0��ʾ�н�λ,��A&lt;M</font></p>
-<p><font color="#808080" size="2">&nbsp; ��ִ��ָ��CMP��,Z=1��ʾA=M</font></p>
-<p><font color="#808080" size="2">���������ǿ����жϳ�A��M˭��˭С,����A��M�ǲ������</font></p>
-<p><font color="#808080" size="2">����//�Ƚ�ָ����ʾ,��ʾ����ж�A��M�Ĵ�С</font></p>
+<p><font color="#808080" size="2">该指令也是做减法操作,将寄存器的内容减去存储器的内容,但它和减法指令有2点区别:</font></p>
+<p><font color="#808080" size="2">&nbsp; 一是借位标志C不参加运算,所以在用CMP指令不必加指令SEC</font></p>
+<p><font color="#808080" size="2">&nbsp; 二是减法的结果不送入寄存器A</font></p>
+<p><font color="#808080" size="2">该指令运行后,会影响标志位 C，Z，N.我们在实际中尤其要注意它是如何影响标志位C和标志位Z</font></p>
+<p><font color="#808080" size="2">&nbsp; 若执行指令CMP后,C=1表示无借位,即A》M</font></p>
+<p><font color="#808080" size="2">&nbsp; 若执行指令CMP后,C=0表示有借位,即A&lt;M</font></p>
+<p><font color="#808080" size="2">&nbsp; 若执行指令CMP后,Z=1表示A=M</font></p>
+<p><font color="#808080" size="2">从上面我们可以判断出A和M谁大谁小,或者A和M是不是相等</font></p>
+<p><font color="#808080" size="2">例：//比较指令演示,演示如何判断A和M的大小</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp; 2000:LDA $2100&nbsp;&nbsp; 
-//��ַ2100�������ͼĴ���A</font></p>
+//地址2100的内容送寄存器A</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp; 2003:CMP $2101&nbsp;&nbsp; 
-//�Ĵ���A�����ݺ͵�ַ2101��������Ƚ�</font></p>
+//寄存器A的内容和地址2101的内容相比较</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp; 2006:BEQ $2016&nbsp;&nbsp; 
-//����־λZ=1,��ô�������ת����ַ2016</font></p>
+//若标志位Z=1,那么程序就跳转到地址2016</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp; 2008:BCC $2010&nbsp;&nbsp; 
-//����־λC=0,��ô�������ת����ַ2010</font></p>
+//若标志位C=0,那么程序就跳转到地址2010</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp; 200A:LDA #$02&nbsp;&nbsp;&nbsp; 
-//����λ��־C=1,������ת,˳��ִ��</font></p>
+//若进位标志C=1,程序不跳转,顺序执行</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp; 200C:STA $2102&nbsp;&nbsp; 
-//������ִ�е����˵��C=1,��ô��������02�͵�ַ2102����Ϊ��ַ2100��ֵ&gt;��ַ2101��ֵ�ı�־</font></p>
+//若程序执行到这里，说明C=1,那么将立即数02送地址2102，作为地址2100的值&gt;地址2101的值的标志</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp; 200F:RTS</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp; 2010:LDA #$01&nbsp;&nbsp;&nbsp; 
-//����־λC=0����ô��������01�͵�ַ2102����Ϊ��ַ2100��ֵ&lt;��ַ2101��ֵ�ı�־</font></p>
+//若标志位C=0，那么将立即数01送地址2102，作为地址2100的值&lt;地址2101的值的标志</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp; 2012:STA $2102</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp; 2015:RTS</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp; 2016:LDA #$00&nbsp;&nbsp;&nbsp; 
-//����־λZ=1����ô��������00�͵�ַ2102����Ϊ��ַ2100��ֵ=��ַ2101��ֵ�ı�־</font></p>
+//若标志位Z=1，那么将立即数00送地址2102，作为地址2100的值=地址2101的值的标志</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp; 2018:STA $2102</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp; 201B:RTS</font></p>
-<p><font color="#808080" size="2">����NCTOOLS,���� A 2000,Ȼ����������ĳ���,����E���� E 2100,����0102,Ȼ��G 
-2000,Ȼ�󿴵�ַ2102��ֵ</font></p>
-<p><font color="#808080" size="2">������Ϊ(2100)=01,(2101)=02,��Ȼ01&gt;02��ô����ִ�к�,(2102)=02,�������D 
-2102,�����ǲ�������.</font></p>
-<p><font color="#808080" size="2">��Ҳ������������ֵ,������ַ2102�������ǲ��Ǻ�Ԥ�ڵ�һ��.</font></p>
-<p>��</p>
-<p><font color="#808080" size="2">2. CPX--�Ĵ���X�����ݺʹ洢���Ƚ�</font></p>
+<p><font color="#808080" size="2">进入NCTOOLS,输入 A 2000,然后输入上面的程序,先用E命令 E 2100,输入0102,然后G 
+2000,然后看地址2102的值</font></p>
+<p><font color="#808080" size="2">这里因为(2100)=01,(2101)=02,显然01&gt;02那么程序执行后,(2102)=02,你可以用D 
+2102,看看是不是这样.</font></p>
+<p><font color="#808080" size="2">你也可以输入别的数值,看看地址2102的内容是不是和预期的一样.</font></p>
+<p>　</p>
+<p><font color="#808080" size="2">2. CPX--寄存器X的内容和存储器比较</font></p>
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber2">
   <tr>
-    <td width="33%"><b><font color="#808080" size="2">�������ʽ</font></b></td>
-    <td width="33%"><b><font color="#808080" size="2">ָ�������</font></b></td>
-    <td width="34%"><b><font color="#808080" size="2">Ѱַ��ʽ</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">CPX #$data</font></td>
     <td width="33%"><font size="2">E0</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">立即寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">CPX $addr</font></td>
     <td width="33%"><font size="2">E4</font></td>
-    <td width="34%"><font size="2">��ҳѰַ</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">CPX $addr16</font></td>
     <td width="33%"><font size="2">EC</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
   </tr>
 </table>
-<p><font color="#808080" size="2">��Щָ���CMPָ������,����ǰ���ǼĴ���A,�����ǼĴ���X,����Ѱַ��ʽҲ�Ƚ���.</font></p>
-<p><font color="#808080" size="2">����ָ���õıȽ϶�,�ر�����ѭ��ʱ</font></p>
-<p><font color="#808080" size="2">���� //CPX��ѭ�������е�����,�ó���ʵ���˽���ַ3000-30FF�����ݷ��͵���ַ3100-31FF</font></p>
+<p><font color="#808080" size="2">这些指令和CMP指令相似,不过前者是寄存器A,后者是寄存器X,另外寻址方式也比较少.</font></p>
+<p><font color="#808080" size="2">这条指令用的比较多,特别是在循环时</font></p>
+<p><font color="#808080" size="2">例： //CPX在循环程序中的运用,该程序实现了将地址3000-30FF的内容发送到地址3100-31FF</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2000:LDX #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//��ʼ���Ĵ���X��ֵ,һ��ʼ��X��=0</font></p>
+//初始化寄存器X的值,一开始（X）=0</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2002:LDA $3000,X&nbsp;&nbsp;&nbsp; 
-//��ַ[3000+X]�������ͼĴ���A</font></p>
+//地址[3000+X]的内容送寄存器A</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2005:STA $3100,X&nbsp;&nbsp;&nbsp; 
-//�Ĵ���A�������͵�ַ[3100+X]</font></p>
+//寄存器A的内容送地址[3100+X]</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2008:INX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//�Ĵ���X�����ݼ�1</font></p>
+//寄存器X的内容加1</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2009:CPX #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<i><b>//����Ĵ���X������=00,��ô˵�������Ѿ���������.ע�⣺FF+01=00</b></i></font></p>
+<i><b>//如果寄存器X的内容=00,那么说明数据已经发送完了.注意：FF+01=00</b></i></font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200B:BNE 2002&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//������ת����ַ2002��������ֱ���Ĵ���X������=00</font></p>
+//程序跳转到地址2002继续发送直到寄存器X的内容=00</font></p>
 <p><font color="#808080" size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200D:RTS</font></p>
-<p><font color="#808080" size="2">����������Ϊ��ѧ�߷���һ�´������й��̣�</font></p>
-<p><font color="#808080" size="2">��1��ѭ��&nbsp;&nbsp; ��X��=00&nbsp;&nbsp;&nbsp; 
-��ַ[3000+00]=3000�������͵�ַ[3100+00]=3100</font></p>
-<p><font color="#808080" size="2">��2��ѭ��&nbsp;&nbsp;&nbsp; (X) =01&nbsp;&nbsp;&nbsp; 
-��ַ[3000+01]=3001�������͵�ַ[3100+01]=3101</font></p>
-<p><font color="#808080" size="2">��3��ѭ��&nbsp;&nbsp;&nbsp; (X) =02&nbsp;&nbsp;&nbsp; 
-��ַ[3000+02]=3002�������͵�ַ[3100+02]=3102</font></p>
+<p><font color="#808080" size="2">这里我们来为初学者分析一下代码运行过程：</font></p>
+<p><font color="#808080" size="2">第1次循环&nbsp;&nbsp; （X）=00&nbsp;&nbsp;&nbsp; 
+地址[3000+00]=3000的内容送地址[3100+00]=3100</font></p>
+<p><font color="#808080" size="2">第2次循环&nbsp;&nbsp;&nbsp; (X) =01&nbsp;&nbsp;&nbsp; 
+地址[3000+01]=3001的内容送地址[3100+01]=3101</font></p>
+<p><font color="#808080" size="2">第3次循环&nbsp;&nbsp;&nbsp; (X) =02&nbsp;&nbsp;&nbsp; 
+地址[3000+02]=3002的内容送地址[3100+02]=3102</font></p>
 <p><font color="#808080" size="2">....</font></p>
 <p><font color="#808080" size="2">....</font></p>
-<p><font color="#808080" size="2">��256��ѭ��&nbsp; (X) =FF&nbsp;&nbsp;&nbsp; 
-��ַ[3000+FF]=30FF�������͵�ַ[3100+FF]=31FF</font></p>
-<p><font color="#808080" size="2">3. CPY--�Ĵ���Y�����ݺʹ洢���Ƚ�</font></p>
+<p><font color="#808080" size="2">第256次循环&nbsp; (X) =FF&nbsp;&nbsp;&nbsp; 
+地址[3000+FF]=30FF的内容送地址[3100+FF]=31FF</font></p>
+<p><font color="#808080" size="2">3. CPY--寄存器Y的内容和存储器比较</font></p>
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber2">
   <tr>
-    <td width="33%"><b><font color="#808080" size="2">�������ʽ</font></b></td>
-    <td width="33%"><b><font color="#808080" size="2">ָ�������</font></b></td>
-    <td width="34%"><b><font color="#808080" size="2">Ѱַ��ʽ</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">CPY #$data</font></td>
     <td width="33%"><font size="2">C0</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">立即寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">CPY $addr</font></td>
     <td width="33%"><font size="2">C4</font></td>
-    <td width="34%"><font size="2">��ҳѰַ</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">CPY $addr16</font></td>
     <td width="33%"><font size="2">CC</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
   </tr>
 </table>
-<p><font color="#808080" size="2">��Щָ���CPXָ������,����ǰ���ǼĴ���X,�����ǼĴ���Y.</font></p>
-<p>��</p>
-<p><font color="#808080" size="2">4. BIT--λ����ָ��</font></p>
+<p><font color="#808080" size="2">这些指令和CPX指令相似,不过前者是寄存器X,后者是寄存器Y.</font></p>
+<p>　</p>
+<p><font color="#808080" size="2">4. BIT--位测试指令</font></p>
 <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber3">
   <tr>
-    <td width="33%"><b><font color="#808080" size="2">�������ʽ</font></b></td>
-    <td width="33%"><b><font color="#808080" size="2">ָ�������</font></b></td>
-    <td width="34%"><b><font color="#808080" size="2">Ѱַ��ʽ</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">BIT $addr</font></td>
     <td width="33%"><font size="2">24</font></td>
-    <td width="34%"><font size="2">��ҳѰַ</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">BIT $addr16</font></td>
     <td width="33%"><font size="2">2C</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
   </tr>
 </table>
 <p><font color="#808080" size="2">
-����ָ��Ĺ��ܺ�ANDָ������֮ͬ��,�Ǿ��ǰ��ۼ���Aͬ�洢����Ԫ����,����ANDָ�ͬ��������Ľ���������ۼ���A</font></p>
-<p><font color="#808080" size="2">�����ָ��Ա�־λ��Ӱ��Ҳ��ANDָ�ͬ</font></p>
-<p><font color="#808080" size="2">�� ���=0����ôZ=1</font></p>
-<p><font color="#808080" size="2">�� ���&lt;&gt;0,��ôZ=0</font></p>
-<p><font color="#808080" size="2">N=M�ĵ�7λ</font></p>
-<p><font color="#808080" size="2">V=M�ĵ�6λ</font></p>
-<p><i><b><font color="#808080" size="2">����ִ�и�ָ���N��V����־λ��״̬���ǲμ�������Ĵ洢��Ԫ�������λ״̬</font></b></i></p>
-<p><i><b><font color="#808080" size="2">��Щָ����ͨѶ�������õ��൱�࣬���Ҫ�����㹻�����ӣ��Ǻ����õ�ָ��</font></b></i></p>
+这条指令的功能和AND指令有相同之处,那就是把累加器A同存储器单元相与,但和AND指令不同的是相与的结果不送入累加器A</font></p>
+<p><font color="#808080" size="2">另外该指令对标志位的影响也和AND指令不同</font></p>
+<p><font color="#808080" size="2">若 结果=0，那么Z=1</font></p>
+<p><font color="#808080" size="2">若 结果&lt;&gt;0,那么Z=0</font></p>
+<p><font color="#808080" size="2">N=M的第7位</font></p>
+<p><font color="#808080" size="2">V=M的第6位</font></p>
+<p><i><b><font color="#808080" size="2">所以执行该指令后N，V两标志位的状态就是参加与操作的存储单元的最高两位状态</font></b></i></p>
+<p><i><b><font color="#808080" size="2">这些指令在通讯程序中用的相当多，大家要给予足够的重视，是很有用的指令</font></b></i></p>
 
 </body>
 

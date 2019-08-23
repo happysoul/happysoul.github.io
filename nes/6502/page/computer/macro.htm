@@ -1,36 +1,34 @@
 <html>
 
 <head>
-<meta charset="GBK">
-<meta http-equiv="Content-Language" content="zh-cn">
-<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
-<meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=gbk">
-<title>�½���ҳ 1</title>
+<meta charset="utf-8">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>新建网页 1</title>
 </head>
 
 <body text="#FFFFFF" bgcolor="#000000">
 
-<p><b><font size="4">//��ָ��</font></b></p>
-<p>&nbsp; ���Ҹе������˷ܵ��� <span lang="zh-cn">6502_Macroassembler 
-&amp;Simulator��ǿ��ĺ깦��.������ʹ����</span></p>
-<p><span lang="zh-cn">�ı�д�ּ򵥷���������.</span></p>
-<p><span lang="zh-cn">&nbsp; ������˵˵��ĸ�ʽ</span></p>
-<p><span lang="zh-cn">&nbsp; ����:&nbsp;&nbsp; .MACRO&nbsp; �������1,�������2,�������3.....</span></p>
-<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ����</span></p>
+<p><b><font size="4">//宏指令</font></b></p>
+<p>&nbsp; 令我感到极度兴奋的是 <span lang="zh-cn">6502_Macroassembler 
+&amp;Simulator有强大的宏功能.这无疑使程序</span></p>
+<p><span lang="zh-cn">的编写又简单方便许多了.</span></p>
+<p><span lang="zh-cn">&nbsp; 我们先说说宏的格式</span></p>
+<p><span lang="zh-cn">&nbsp; 宏名:&nbsp;&nbsp; .MACRO&nbsp; 宏虚参数1,宏虚参数2,宏虚参数3.....</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 宏体</span></p>
 <p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .ENDM</span></p>
-<p><span lang="zh-cn">&nbsp; ���� .MACRO �� .ENDM ����ɶԳ���</span></p>
+<p><span lang="zh-cn">&nbsp; 这里 .MACRO 和 .ENDM 必须成对出现</span></p>
 <p><span lang="zh-cn">&nbsp; </span></p>
-<p><span lang="zh-cn">&nbsp;&nbsp; ����õĸ�ʽ:</span></p>
-<p><span lang="zh-cn">&nbsp;&nbsp; ���� ��ʵ����1,��ʵ����2,�����3</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 宏调用的格式:</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 宏名 宏实参数1,宏实参数2,宏参数3</span></p>
 <p><span lang="zh-cn">&nbsp;&nbsp; </span></p>
 <p><span lang="zh-cn">&nbsp;&nbsp;&nbsp; 
-���к���õ�Դ���򱻱���ʱ,ÿ������ý����������չ��,��չ��ʵ�����Ǻ궨��ʱ��Ƶĺ���ȥ������Ӧ��</span></p>
-<p><span lang="zh-cn">��ָ����,������ʵ�ʲ���ȥȡ�������,���γɷ��Ϲ��ܲ����Ա�ִ�е�ʵ�ʴ���</span></p>
-<p>��</p>
-<p><span lang="zh-cn">&nbsp;&nbsp; ���Ǿ���˵��:</span></p>
-<p><span lang="zh-cn">&nbsp;&nbsp; ʵ�� �ж�ָ�� INT</span></p>
-<p><span lang="zh-cn">&nbsp;&nbsp; ���֪��,���ڵ�6502����������֧��INTָ��,����д��ɲ���,�����������ǿ����ú���ʵ��</span></p>
+具有宏调用的源程序被编译时,每个宏调用将被编译程序展开,宏展开实际上是宏定义时设计的宏体去代替相应的</span></p>
+<p><span lang="zh-cn">宏指令名,并且用实际参数去取代虚参数,以形成符合功能并可以被执行的实际代码</span></p>
+<p>　</p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 我们举例说明:</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 实现 中断指令 INT</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 大家知道,现在的6502编译器都不支持INT指令,给书写造成不便,不过现在我们可以用宏来实现</span></p>
 <p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .ORG 
 $0000</span></p>
 <p><span lang="zh-cn">INT:&nbsp;&nbsp;&nbsp;&nbsp; .MACRO INT_PARAM</span></p>
@@ -39,14 +37,14 @@ $0000</span></p>
 INT_PARAM</span></p>
 <p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .ENDM&nbsp;
 </span></p>
-<p>��</p>
-<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp; ˵��,���� INT �Ǻ���,ע�����Ҫ�� : ,INT_PARAM 
-�������,����INT�Ļ������� 00</span></p>
-<p><span lang="zh-cn">���������ں����� .DB $00,���� INT $C008,�������� 00 08 C0,�������� .DW 
+<p>　</p>
+<p><span lang="zh-cn">&nbsp;&nbsp;&nbsp; 说明,这里 INT 是宏名,注意后面要接 : ,INT_PARAM 
+是虚参数,由于INT的机器码是 00</span></p>
+<p><span lang="zh-cn">所以我们在宏体中 .DB $00,比如 INT $C008,机器码是 00 08 C0,所以我们 .DW 
 INT_PARAM</span></p>
-<p><span lang="zh-cn">����,����ʵ�� INT ָ��,���������ڳ��������� INT $C008,�ͺ���������� INT $C008��</span></p>
-<p><span lang="zh-cn">һ���Ĺ���.</span></p>
-<p><span lang="zh-cn">&nbsp;&nbsp; ���پٸ�����,��6502��û�мĴ���Xֱ�����ջ�͵�����ջ���ܵ�ָ��,���������ú�ʵ��</span></p>
+<p><span lang="zh-cn">这样,我们实现 INT 指令,例如我们在程序里输入 INT $C008,就和文曲星里的 INT $C008是</span></p>
+<p><span lang="zh-cn">一样的功能.</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 我再举个例子,在6502中没有寄存器X直接入堆栈和弹出堆栈功能的指令,这里我们用宏实现</span></p>
 <p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp; .ORG $0000</span></p>
 <p><span lang="zh-cn">PHX: .MACRO</span></p>
 <p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp; TXA</span></p>
@@ -61,16 +59,16 @@ INT_PARAM</span></p>
 <p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...</span></p>
 <p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PLX</span></p>
 <p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RTS</span></p>
-<p><span lang="zh-cn">&nbsp; �����˰�,�����ڳ����оͿ����� PHX,PLX��</span></p>
+<p><span lang="zh-cn">&nbsp; 看到了吧,我们在程序中就可以用 PHX,PLX了</span></p>
 <p><span lang="zh-cn">&nbsp;&nbsp; </span></p>
-<p><span lang="zh-cn">&nbsp;&nbsp; ��Ȼ��Ĺ��ܱȽϴ�,�������ǲ���������,��Ϊ����ӳ����ǲ�һ����,�ӳ����� JSR ����</span></p>
-<p><span lang="zh-cn">�� RTS ����,���Ի����ӳ���Ļ�����ֻռ��һ�������,���ܵ��ö��ٴζ������,�ȽϽ�ʡ�ڴ�</span></p>
-<p><span lang="zh-cn">��ָ��ÿ����һ�ζ�Ҫռһ�������,���ô���Խ��,ռ���ڴ��Խ��,���Դӿ�����˵,�ӳ�������</span></p>
-<p><span lang="zh-cn">��ָ��,���ӳ����ִ��ʱ��������,ÿ����һ���ӳ���Ҫ�����ͻָ����ص�ַ,Ҫ����һЩʱ��</span></p>
-<p><span lang="zh-cn">��ָ����ò���Ҫ�������,ִ��ʱ��϶�,���Դ�ִ��ʱ������,��ָ���������ӳ���.</span></p>
-<p><span lang="zh-cn">&nbsp;&nbsp; ����˵,��ĳһ��Ҫ��η��ʵĳ���νϳ�,���ʴ����ֲ���̫��ʱ,ѡ���ӳ���ȽϺ�</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 虽然宏的功能比较大,但是我们不可以乱用,因为宏和子程序是不一样的,子程序由 JSR 调用</span></p>
+<p><span lang="zh-cn">由 RTS 返回,所以汇编后子程序的机器码只占有一个程序段,不管调用多少次都是如此,比较节省内存</span></p>
+<p><span lang="zh-cn">宏指令每调用一次都要占一个程序段,调用次数越多,占用内存就越多,所以从开销来说,子程序优于</span></p>
+<p><span lang="zh-cn">宏指令,但从程序的执行时间来分析,每调用一次子程序都要保护和恢复返回地址,要消耗一些时间</span></p>
+<p><span lang="zh-cn">宏指令调用不需要这个过程,执行时间较短,所以从执行时间来看,宏指令又优于子程序.</span></p>
+<p><span lang="zh-cn">&nbsp;&nbsp; 所以说,当某一需要多次访问的程序段较长,访问次数又不是太多时,选用子程序比较好</span></p>
 <p><span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-��ĳһ��Ҫ��η��ʳ���ν϶�,���ʴ����ֺ�Ƶ��ʱ,ѡ�ú�ָ��ȽϺ�</span></p>
+当某一需要多次访问程序段较短,访问次数又很频繁时,选用宏指令比较好</span></p>
 
 </body>
 

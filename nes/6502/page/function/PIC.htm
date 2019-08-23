@@ -1,23 +1,23 @@
 <html>
 
 <head>
-<meta charset="GBK">
+<meta charset="utf-8">
 <meta http-equiv="Content-Language" content="en-us">
-<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
-<meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=gbk">
-<title>�½���ҳ 1</title>
+
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>新建网页 1</title>
 </head>
 
 <body text="#FFFFFF" bgcolor="#000000">
 
-<p>//<span lang="zh-cn">ͼ���жϵ���</span></p>
-<p><span lang="zh-cn">&nbsp;1.��Բ<br>
-�жϵ��ã�int $c30e<br>
-��ڲ�����Բ�ģ� 043F��0440<br>
-�뾶��0452<br>
-0445��01 ��Բ 00 ��Բ������ͬ��<br>
-���磺<br>
+<p>//<span lang="zh-cn">图形中断调用</span></p>
+<p><span lang="zh-cn">&nbsp;1.画圆<br>
+中断调用：int $c30e<br>
+入口参数：圆心： 043F，0440<br>
+半径：0452<br>
+0445：01 画圆 00 清圆（以下同）<br>
+例如：<br>
 A 2000<br>
 2000:LDA #$80<br>
 2002:sta $043f<br>
@@ -28,31 +28,31 @@ A 2000<br>
 200f:int $c30e<br>
 2012:int c008<br>
 2015:rts<br>
-2��������<br>
-�жϵ��ã�int $c30c<br>
-��ڲ�����X1��Y1��043F��0440<br>
-X2��Y2��0441��0442<br>
-3��������<br>
-�жϵ��ã�INT $C30B<br>
-��ڲ�����X1��Y1��043F��0440<br>
-X2��Y2��0441��0442<br>
-4������Բ<br>
-�жϵ��ã�INT $C30F<br>
-��ڲ�����Բ�ģ�043F��0440<br>
-���ȣ�0457<br>
-�߶ȣ�0458<br>
-5����仭����<br>
-�жϵ��ã�INT $c30a<br>
-���������ͻ�����һ��<br>
-6����仭Բ<br>
-�жϵ��ã�int $c310<br>
-���������ͻ�Բһ��<br>
-7����仭��Բ<br>
-�жϵ��ã�int $c311<br>
-���������ͻ���Բһ��<br>
+2。画方块<br>
+中断调用：int $c30c<br>
+入口参数：X1，Y1：043F，0440<br>
+X2，Y2：0441，0442<br>
+3。画线条<br>
+中断调用：INT $C30B<br>
+入口参数：X1，Y1：043F，0440<br>
+X2，Y2：0441，0442<br>
+4。画椭圆<br>
+中断调用：INT $C30F<br>
+入口参数：圆心：043F，0440<br>
+宽度：0457<br>
+高度：0458<br>
+5：填充画方块<br>
+中断调用：INT $c30a<br>
+其他参数和画方块一样<br>
+6。填充画圆<br>
+中断调用：int $c310<br>
+其他参数和画圆一样<br>
+7。填充画椭圆<br>
+中断调用：int $c311<br>
+其他参数和画椭圆一样<br>
 <br>
 <br>
-��</span></p>
+　</span></p>
 
 </body>
 

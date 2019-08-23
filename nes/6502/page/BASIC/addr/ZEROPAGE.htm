@@ -1,35 +1,35 @@
 <html>
 
 <head>
-<meta charset="GBK">
-<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
-<meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=gbk">
+<meta charset="utf-8">
+
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
 <title>3</title>
 </head>
 
 <body text="#FFFFFF" bgcolor="#000000">
 
-<p><font size="2">3.��ҳѰַ</font></p>
-<p><font size="2">&nbsp; 2�ֽ�ָ��.</font></p>
-<p><font size="2">&nbsp; ��˵˵ʲô����ҳ,��ַ00-��ַFF �ͽ�����ҳ��ַ</font></p>
-<p><font size="2">&nbsp; ��ҳѰַ��ֱ��Ѱַ������������ҳѰַ��ʽ�в������ĵ�ַ�����ڴ洢������ҳ��Χ(00-FF)</font></p>
-<p><font size="2">&nbsp; ָ���ʽ����:</font></p>
+<p><font size="2">3.零页寻址</font></p>
+<p><font size="2">&nbsp; 2字节指令.</font></p>
+<p><font size="2">&nbsp; 先说说什么是零页,地址00-地址FF 就叫做零页地址</font></p>
+<p><font size="2">&nbsp; 零页寻址和直接寻址的区别在于零页寻址方式中操作数的地址仅限于存储器的零页范围(00-FF)</font></p>
+<p><font size="2">&nbsp; 指令格式如下:</font></p>
 <table border="0" cellspacing="1" width="18%">
   <tr>
-    <td width="47%">������</td>
-    <td width="53%">��һ�ֽ�</td>
+    <td width="47%">操作码</td>
+    <td width="53%">第一字节</td>
   </tr>
   <tr>
-    <td width="47%">������</td>
-    <td width="53%">�ڶ��ֽ�</td>
+    <td width="47%">操作数</td>
+    <td width="53%">第二字节</td>
   </tr>
 </table>
-<p><font size="2">&nbsp; ����ָ�� LDA $F0,�����ǽ���ַ F0�������ͼĴ���A,����F0������ҳ��Χ</font></p>
-<p><font size="2">&nbsp; ��һ����Ҫ˵���,��������ҳѰַ��ָ��,һ��Ϳ���ֱ��Ѱַ.</font></p>
-<p><font size="2">&nbsp; ����ָ�� LDA $F0 ��ָ�� LDA 
-$00F0,��������ȫһ����,�������ǲ�Ӧ����ֱ��Ѱַ,Ϊʲô��?��Ϊֱ��Ѱַռ3��</font></p>
-<p><font size="2">�ֽ�,����ҳѰַ����2���ֽ�,������ҳѰִַ���ٶȿ�Щ,���Կ�������ҳѰַ��ָ��Ͳ�Ӧ����ֱ��Ѱַ.</font></p>
+<p><font size="2">&nbsp; 例如指令 LDA $F0,功能是将地址 F0的内容送寄存器A,这里F0属于零页范围</font></p>
+<p><font size="2">&nbsp; 有一点需要说清楚,可以用零页寻址的指令,一般就可用直接寻址.</font></p>
+<p><font size="2">&nbsp; 例如指令 LDA $F0 和指令 LDA 
+$00F0,功能是完全一样的,不过我们不应该用直接寻址,为什么呢?因为直接寻址占3个</font></p>
+<p><font size="2">字节,而零页寻址仅仅2个字节,而且零页寻址执行速度快些,所以可以用零页寻址的指令就不应该用直接寻址.</font></p>
 
 </body>
 

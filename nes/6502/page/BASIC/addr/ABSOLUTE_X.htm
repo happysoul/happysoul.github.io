@@ -1,39 +1,39 @@
 <html>
 
 <head>
-<meta charset="GBK">
-<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
-<meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=gbk">
+<meta charset="utf-8">
+
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
 <title>6</title>
 </head>
 
 <body text="#FFFFFF" bgcolor="#000000">
 
-<p><font size="2">6.ʹ�üĴ���X��ֱ�ӱ�ַ</font></p>
-<p><font size="2">&nbsp; Ϊ�˷������,���ǳƸ�Ѱַ��ʽΪ ֱ��X��ַ</font></p>
-<p><font size="2">&nbsp; ���ֽ�ָ��</font></p>
-<p><font size="2">&nbsp; ����Ѱַ��ʽ�ǽ�һ��16λ��ֱ�ӵ�ַ��Ϊ����ַ,Ȼ��ͼĴ���X���������,���������������Ч��ַ,ָ���ʽ:</font></p>
+<p><font size="2">6.使用寄存器X的直接变址</font></p>
+<p><font size="2">&nbsp; 为了方便起见,我们称该寻址方式为 直接X变址</font></p>
+<p><font size="2">&nbsp; 三字节指令</font></p>
+<p><font size="2">&nbsp; 这种寻址方式是将一个16位的直接地址作为基地址,然后和寄存器X的内容相加,结果就是真正的有效地址,指令格式:</font></p>
 <table border="0" cellspacing="1" width="44%">
   <tr>
-    <td width="32%"><font size="2">������</font></td>
-    <td width="68%"><font size="2">&nbsp;&nbsp;&nbsp; ��һ�ֽ�</font></td>
+    <td width="32%"><font size="2">操作码</font></td>
+    <td width="68%"><font size="2">&nbsp;&nbsp;&nbsp; 第一字节</font></td>
   </tr>
   <tr>
-    <td width="32%"><font size="2">����ַ���ֽ�</font></td>
-    <td width="68%"><font size="2">&nbsp;&nbsp;&nbsp; �ڶ��ֽ�</font></td>
+    <td width="32%"><font size="2">基地址低字节</font></td>
+    <td width="68%"><font size="2">&nbsp;&nbsp;&nbsp; 第二字节</font></td>
   </tr>
   <tr>
-    <td width="32%"><font size="2">����ַ���ֽ�</font></td>
-    <td width="68%"><font size="2">&nbsp;&nbsp;&nbsp; �����ֽ�</font></td>
+    <td width="32%"><font size="2">基地址高字节</font></td>
+    <td width="68%"><font size="2">&nbsp;&nbsp;&nbsp; 第三字节</font></td>
   </tr>
 </table>
-<p><font size="2">&nbsp; ����ָ�� LDA $3000,X ����Ѱַ������������:</font></p>
-<p><font size="2">&nbsp; ��ʹ��ʱ�Ĵ���X������Ϊ03,��(X) = 03,��ַ3003������Ϊ40,��(3003) = 40</font></p>
-<p><font size="2">&nbsp; ��ȷ������ַ&nbsp; 3000</font></p>
-<p><font size="2">&nbsp; �ѻ���ַ3000 + (X) = 3000 + 03 = 3003,�������Ч��ַΪ3003</font></p>
-<p><font size="2">&nbsp; Ȼ��ѵ�ַ3003�������ͼĴ���A</font></p>
-<p><font size="2">&nbsp; �������ǿ��Է���,��Ч��ַ����Ĵ���X�����ݷ����仯��,���Խ�ֱ��X��ַ.</font></p>
+<p><font size="2">&nbsp; 例如指令 LDA $3000,X 它的寻址过程是这样的:</font></p>
+<p><font size="2">&nbsp; 假使此时寄存器X的内容为03,即(X) = 03,地址3003的内容为40,即(3003) = 40</font></p>
+<p><font size="2">&nbsp; 先确定基地址&nbsp; 3000</font></p>
+<p><font size="2">&nbsp; 把基地址3000 + (X) = 3000 + 03 = 3003,计算出有效地址为3003</font></p>
+<p><font size="2">&nbsp; 然后把地址3003的内容送寄存器A</font></p>
+<p><font size="2">&nbsp; 这里我们可以发现,有效地址是随寄存器X的内容发生变化的,所以叫直接X变址.</font></p>
 
 </body>
 

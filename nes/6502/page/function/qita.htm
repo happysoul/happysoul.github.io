@@ -1,34 +1,32 @@
 <html>
 
 <head>
-<meta charset="GBK">
-<meta http-equiv="Content-Language" content="zh-cn">
-<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
-<meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=gbk">
-<title>ÐÂ½¨ÍøÒ³ 1</title>
+<meta charset="utf-8">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>æ–°å»ºç½‘é¡µ 1</title>
 </head>
 
 <body text="#FFFFFF" bgcolor="#000000">
 
-<p>//ÆäËû×Ó³ÌÐò»òÖÐ¶Ïµ÷ÓÃ</p>
+<p>//å…¶ä»–å­ç¨‹åºæˆ–ä¸­æ–­è°ƒç”¨</p>
 <p>1. ClearLCD</p>
-<p>&nbsp;&nbsp; ÖÐ¶Ïµ÷ÓÃ: INT $8A2E</p>
-<p>&nbsp;&nbsp; ÇåÆÁµÄ×÷ÓÃ,Ê¹ÆÁÄ»Ê²Ã´¶¼²»ÏÔÊ¾</p>
-<p>¡¡</p>
+<p>&nbsp;&nbsp; ä¸­æ–­è°ƒç”¨: INT $8A2E</p>
+<p>&nbsp;&nbsp; æ¸…å±çš„ä½œç”¨,ä½¿å±å¹•ä»€ä¹ˆéƒ½ä¸æ˜¾ç¤º</p>
+<p>ã€€</p>
 <p>2. UpdateLCD</p>
-<p>&nbsp;&nbsp; ÖÐ¶Ïµ÷ÓÃ: INT $8A15</p>
-<p>&nbsp;&nbsp; Èë¿Ú²ÎÊý:</p>
-<p>&nbsp;&nbsp; ÏÔÊ¾Ð¡×Ö&nbsp; (0402) = 01&nbsp;&nbsp; (0403) = 00</p>
-<p>&nbsp;&nbsp; ÏÔÊ¾´ó×Ö&nbsp; (0402) = 00&nbsp;&nbsp; (0403) = 01</p>
+<p>&nbsp;&nbsp; ä¸­æ–­è°ƒç”¨: INT $8A15</p>
+<p>&nbsp;&nbsp; å…¥å£å‚æ•°:</p>
+<p>&nbsp;&nbsp; æ˜¾ç¤ºå°å­—&nbsp; (0402) = 01&nbsp;&nbsp; (0403) = 00</p>
+<p>&nbsp;&nbsp; æ˜¾ç¤ºå¤§å­—&nbsp; (0402) = 00&nbsp;&nbsp; (0403) = 01</p>
 <p>&nbsp;&nbsp; (042D) = FF</p>
 <p>&nbsp;&nbsp; (042E) = FF</p>
-<p>&nbsp; Ë¢ÐÂÆÁÄ»,ÎÒÃÇÒªÏÔÊ¾ÐÅÏ¢µ½ÆÁÄ»,³ýÁË°ÑÏàÓ¦Êý¾ÝËÍÆÁÄ»RAM,»¹Òª½Ó×Åµ÷ÓÃÕâ¸öÖÐ¶Ï</p>
-<p>&nbsp; ÀýÈçÔÚÆÁÄ»ÉÏ×î×óÉÏ½ÇÏÔÊ¾ &quot;HELLO WORLD&quot;</p>
-<p>&nbsp; ÏÈÊäÈëÐÅÏ¢,´ÓµØÖ·2000¿ªÊ¼ÊäÈë</p>
+<p>&nbsp; åˆ·æ–°å±å¹•,æˆ‘ä»¬è¦æ˜¾ç¤ºä¿¡æ¯åˆ°å±å¹•,é™¤äº†æŠŠç›¸åº”æ•°æ®é€å±å¹•RAM,è¿˜è¦æŽ¥ç€è°ƒç”¨è¿™ä¸ªä¸­æ–­</p>
+<p>&nbsp; ä¾‹å¦‚åœ¨å±å¹•ä¸Šæœ€å·¦ä¸Šè§’æ˜¾ç¤º &quot;HELLO WORLD&quot;</p>
+<p>&nbsp; å…ˆè¾“å…¥ä¿¡æ¯,ä»Žåœ°å€2000å¼€å§‹è¾“å…¥</p>
 <p>&nbsp; V 2000</p>
-<p>&nbsp; °´ÊäÈë·¨ ÊäÈë&quot;HELLO WORLD&quot;</p>
-<p>&nbsp; Ð´ÏÔÊ¾³ÌÐò,´ÓµØÖ·2010¿ªÊ¼</p>
+<p>&nbsp; æŒ‰è¾“å…¥æ³• è¾“å…¥&quot;HELLO WORLD&quot;</p>
+<p>&nbsp; å†™æ˜¾ç¤ºç¨‹åº,ä»Žåœ°å€2010å¼€å§‹</p>
 <p>&nbsp; A 2010</p>
 <p>&nbsp; 2010: INT $8A2E</p>
 <p>&nbsp; 2013: LDX #$0B</p>
@@ -43,58 +41,58 @@
 <p>&nbsp; 2028: INT&nbsp; $8A15</p>
 <p>&nbsp; 202B: INT $C008</p>
 <p>&nbsp; 202E: RTS</p>
-<p>¡¡</p>
+<p>ã€€</p>
 <p>3. ReadKey</p>
-<p>&nbsp;&nbsp; ÖÐ¶Ïµ÷ÓÃ: INT $C008 »ò INT $C007</p>
-<p>&nbsp;&nbsp; ¶ÁÈ¡ÓÃ»§°´¼üµÄÉ¨ÃèÂë,ËÍ¼Ä´æÆ÷A</p>
-<p>&nbsp;&nbsp; ËùÒÔÎÒÃÇÊ¹ÓÃ¸ÃÖÐ¶Ï¿ÉÒÔÅÐ¶ÏÓÃ»§°´ÁËÊ²Ã´¼ü</p>
-<p>&nbsp;&nbsp; ÎÒÃÇ½øÈëNCTOOLS,°´°ïÖú,°´ ±à³Ì×ÊÁÏ,°´ ¼üÅÌÉ¨Ãè,¾Í¿ÉÒÔ»ñµÃ¸÷¼üµÄÉ¨ÃèÂë</p>
-<p>¡¡</p>
+<p>&nbsp;&nbsp; ä¸­æ–­è°ƒç”¨: INT $C008 æˆ– INT $C007</p>
+<p>&nbsp;&nbsp; è¯»å–ç”¨æˆ·æŒ‰é”®çš„æ‰«æç ,é€å¯„å­˜å™¨A</p>
+<p>&nbsp;&nbsp; æ‰€ä»¥æˆ‘ä»¬ä½¿ç”¨è¯¥ä¸­æ–­å¯ä»¥åˆ¤æ–­ç”¨æˆ·æŒ‰äº†ä»€ä¹ˆé”®</p>
+<p>&nbsp;&nbsp; æˆ‘ä»¬è¿›å…¥NCTOOLS,æŒ‰å¸®åŠ©,æŒ‰ ç¼–ç¨‹èµ„æ–™,æŒ‰ é”®ç›˜æ‰«æ,å°±å¯ä»¥èŽ·å¾—å„é”®çš„æ‰«æç </p>
+<p>ã€€</p>
 <p>4. ReadFlashData</p>
 <p>&nbsp;&nbsp; JSR $E917</p>
-<p>&nbsp;&nbsp; ¹¦ÄÜ:¶ÁÈ¡Ö¸¶¨Ò³ÂëµÄÄ³ÉÁ´æµØÖ·ÄÚÈÝ</p>
-<p>&nbsp;&nbsp; Èë¿Ú²ÎÊý: µØÖ· 05B4 ·ÅÒ³Âë</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; µØÖ· 
-C8 ·ÅÄ¿±êµØÖ·µÍ8Î»</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; µØÖ· 
-C9 ·ÅÄ¿±êµØÖ·¸ß8Î»</p>
+<p>&nbsp;&nbsp; åŠŸèƒ½:è¯»å–æŒ‡å®šé¡µç çš„æŸé—ªå­˜åœ°å€å†…å®¹</p>
+<p>&nbsp;&nbsp; å…¥å£å‚æ•°: åœ°å€ 05B4 æ”¾é¡µç </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; åœ°å€ 
+C8 æ”¾ç›®æ ‡åœ°å€ä½Ž8ä½</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; åœ°å€ 
+C9 æ”¾ç›®æ ‡åœ°å€é«˜8ä½</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-¼Ä´æÆ÷(Y) = 00</p>
-<p>&nbsp;&nbsp; ³ö¿Ú²ÎÊý: ¼Ä´æÆ÷A ·Å¶ÁÈ¡µ½µÄÊý¾Ý</p>
-<p>¡¡</p>
-<p>&nbsp; ÀýÈç,¶ÁÈ¡03Ò³ÂëµØÖ·4000µÄÄÚÈÝ</p>
+å¯„å­˜å™¨(Y) = 00</p>
+<p>&nbsp;&nbsp; å‡ºå£å‚æ•°: å¯„å­˜å™¨A æ”¾è¯»å–åˆ°çš„æ•°æ®</p>
+<p>ã€€</p>
+<p>&nbsp; ä¾‹å¦‚,è¯»å–03é¡µç åœ°å€4000çš„å†…å®¹</p>
 <p>&nbsp; A 2000</p>
-<p>&nbsp; 2000: LDA #$03&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;Ò³ÂëËÍµØÖ·05B4</p>
+<p>&nbsp; 2000: LDA #$03&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;é¡µç é€åœ°å€05B4</p>
 <p>&nbsp; 2002: STA $05B4</p>
-<p>&nbsp; 2005: LDA #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;Ä¿±êµØÖ·µÍ8Î»ËÍµØÖ·C8</p>
+<p>&nbsp; 2005: LDA #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;ç›®æ ‡åœ°å€ä½Ž8ä½é€åœ°å€C8</p>
 <p>&nbsp; 2007: STA $C8</p>
-<p>&nbsp; 2009: LDA #$40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;Ä¿±êµØÖ·¸ß8Î»ËÍµØÖ·C9</p>
+<p>&nbsp; 2009: LDA #$40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;ç›®æ ‡åœ°å€é«˜8ä½é€åœ°å€C9</p>
 <p>&nbsp; 200B: STA $C9</p>
-<p>&nbsp; 200D: LDY #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;¼Ä´æÆ÷YµÄÄÚÈÝÎª00</p>
+<p>&nbsp; 200D: LDY #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;å¯„å­˜å™¨Yçš„å†…å®¹ä¸º00</p>
 <p>&nbsp; 200F: JSR $E917 </p>
 <p>&nbsp; 2012: RTS </p>
-<p>&nbsp; ²»¹ýÕâÀï,¼Ä´æÆ÷YµÄÄÚÈÝ²»Ò»¶¨¾ÍÊÇ00,Èç¹ûÊÇ01,ÉÏÃæµÄ³ÌÐò¾ÍÊÇ¶ÁµØÖ·4001µÄÄÚÈÝ</p>
-<p>¡¡</p>
+<p>&nbsp; ä¸è¿‡è¿™é‡Œ,å¯„å­˜å™¨Yçš„å†…å®¹ä¸ä¸€å®šå°±æ˜¯00,å¦‚æžœæ˜¯01,ä¸Šé¢çš„ç¨‹åºå°±æ˜¯è¯»åœ°å€4001çš„å†…å®¹</p>
+<p>ã€€</p>
 <p>5. DELAY</p>
-<p>&nbsp;&nbsp; ¢ÙJSR $E02A</p>
-<p>&nbsp;&nbsp; ÑÓÊ±µÄ×÷ÓÃ</p>
-<p>&nbsp;&nbsp; ¼Ä´æÆ÷XÉèÖÃÑÓÊ±Ê±¼ä³¤¶Ì</p>
-<p>&nbsp;&nbsp; ÀýÈç: </p>
+<p>&nbsp;&nbsp; â‘ JSR $E02A</p>
+<p>&nbsp;&nbsp; å»¶æ—¶çš„ä½œç”¨</p>
+<p>&nbsp;&nbsp; å¯„å­˜å™¨Xè®¾ç½®å»¶æ—¶æ—¶é—´é•¿çŸ­</p>
+<p>&nbsp;&nbsp; ä¾‹å¦‚: </p>
 <p>&nbsp;&nbsp; A 2000</p>
 <p>&nbsp;&nbsp; 2000: LDX #$50</p>
 <p>&nbsp;&nbsp; 2002: JSR $E02A</p>
 <p>&nbsp;&nbsp; 2005: RTS</p>
-<p>&nbsp;&nbsp; ¢ÚJSR $E02D</p>
-<p>&nbsp;&nbsp;&nbsp; ºÍÉÏÃæÒ»Ñù,²»¹ýÊÇ¼Ä´æÆ÷YÉèÖÃÑÓÊ±Ê±¼ä³¤¶Ì</p>
-<p>¡¡</p>
+<p>&nbsp;&nbsp; â‘¡JSR $E02D</p>
+<p>&nbsp;&nbsp;&nbsp; å’Œä¸Šé¢ä¸€æ ·,ä¸è¿‡æ˜¯å¯„å­˜å™¨Yè®¾ç½®å»¶æ—¶æ—¶é—´é•¿çŸ­</p>
+<p>ã€€</p>
 <p>6. CheckPower</p>
-<p>&nbsp;&nbsp; µçÁ¿¼ì²â</p>
-<p>&nbsp;&nbsp; ÖÐ¶Ïµ÷ÓÃ: INT $021A</p>
-<p>&nbsp;&nbsp; Èô½á¹ûÎª0 ´ú±íµçÁ¦×ã</p>
-<p>&nbsp;&nbsp; Èô½á¹û²»Îª0 ´ú±íµçÁ¦²»×ã</p>
-<p>&nbsp; ÀýÈç Ö´ÐÐµçÁ¿¼ì²â,ÈôµçÁ¦×ã,ËÍ01µ½µØÖ·3000</p>
+<p>&nbsp;&nbsp; ç”µé‡æ£€æµ‹</p>
+<p>&nbsp;&nbsp; ä¸­æ–­è°ƒç”¨: INT $021A</p>
+<p>&nbsp;&nbsp; è‹¥ç»“æžœä¸º0 ä»£è¡¨ç”µåŠ›è¶³</p>
+<p>&nbsp;&nbsp; è‹¥ç»“æžœä¸ä¸º0 ä»£è¡¨ç”µåŠ›ä¸è¶³</p>
+<p>&nbsp; ä¾‹å¦‚ æ‰§è¡Œç”µé‡æ£€æµ‹,è‹¥ç”µåŠ›è¶³,é€01åˆ°åœ°å€3000</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-ÈôµçÁ¦²»×ã,ËÍ00µ½µØÖ·3000</p>
+è‹¥ç”µåŠ›ä¸è¶³,é€00åˆ°åœ°å€3000</p>
 <p>&nbsp; A 2000</p>
 <p>&nbsp; 2000: INT $021A</p>
 <p>&nbsp; 2003: BEQ $200B</p>
@@ -104,17 +102,17 @@ C9 ·ÅÄ¿±êµØÖ·¸ß8Î»</p>
 <p>&nbsp; 200B: LDA #$01</p>
 <p>&nbsp; 200D: STA $3000</p>
 <p>&nbsp; 2010: RTS</p>
-<p>¡¡</p>
-<p>7. ÄÚÖÃDEBUG</p>
-<p>&nbsp;&nbsp; ÖÐ¶Ïµ÷ÓÃ: INT $C40D</p>
+<p>ã€€</p>
+<p>7. å†…ç½®DEBUG</p>
+<p>&nbsp;&nbsp; ä¸­æ–­è°ƒç”¨: INT $C40D</p>
 <p>&nbsp;</p>
-<p>¡¡</p>
-<p>¡¡</p>
-<p>¡¡</p>
-<p>¡¡</p>
-<p>¡¡</p>
-<p>¡¡</p>
-<p>¡¡</p>
+<p>ã€€</p>
+<p>ã€€</p>
+<p>ã€€</p>
+<p>ã€€</p>
+<p>ã€€</p>
+<p>ã€€</p>
+<p>ã€€</p>
 
 </body>
 

@@ -1,91 +1,89 @@
 <html>
 
 <head>
-<meta charset="GBK">
-<meta http-equiv="Content-Language" content="zh-cn">
-<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
-<meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=gbk">
-<title>�½���ҳ 1</title>
+<meta charset="utf-8">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>新建网页 1</title>
 <style>
 <!--
-.swy1 {font: 12pt/14pt "����"} 
+.swy1 {font: 12pt/14pt "宋体"} 
 -->
 </style>
 </head>
 
 <body text="#FFFFFF" bgcolor="#000000">
 
-<p><b><font size="5">//�ӳ�������</font></b></p>
+<p><b><font size="5">//子程序的设计</font></b></p>
 
-<p><font size="2">&nbsp; �ڳ��������,�������Ҫ���������Ƚϸ���,�����Ĵ���ͻ�Ƚ϶�,��ʱ��Ӧ�ò���ģ�黯����Ʒ���.</font></p>
+<p><font size="2">&nbsp; 在程序设计中,如果程序要解决的问题比较复杂,则程序的代码就会比较多,这时就应该采用模块化的设计方法.</font></p>
 
-<p><font size="2">��νģ�黯�������,�������оٳ�һ�����ģ����,���������Сģ��,�ֱ���������ģ��Ľ������,��Ӧ��</font></p>
+<p><font size="2">所谓模块化程序设计,就是先列举出一个大的模块中,各个个别的小模块,分别建立出各个模块的解决方案,再应用</font></p>
 
-<p><font size="2">�ڴ��ģ����.��6502�����������,ֻ��ͨ������ӳ���ķ�ʽ��������С��ģ��,Ȼ�����������е�������.</font></p>
+<p><font size="2">于大的模块中.在6502汇编程序设计中,只能通过设计子程序的方式建立各个小的模块,然后在主程序中调用它们.</font></p>
 
-<p><font size="2">&nbsp; </font><b>����ӳ�����ŵ�:</b></p>
+<p><font size="2">&nbsp; </font><b>设计子程序的优点:</b></p>
 
-<p><font color="#808080"><font size="2">1.ʹ����Ŀɶ���,��ά���Դ����ǿ</font></p>
+<p><font color="#808080"><font size="2">1.使程序的可读性,可维护性大大增强</font></p>
 
-<p><font size="2">2.ʹ�ó���Ŀռ�Ч�ʵõ��������</font></p>
-<p><font size="2">3.ʹ�ô���õ��ظ�����,����Ŀ���չ��ǿ</font></font></p>
+<p><font size="2">2.使得程序的空间效率得到大大的提高</font></p>
+<p><font size="2">3.使得代码得到重复利用,程序的可扩展性强</font></font></p>
 
 <p><font size="2">&nbsp;</font></p>
 
-<p><font size="2">&nbsp; </font><b>����ӳ����ԭ��:</b></p>
+<p><font size="2">&nbsp; </font><b>设计子程序的原则:</b></p>
 
-<p><font color="#808080"><font size="2">1.�ռ�С,�ṹ����,���Զ���������</font></p>
+<p><font color="#808080"><font size="2">1.空间小,结构完整,可以独立被调用</font></p>
 
-<p><font size="2">&nbsp; �ӳ�����̫��,�����޷��������.����Ľṹ�ֱ����������,�Ա��ڷֽ����,�����ο����������ɵ���</font></p>
+<p><font size="2">&nbsp; 子程序不能太大,否则无法灵活利用.程序的结构又必须独立完整,以便于分解组合,供二次开发程序自由调用</font></p>
 
-<p><font size="2">2.Ч�ʸ�,���Դ�,���������������</font></p>
+<p><font size="2">2.效率高,弹性大,便于其他程序调用</font></p>
 
-<p><font size="2">&nbsp; ����Ӧ�ó����и�����������������,�ӳ������ƾ�Ҫ���ǵ�ͨ����,������������������</font></p>
+<p><font size="2">&nbsp; 各种应用程序都有各自特殊的需求和条件,子程序的设计就要考虑到通用性,否则很难满足各种条件</font></p>
 
-<p><font size="2">3.������ȷ,��仯�Բ�����ʵ��</font></p>
+<p><font size="2">3.功能明确,其变化以参数来实现</font></p>
 
-<p><font size="2">4.�ӳ���ִ�����,�ԼĴ������ַ��Ϊ���ص�����</font></p>
+<p><font size="2">4.子程序执行完后,以寄存器或地址作为返回的数据</font></p>
 
-<p><font size="2">5.Ҫ�������Ĵ���������</font></font></p>
+<p><font size="2">5.要保护个寄存器的内容</font></font></p>
 
 <p><font size="2">&nbsp; 
-�������ӳ�����ҲҪ�õ�һЩ�Ĵ���,��ô������Ӱ��Ĵ�����ֵ,��������Ӧ�����ӳ���ǰ�Ѹ��Ĵ���ѹ���ջ,��ִ���ӳ������</font></p>
+由于在子程序中也要用到一些寄存器,那么这比如会影响寄存器的值,所以我们应该在子程序前把各寄存器压入堆栈,在执行子程序结束</font></p>
 
-<p><font size="2">Ҫ�Ѹ��Ĵ����Ӷ�ջ�е���.ϣ�����������������ϰ��,��Ϊ��һЩ��ĳ�����,һЩ��������������Ϊû�б����üĴ�����ԭ��,����</font></p>
+<p><font size="2">要把各寄存器从堆栈中弹出.希望大家能养成这样的习惯,因为在一些大的程序中,一些错误往往就是因为没有保护好寄存器的原因,而且</font></p>
 
-<p><font size="2">��Щ�����ֱȽ��ѷ���,�������ÿ���ӳ����ܱ����üĴ�����ֵ,��ô�ڳ������ʱ,�Ͳ���Ҫ�����Ƿ���û�б����Ĵ�����ԭ����</font></p>
+<p><font size="2">这些错误又比较难发现,所以如果每个子程序都能保护好寄存器的值,那么在程序调试时,就不需要考虑是否是没有保护寄存器的原因了</font></p>
 
-<p><font size="2">�Ϳ��Խ�Լ�����ĳ������ʱ��</font></p>
+<p><font size="2">就可以节约大量的程序调试时间</font></p>
 
-<p>��</p>
+<p>　</p>
 
-<p><font size="2">��: 
-��ǰ���ѭ��������ƽ̳���,���ǽ����˽���ַ2000-2FFF�������͵�ַ3000-3FFF.������������Ƶ�һ��������,������Ҫʵ��</font></p>
-
-<p><font size="2">
-����ַ2000-2FFF��������3000-3FFF,��ô�����ǲ��Ǿͽ�ǰ��ĳ�����Ϊ�ӳ�����?�ӳ�����ƵĽǶȽ�,�������ӳ�����Ȼ�Ƿǳ�ʧ��</font></p>
-
-<p><font size="2">�������ӳ���û���κε���,��������Ҫʵ�ֽ���ַ0000-0FFF�������͵�ַ3000-3FFF,�ǲ��������������?</font></p>
-
-<p><font size="2">&nbsp; ��������Ӧ�����һ������ͨ�õ��ӳ���,����ʵ������ε�ַ������֮��Ĵ���.</font></p>
-
-<p><font size="2">&nbsp; �������ǿ��������涨:</font></p>
-
-<p><font size="2">&nbsp; ��ַ40 41:��Դ��ʼ��ַ</font></p>
-
-<p><font size="2">&nbsp; ��ַ42 43:��Դ������ַ</font></p>
-
-<p><font size="2">&nbsp; ��ַ44 45:��Ŀ�꿪ʼ��ַ</font></p>
-
-<p><font size="2">��������ֻҪ��Դ��ʼ��ַ,Դ������ַ,Ŀ�꿪ʼ��ַ ȷ��,�ŵ�ַ40 41 42 43 44 
-45,Ȼ����ø��ӳ���Ϳ�����,����Ĺ����ǲ���</font></p>
+<p><font size="2">例: 
+在前面的循环程序设计教程中,我们讲解了将地址2000-2FFF的内容送地址3000-3FFF.假设在我们设计的一个程序里,我们需要实现</font></p>
 
 <p><font size="2">
-�õ������ؿ���?������Լ�˿ռ�.�������Ǿͽ������ʵ��,��ʵ��ǰ���ʵ��2000-2FFF�͵�ַ3000-3FFF��������һ����.</font></p>
+将地址2000-2FFF的内容送3000-3FFF,那么我们是不是就将前面的程序做为子程序呢?从程序设计的角度讲,这样的子程序显然是非常失败</font></p>
+
+<p><font size="2">这样的子程序没有任何弹性,假如我又要实现将地址0000-0FFF的内容送地址3000-3FFF,是不是又重新设计呢?</font></p>
+
+<p><font size="2">&nbsp; 所以我们应该设计一个可以通用的子程序,可以实现任意段地址的数据之间的传送.</font></p>
+
+<p><font size="2">&nbsp; 这里我们可以这样规定:</font></p>
+
+<p><font size="2">&nbsp; 地址40 41:放源开始地址</font></p>
+
+<p><font size="2">&nbsp; 地址42 43:放源结束地址</font></p>
+
+<p><font size="2">&nbsp; 地址44 45:放目标开始地址</font></p>
+
+<p><font size="2">这样我们只要把源开始地址,源结束地址,目标开始地址 确定,放地址40 41 42 43 44 
+45,然后调用该子程序就可以了,程序的功能是不是</font></p>
+
+<p><font size="2">
+得到大大的拓宽呢?还大大节约了空间.下面我们就讲解如何实现,其实和前面的实现2000-2FFF送地址3000-3FFF基本上是一样的.</font></p>
 
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2000:PHA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//�Ѹ����Ĵ���ѹ���ջ</font></p>
+//把各个寄存器压入堆栈</font></p>
 
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2001:TXA</font></p>
 
@@ -97,41 +95,41 @@
 
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2005:PHP</font></p>
 
-<p>��</p>
+<p>　</p>
 
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2006:LDY #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </font>
 </p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2008:LDA ($40),Y</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200A:STA ($44),Y</font></p>
-<p>��</p>
+<p>　</p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200C:LDA $40</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;<b> 200E:CMP $42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//�ؼ���һ��,�ѵ�ַ40 41��ֵ�͵�ַ42 43�Ƚ�,����ͬ,��˵������</b></font></p>
+//关键的一步,把地址40 41的值和地址42 43比较,若相同,就说明完了</b></font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2010:BNE $201F</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2012:LDA $41</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; <b>2014:CMP $43</b></font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2016:BNE $201F</font></p>
-<p>��</p>
+<p>　</p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2018:PLA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//������Ϻ�,�ָ������Ĵ�����ֵ</font></p>
+//发送完毕后,恢复各个寄存器的值</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2019:TAY</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 201A:PLA</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 201B:TAX</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 201C:PLA</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 201D:PLP</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 201E:RTS</font></p>
-<p>��</p>
+<p>　</p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 201F:INC $40</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2021:BNE $2025</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2023:INC $41</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2025:INC $44</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2027:BNE $202B</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2029:INC $45</font></p>
-<p>��</p>
+<p>　</p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 202B:JMP $2008</font></p>
-<p><font size="2">&nbsp; ���ǿ��Է���,����ӳ����ǲ��Ǹ�������,����ʵ�����ݵĴ���,������������ӳ���,���ҳ�������ֲ���.</font></p>
-<p><font size="2">&nbsp; ���ڱ���ʱ������,���Ծͽ���ô��,ϣ������ܱ�д��������ӳ���!</font></p>
+<p><font size="2">&nbsp; 我们可以发现,这个子程序是不是更理想呢,你想实现数据的传送,都可以用这个子程序,而且程序代码又不长.</font></p>
+<p><font size="2">&nbsp; 由于本人时间有限,所以就讲这么多,希望大家能编写出理想的子程序!</font></p>
 
 </body>
 

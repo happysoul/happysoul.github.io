@@ -1,31 +1,31 @@
 <html>
 
 <head>
-<meta charset="GBK">
-<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
-<meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=gbk">
+<meta charset="utf-8">
+
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
 <title>9</title>
 </head>
 
 <body text="#FFFFFF" bgcolor="#000000">
 
-<p><font size="2">9.ʹ�üĴ���Y����ҳ��ַ</font></p>
-<p><font size="2">&nbsp; �������&quot;ʹ�üĴ���X����ҳѰַ&quot;��֮ͬ���������ڰѼĴ���X��Ϊ�Ĵ���Y.</font></p>
+<p><font size="2">9.使用寄存器Y的零页变址</font></p>
+<p><font size="2">&nbsp; 和上面的&quot;使用寄存器X的零页寻址&quot;不同之处仅仅在于把寄存器X换为寄存器Y.</font></p>
 <table border="0" cellspacing="1" width="18%">
   <tr>
-    <td width="50%">������</td>
-    <td width="50%">��һ�ֽ�</td>
+    <td width="50%">操作码</td>
+    <td width="50%">第一字节</td>
   </tr>
   <tr>
-    <td width="50%">��ҳ����ַ</td>
-    <td width="50%">�ڶ��ֽ�</td>
+    <td width="50%">零页基地址</td>
+    <td width="50%">第二字节</td>
   </tr>
 </table>
-<p><font size="2">&nbsp;����ָ�� LDX $F0,Y Ѱַ��������:</font></p>
-<p><font size="2">&nbsp;��(Y)=03,(F3)=40</font></p>
-<p><font size="2">&nbsp;����ַF0+(Y)=F0+03=F3</font></p>
-<p><font size="2">&nbsp;����ָ��Ĺ��ܾ��ǽ���ַF3�������ͼĴ���X</font></p>
+<p><font size="2">&nbsp;例如指令 LDX $F0,Y 寻址过程如下:</font></p>
+<p><font size="2">&nbsp;设(Y)=03,(F3)=40</font></p>
+<p><font size="2">&nbsp;基地址F0+(Y)=F0+03=F3</font></p>
+<p><font size="2">&nbsp;这条指令的功能就是将地址F3的内容送寄存器X</font></p>
 
 </body>
 

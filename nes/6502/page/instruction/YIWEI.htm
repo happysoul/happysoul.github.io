@@ -1,190 +1,188 @@
 <html>
 
 <head>
-<meta charset="GBK">
-<meta http-equiv="Content-Language" content="zh-cn">
-<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
-<meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=gbk">
-<title>�½���ҳ 1</title>
+<meta charset="utf-8">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>新建网页 1</title>
 </head>
 
 <body text="#FFFFFF" bgcolor="#000000">
 
-<p><font size="2">//</font><font size="2" color="#808080">addr&nbsp; :����8λ��ַ&nbsp;&nbsp;&nbsp; addr16:����16λ��ַ&nbsp;&nbsp;&nbsp;&nbsp; 
-data&nbsp; :������</font></p>
-<p><font size="2">//</font><font size="2" color="#808080">��λָ��</font></p>
-<p><font color="#808080" size="2">1. ��������ָ��ASL</font></p>
+<p><font size="2">//</font><font size="2" color="#808080">addr&nbsp; :代表8位地址&nbsp;&nbsp;&nbsp; addr16:代表16位地址&nbsp;&nbsp;&nbsp;&nbsp; 
+data&nbsp; :立即数</font></p>
+<p><font size="2">//</font><font size="2" color="#808080">移位指令</font></p>
+<p><font color="#808080" size="2">1. 算术左移指令ASL</font></p>
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber1">
   <tr>
-    <td width="33%"><b><font color="#808080" size="2">�������ʽ</font></b></td>
-    <td width="33%"><b><font color="#808080" size="2">ָ�������</font></b></td>
-    <td width="34%"><b><font color="#808080" size="2">Ѱַ��ʽ</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">ASL</font></td>
     <td width="33%"><font size="2">0A</font></td>
-    <td width="34%"><font size="2">�ۼ���Ѱַ</font></td>
+    <td width="34%"><font size="2">累加器寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">ASL $data</font></td>
     <td width="33%"><font size="2">06</font></td>
-    <td width="34%"><font size="2">��ҳѰַ</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">ASL $addr16</font></td>
     <td width="33%"><font size="2">0E</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">ASL $addr,X</font></td>
     <td width="33%"><font size="2">16</font></td>
-    <td width="34%"><font size="2">��ҳX��ַ</font></td>
+    <td width="34%"><font size="2">零页X变址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">ASL $addr16,X</font></td>
     <td width="33%"><font size="2">1E</font></td>
-    <td width="34%"><font size="2">����X��ַ</font></td>
+    <td width="34%"><font size="2">绝对X变址</font></td>
   </tr>
 </table>
-<p><font size="2">ASL��λ�����ǽ��ֽ��ڸ�λ����������1λ�����λ�ƽ���־λC�У����λ��0</font></p>
-<p><font size="2">ASLִ�н���൱�ڰ���λǰ������2</font></p>
-<p><font size="2">����&nbsp;&nbsp;&nbsp; //ASL��Ӧ��</font></p>
+<p><font size="2">ASL移位功能是将字节内各位依次向左移1位，最高位移进标志位C中，最底位补0</font></p>
+<p><font size="2">ASL执行结果相当于把移位前的数乘2</font></p>
+<p><font size="2">例如&nbsp;&nbsp;&nbsp; //ASL的应用</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2000:LDA #$20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//��������20���ۼ���A</font></p>
+//把立即数20送累加器A</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2002:ASL 
 <span lang="en-us">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//�ۼ���A��������������</font></p>
+//累加器A的内容算术左移</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2003:STA $2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//���ۼ���A�������͵�ַ2100</font></p>
+//把累加器A的内容送地址2100</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2006:ASL $2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//��ַ2100��������������</font></p>
+//地址2100的内容算术左移</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2009:LDA $2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//��ַ2100���������ۼ���A</font></p>
+//地址2100的内容送累加器A</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 200C:RTS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//�������</font></p>
-<p><font color="#808080" size="2">2. �߼�����ָ��LSR</font></p>
+//程序结束</font></p>
+<p><font color="#808080" size="2">2. 逻辑右移指令LSR</font></p>
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber2">
   <tr>
-    <td width="33%"><b><font color="#808080" size="2">�������ʽ</font></b></td>
-    <td width="33%"><b><font color="#808080" size="2">ָ�������</font></b></td>
-    <td width="34%"><b><font color="#808080" size="2">Ѱַ��ʽ</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LSR</font></td>
     <td width="33%"><font size="2">4A</font></td>
-    <td width="34%"><font size="2">�ۼ���Ѱַ</font></td>
+    <td width="34%"><font size="2">累加器寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LSR $data</font></td>
     <td width="33%"><font size="2">46</font></td>
-    <td width="34%"><font size="2">��ҳѰַ</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LSR $addr16</font></td>
     <td width="33%"><font size="2">4E</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LSR $addr,X</font></td>
     <td width="33%"><font size="2">56</font></td>
-    <td width="34%"><font size="2">��ҳX��ַ</font></td>
+    <td width="34%"><font size="2">零页X变址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LSR $addr16,X</font></td>
     <td width="33%"><font size="2">5E</font></td>
-    <td width="34%"><font size="2">����X��ַ</font></td>
+    <td width="34%"><font size="2">绝对X变址</font></td>
   </tr>
 </table>
-<p><font size="2">��ָ����ǽ��ֽ��ڸ�λ����������1λ�����λ�ƽ���־λC�����λ��0.</font></p>
-<p><font size="2">�ò��������޷������������൱�ڳ�1/2</font></p>
-<p><font size="2">���� //���ֳ��򣬽���ַ2100��Ԫ�ĸ���λ�͵�ַ2101�ĵ���λ������ַ2100��Ԫ�ĵ���λ�͵�ַ2102�ĵ���λ</font></p>
-<p><font size="2">���������ַ2101�͵�ַ2102�ĸ���λ</font></p>
+<p><font size="2">该指令功能是将字节内各位依次向右移1位，最低位移进标志位C，最高位补0.</font></p>
+<p><font size="2">该操作对于无符号数和正数相当于乘1/2</font></p>
+<p><font size="2">例： //拆字程序，将地址2100单元的高四位送地址2101的低四位，将地址2100单元的低四位送地址2102的底四位</font></p>
+<p><font size="2">并且清除地址2101和地址2102的高四位</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2000:LDA $2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//��ַ2100��������A</font></p>
+//地址2100的内容送A</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2003:AND #$0F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//A��0F�����߼������㣬������A�ĸ���λ</font></p>
+//A和0F进行逻辑与运算，屏蔽了A的高四位</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2005:STA $2102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//����͵�ַ2102</font></p>
+//结果送地址2102</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2008:LDA $2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </font> </p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200B:LSR <span lang="en-us">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//��A�ĸ���λŲ������λ������λ��0</font></p>
+//将A的高四位挪到低四位，高四位补0</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200C:LSR </font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200D:LSR </font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200E:LSR </font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200F:STA $2101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//����͵�ַ2101</font></p>
+//结果送地址2101</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2012:RTS</font></p>
-<p><font color="#808080" size="2">3. ѭ������ָ��ROL</font></p>
+<p><font color="#808080" size="2">3. 循环左移指令ROL</font></p>
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber3">
   <tr>
-    <td width="33%"><b><font color="#808080" size="2">�������ʽ</font></b></td>
-    <td width="33%"><b><font color="#808080" size="2">ָ�������</font></b></td>
-    <td width="34%"><b><font color="#808080" size="2">Ѱַ��ʽ</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">ROL</font></td>
     <td width="33%"><font size="2">2A</font></td>
-    <td width="34%"><font size="2">�ۼ���Ѱַ</font></td>
+    <td width="34%"><font size="2">累加器寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">ROL $data</font></td>
     <td width="33%"><font size="2">26</font></td>
-    <td width="34%"><font size="2">��ҳѰַ</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">ROL $addr16</font></td>
     <td width="33%"><font size="2">2E</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">ROL $addr,X</font></td>
     <td width="33%"><font size="2">36</font></td>
-    <td width="34%"><font size="2">��ҳX��ַ</font></td>
+    <td width="34%"><font size="2">零页X变址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">ROL $addr16,X</font></td>
     <td width="33%"><font size="2">3E</font></td>
-    <td width="34%"><font size="2">����X��ַ</font></td>
+    <td width="34%"><font size="2">绝对X变址</font></td>
   </tr>
 </table>
-<p><font size="2">ROL����λ�����ǽ��ֽ�������ͬ��λCһ������������1λ</font></p>
-<p><font color="#808080" size="2">4. ѭ������ָ��ROR</font></p>
+<p><font size="2">ROL的移位功能是将字节内容连同进位C一起依次向左移1位</font></p>
+<p><font color="#808080" size="2">4. 循环右移指令ROR</font></p>
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber4">
   <tr>
-    <td width="33%"><b><font color="#808080" size="2">�������ʽ</font></b></td>
-    <td width="33%"><b><font color="#808080" size="2">ָ�������</font></b></td>
-    <td width="34%"><b><font color="#808080" size="2">Ѱַ��ʽ</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">ROR</font></td>
     <td width="33%"><font size="2">6A</font></td>
-    <td width="34%"><font size="2">�ۼ���Ѱַ</font></td>
+    <td width="34%"><font size="2">累加器寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">ROR $data</font></td>
     <td width="33%"><font size="2">66</font></td>
-    <td width="34%"><font size="2">��ҳѰַ</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">ROR $addr16</font></td>
     <td width="33%"><font size="2">6E</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">ROR $addr,X</font></td>
     <td width="33%"><font size="2">76</font></td>
-    <td width="34%"><font size="2">��ҳX��ַ</font></td>
+    <td width="34%"><font size="2">零页X变址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">ROR $addr16,X</font></td>
     <td width="33%"><font size="2">7E</font></td>
-    <td width="34%"><font size="2">����X��ַ</font></td>
+    <td width="34%"><font size="2">绝对X变址</font></td>
   </tr>
 </table>
 
-<p><font size="2">ROR����λ�����ǽ��ֽ�������ͬ��λCһ������������1λ</font></p>
+<p><font size="2">ROR的移位功能是将字节内容连同进位C一起依次向右移1位</font></p>
 
 </body>
 

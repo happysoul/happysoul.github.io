@@ -1,266 +1,264 @@
 <html>
 
 <head>
-<meta charset="GBK">
-<meta http-equiv="Content-Language" content="zh-cn">
-<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
-<meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=gbk">
-<title>ע</title>
+<meta charset="utf-8">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>注</title>
 </head>
 
 <body bgcolor="#000000" text="#FFFFFF">
 
-<p><font size="2">//</font><font size="2" color="#808080">addr&nbsp; :����8λ��ַ&nbsp;&nbsp;&nbsp; addr16:����16λ��ַ&nbsp;&nbsp;&nbsp;&nbsp; 
-data&nbsp; :������</font></p>
+<p><font size="2">//</font><font size="2" color="#808080">addr&nbsp; :代表8位地址&nbsp;&nbsp;&nbsp; addr16:代表16位地址&nbsp;&nbsp;&nbsp;&nbsp; 
+data&nbsp; :立即数</font></p>
 
-<p><font size="2">//</font><font size="2" color="#808080">���ݴ���ָ��</font></p>
-<p><font size="2">//</font><font size="2" color="#808080">LDA--�ɴ洢��ȡ�������ۼ��� M��A</font></p>
+<p><font size="2">//</font><font size="2" color="#808080">数据传送指令</font></p>
+<p><font size="2">//</font><font size="2" color="#808080">LDA--由存储器取数送入累加器 M→A</font></p>
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber1">
   <tr>
-    <td width="33%"><b><font color="#808080" size="2">�������ʽ</font></b></td>
-    <td width="33%"><b><font color="#808080" size="2">ָ�������</font></b></td>
-    <td width="34%"><b><font color="#808080" size="2">Ѱַ��ʽ</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDA ($addr,X)</font></td>
     <td width="33%"><font size="2">A1</font></td>
-    <td width="34%"><font size="2">�ȱ�ַX���ַ</font></td>
+    <td width="34%"><font size="2">先变址X后间址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDA $addr</font></td>
     <td width="33%"><font size="2">A5</font></td>
-    <td width="34%"><font size="2">��ҳѰַ</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDA #$data</font></td>
     <td width="33%"><font size="2">A9</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">立即寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDA $addr16</font></td>
     <td width="33%"><font size="2">AD</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDA ($addr),Y</font></td>
     <td width="33%"><font size="2">B1</font></td>
-    <td width="34%"><font size="2">���ַY��ַ</font></td>
+    <td width="34%"><font size="2">后变址Y间址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDA $addr,X</font></td>
     <td width="33%"><font size="2">B5</font></td>
-    <td width="34%"><font size="2">��ҳX��ַ</font></td>
+    <td width="34%"><font size="2">零页X变址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDA $addr16,Y</font></td>
     <td width="33%"><font size="2">B9</font></td>
-    <td width="34%"><font size="2">����Y��ַ</font></td>
+    <td width="34%"><font size="2">绝对Y变址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDA $addr16,X</font></td>
     <td width="33%"><font size="2">BD</font></td>
-    <td width="34%"><font size="2">����X��ַ</font></td>
+    <td width="34%"><font size="2">绝对X变址</font></td>
   </tr>
 </table>
-<p><font size="2" face="����">//</font><font size="2" color="#808080">LDX--�ɴ洢��ȡ�������ۼ��� M��X</font></p>
+<p><font size="2" face="宋体">//</font><font size="2" color="#808080">LDX--由存储器取数送入累加器 M→X</font></p>
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber2">
   <tr>
-    <td width="33%"><b><font color="#808080" size="2">�������ʽ</font></b></td>
-    <td width="33%"><b><font color="#808080" size="2">ָ�������</font></b></td>
-    <td width="34%"><b><font color="#808080" size="2">Ѱַ��ʽ</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDX #$data</font></td>
     <td width="33%"><font size="2">A2</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">立即寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDX $addr</font></td>
     <td width="33%"><font size="2">A6</font></td>
-    <td width="34%"><font size="2">��ҳѰַ</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDX $addr16</font></td>
     <td width="33%"><font size="2">AE</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDX $addr,Y</font></td>
     <td width="33%"><font size="2">B6</font></td>
-    <td width="34%"><font size="2">��ҳY��ַ</font></td>
+    <td width="34%"><font size="2">零页Y变址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDX $addr16,Y</font></td>
     <td width="33%"><font size="2">BE</font></td>
-    <td width="34%"><font size="2">����Y��ַ</font></td>
+    <td width="34%"><font size="2">绝对Y变址</font></td>
   </tr>
 </table>
-<p><font size="2" face="����">//</font><font size="2" color="#808080">LDY--�ɴ洢��ȡ�������ۼ��� M��Y</font></p>
+<p><font size="2" face="宋体">//</font><font size="2" color="#808080">LDY--由存储器取数送入累加器 M→Y</font></p>
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber2">
   <tr>
-    <td width="33%"><b><font color="#808080" size="2">�������ʽ</font></b></td>
-    <td width="33%"><b><font color="#808080" size="2">ָ�������</font></b></td>
-    <td width="34%"><b><font color="#808080" size="2">Ѱַ��ʽ</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDY #$data</font></td>
     <td width="33%"><font size="2">A0</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">立即寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDY $addr</font></td>
     <td width="33%"><font size="2">A4</font></td>
-    <td width="34%"><font size="2">��ҳѰַ</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDY $addr16</font></td>
     <td width="33%"><font size="2">AC</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDY $addr,X</font></td>
     <td width="33%"><font size="2">B4</font></td>
-    <td width="34%"><font size="2">��ҳX��ַ</font></td>
+    <td width="34%"><font size="2">零页X变址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">LDY $addr16,X</font></td>
     <td width="33%"><font size="2">BC</font></td>
-    <td width="34%"><font size="2">����X��ַ</font></td>
+    <td width="34%"><font size="2">绝对X变址</font></td>
   </tr>
 </table>
-<p><font size="2" face="����">//</font><font size="2" color="#808080">STA--���ۼ�������������洢�� A--M</font></p>
+<p><font size="2" face="宋体">//</font><font size="2" color="#808080">STA--将累加器的内容送入存储器 A--M</font></p>
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber1">
   <tr>
-    <td width="33%"><b><font color="#808080" size="2">�������ʽ</font></b></td>
-    <td width="33%"><b><font color="#808080" size="2">ָ�������</font></b></td>
-    <td width="34%"><b><font color="#808080" size="2">Ѱַ��ʽ</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">STA ($addr,X)</font></td>
     <td width="33%"><font size="2">81</font></td>
-    <td width="34%"><font size="2">�ȱ�ַX���ַ</font></td>
+    <td width="34%"><font size="2">先变址X后间址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">STA $addr</font></td>
     <td width="33%"><font size="2">85</font></td>
-    <td width="34%"><font size="2">��ҳѰַ</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">STA $addr16</font></td>
     <td width="33%"><font size="2">8D</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">STA ($addr),Y</font></td>
     <td width="33%"><font size="2">91</font></td>
-    <td width="34%"><font size="2">���ַY��ַ</font></td>
+    <td width="34%"><font size="2">后变址Y间址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">STA $addr,X</font></td>
     <td width="33%"><font size="2">95</font></td>
-    <td width="34%"><font size="2">��ҳX��ַ</font></td>
+    <td width="34%"><font size="2">零页X变址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">STA $addr16,Y</font></td>
     <td width="33%"><font size="2">99</font></td>
-    <td width="34%"><font size="2">����Y��ַ</font></td>
+    <td width="34%"><font size="2">绝对Y变址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">STA $addr16,X</font></td>
     <td width="33%"><font size="2">9D</font></td>
-    <td width="34%"><font size="2">����X��ַ</font></td>
+    <td width="34%"><font size="2">绝对X变址</font></td>
   </tr>
 </table>
-<p><font size="2" face="����">//</font><font size="2" color="#808080">STX--���Ĵ���X����������洢�� X--M</font></p>
+<p><font size="2" face="宋体">//</font><font size="2" color="#808080">STX--将寄存器X的内容送入存储器 X--M</font></p>
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber2">
   <tr>
-    <td width="33%"><b><font color="#808080" size="2">�������ʽ</font></b></td>
-    <td width="33%"><b><font color="#808080" size="2">ָ�������</font></b></td>
-    <td width="34%"><b><font color="#808080" size="2">Ѱַ��ʽ</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">STX $addr</font></td>
     <td width="33%"><font size="2">86</font></td>
-    <td width="34%"><font size="2">��ҳѰַ</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">STX $addr16</font></td>
     <td width="33%"><font size="2">8E</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">STX $addr,Y</font></td>
     <td width="33%"><font size="2">96</font></td>
-    <td width="34%"><font size="2">��ҳY��ַ</font></td>
+    <td width="34%"><font size="2">零页Y变址</font></td>
   </tr>
 </table>
-<p><font size="2" face="����">//</font><font size="2" color="#808080">STY--���Ĵ���Y����������洢�� Y--M</font></p>
+<p><font size="2" face="宋体">//</font><font size="2" color="#808080">STY--将寄存器Y的内容送入存储器 Y--M</font></p>
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber2">
   <tr>
-    <td width="33%"><b><font color="#808080" size="2">�������ʽ</font></b></td>
-    <td width="33%"><b><font color="#808080" size="2">ָ�������</font></b></td>
-    <td width="34%"><b><font color="#808080" size="2">Ѱַ��ʽ</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="33%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="34%"><b><font color="#808080" size="2">寻址方式</font></b></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">STY $addr</font></td>
     <td width="33%"><font size="2">84</font></td>
-    <td width="34%"><font size="2">��ҳѰַ</font></td>
+    <td width="34%"><font size="2">零页寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">STY $addr16</font></td>
     <td width="33%"><font size="2">8C</font></td>
-    <td width="34%"><font size="2">����Ѱַ</font></td>
+    <td width="34%"><font size="2">绝对寻址</font></td>
   </tr>
   <tr>
     <td width="33%"><font size="2">STY $addr,X</font></td>
     <td width="33%"><font size="2">94</font></td>
-    <td width="34%"><font size="2">��ҳX��ַ</font></td>
+    <td width="34%"><font size="2">零页X变址</font></td>
   </tr>
 </table>
-<p><font color="#808080" size="2">//�Ĵ����ͼĴ���֮��Ĵ���</font></p>
+<p><font color="#808080" size="2">//寄存器和寄存器之间的传送</font></p>
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber3">
   <tr>
-    <td width="15%"><b><font color="#808080" size="2">�������ʽ</font></b></td>
-    <td width="15%"><b><font color="#808080" size="2">ָ�������</font></b></td>
-    <td width="18%"><b><font color="#808080" size="2">Ѱַ��ʽ</font></b></td>
-    <td width="52%"><b><font color="#808080" size="2">ָ������</font></b></td>
+    <td width="15%"><b><font color="#808080" size="2">符号码格式</font></b></td>
+    <td width="15%"><b><font color="#808080" size="2">指令操作码</font></b></td>
+    <td width="18%"><b><font color="#808080" size="2">寻址方式</font></b></td>
+    <td width="52%"><b><font color="#808080" size="2">指令作用</font></b></td>
   </tr>
   <tr>
     <td width="15%"><font size="2">TAX</font></td>
     <td width="15%"><font size="2">AA</font></td>
-    <td width="18%"><font size="2">�Ĵ���Ѱַ</font></td>
-    <td width="52%"><font size="2">���ۼ���A�����������ַ�Ĵ���X</font></td>
+    <td width="18%"><font size="2">寄存器寻址</font></td>
+    <td width="52%"><font size="2">将累加器A的内容送入变址寄存器X</font></td>
   </tr>
   <tr>
     <td width="15%"><font size="2">TXA</font></td>
     <td width="15%"><font size="2">8A</font></td>
-    <td width="18%"><font size="2">�Ĵ���Ѱַ</font></td>
-    <td width="52%"><font size="2">����ַ�Ĵ���X�����������ۼ���A</font></td>
+    <td width="18%"><font size="2">寄存器寻址</font></td>
+    <td width="52%"><font size="2">将变址寄存器X的内容送入累加器A</font></td>
   </tr>
   <tr>
     <td width="15%"><font size="2">TAY</font></td>
     <td width="15%"><font size="2">A8</font></td>
-    <td width="18%"><font size="2">�Ĵ���Ѱַ</font></td>
-    <td width="52%"><font size="2">���ۼ���A�����������ַ�Ĵ���Y</font></td>
+    <td width="18%"><font size="2">寄存器寻址</font></td>
+    <td width="52%"><font size="2">将累加器A的内容送入变址寄存器Y</font></td>
   </tr>
   <tr>
     <td width="15%"><font size="2">TYA</font></td>
     <td width="15%"><font size="2">98</font></td>
-    <td width="18%"><font size="2">�Ĵ���Ѱַ</font></td>
-    <td width="52%"><font size="2">����ַ�Ĵ���Y�����������ۼ���A</font></td>
+    <td width="18%"><font size="2">寄存器寻址</font></td>
+    <td width="52%"><font size="2">将变址寄存器Y的内容送入累加器A</font></td>
   </tr>
   <tr>
     <td width="15%"><font size="2">TSX</font></td>
     <td width="15%"><font size="2">BA</font></td>
-    <td width="18%"><font size="2">�Ĵ���Ѱַ</font></td>
-    <td width="52%"><font size="2">����ջָ��S�����������ַ�Ĵ���X</font></td>
+    <td width="18%"><font size="2">寄存器寻址</font></td>
+    <td width="52%"><font size="2">将堆栈指针S的内容送入变址寄存器X</font></td>
   </tr>
   <tr>
     <td width="15%"><font size="2">TXS</font></td>
     <td width="15%"><font size="2">9A</font></td>
-    <td width="18%"><font size="2">�Ĵ���Ѱַ</font></td>
-    <td width="52%"><font size="2">����ַ�Ĵ���X�����������ջָ��S</font></td>
+    <td width="18%"><font size="2">寄存器寻址</font></td>
+    <td width="52%"><font size="2">将变址寄存器X的内容送入堆栈指针S</font></td>
   </tr>
 </table></body>
 

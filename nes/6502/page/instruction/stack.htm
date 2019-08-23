@@ -1,162 +1,160 @@
 <html>
 
 <head>
-<meta charset="GBK">
-<meta http-equiv="Content-Language" content="zh-cn">
-<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
-<meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=gbk">
-<title>�½���ҳ 1</title>
+<meta charset="utf-8">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>新建网页 1</title>
 </head>
 
 <body text="#FFFFFF" bgcolor="#000000">
 
-<p><font size="2">//</font><font size="2" color="#808080">addr&nbsp; :����8λ��ַ&nbsp;&nbsp;&nbsp; addr16:����16λ��ַ&nbsp;&nbsp;&nbsp;&nbsp; 
-data&nbsp; :������</font></p>
-<p><font size="2">//</font><font size="2" color="#808080">��ջ����ָ��</font></p>
-<p><font color="#808080" size="2">1. �ۼ�����ջָ�� PHA</font></p>
-<p><font size="2" color="#808080">&nbsp; </font><font size="2">&nbsp;PHA������Ѱַ��ʽ�ĵ��ֽ�ָ��������� 48</font></p>
-<p><font size="2">&nbsp;&nbsp; �����ǰ��ۼ���A�����ݰ���ջָ��S��ָʾ��λ�������ջ��Ȼ���ջָ���1</font></p>
-<p><font size="2">&nbsp;&nbsp; </font> <i><b><font size="2">��ָ�Ӱ���־�Ĵ���P��״̬</font></b></i></p>
-<p><font color="#808080" size="2">2. �ۼ�����ջָ�� PLA</font></p>
-<p><font size="2" color="#808080">&nbsp; </font><font size="2">&nbsp;PLA������Ѱַ��ʽ�ĵ��ֽ�ָ��������� 68</font></p>
-<p><font size="2">&nbsp;&nbsp; ���������ö�ջָ��S+1��Ȼ��ȡ�ӹ�1��S��ָ��ĵ�Ԫ�����ݣ��������ۼ���A</font></p>
-<p><i><b><font size="2">&nbsp;&nbsp; ��ָ��Ӱ���־�Ĵ���P�е�N��Z����־λ</font></b></i></p>
-<p><font color="#808080" size="2">3. ��־�Ĵ���P��ջָ�� PHP</font></p>
-<p><font size="2" color="#808080">&nbsp;&nbsp; </font><font size="2">PHP������Ѱַ��ʽ�ĵ��ֽ�ָ��������� 08</font></p>
-<p><font size="2">&nbsp;&nbsp; �����ǰѱ�־�Ĵ���P�����ݰ���ջָ��S��ָʾ��λ�������ջ��Ȼ���ջָ���1</font></p>
-<p><font size="2">&nbsp; </font> <i><b><font size="2">&nbsp;��ָ�Ӱ���־�Ĵ���P��״̬</font></b></i></p>
-<p><font color="#808080" size="2"><b><i>4. </i></b>��־�Ĵ���P��ջָ�� PLP</font></p>
-<p><font size="2" color="#808080">&nbsp;&nbsp; </font><font size="2">PLP������Ѱַ��ʽ�ĵ��ֽ�ָ��������� 28</font></p>
-<p><font size="2">&nbsp;&nbsp; ���������ö�ջָ��S+1��Ȼ��ȡ�ӹ�1��S��ָ��ĵ�Ԫ�����ݣ������ͱ�־�Ĵ���P</font></p>
+<p><font size="2">//</font><font size="2" color="#808080">addr&nbsp; :代表8位地址&nbsp;&nbsp;&nbsp; addr16:代表16位地址&nbsp;&nbsp;&nbsp;&nbsp; 
+data&nbsp; :立即数</font></p>
+<p><font size="2">//</font><font size="2" color="#808080">堆栈操作指令</font></p>
+<p><font color="#808080" size="2">1. 累加器进栈指令 PHA</font></p>
+<p><font size="2" color="#808080">&nbsp; </font><font size="2">&nbsp;PHA是隐含寻址方式的单字节指令，操作码是 48</font></p>
+<p><font size="2">&nbsp;&nbsp; 功能是把累加器A的内容按堆栈指针S所指示的位置送入堆栈，然后堆栈指针减1</font></p>
+<p><font size="2">&nbsp;&nbsp; </font> <i><b><font size="2">该指令不影响标志寄存器P的状态</font></b></i></p>
+<p><font color="#808080" size="2">2. 累加器出栈指令 PLA</font></p>
+<p><font size="2" color="#808080">&nbsp; </font><font size="2">&nbsp;PLA是隐含寻址方式的单字节指令，操作码是 68</font></p>
+<p><font size="2">&nbsp;&nbsp; 功能是先让堆栈指针S+1，然后取加过1的S所指向的单元的内容，把它送累加器A</font></p>
+<p><i><b><font size="2">&nbsp;&nbsp; 该指令影响标志寄存器P中的N，Z两标志位</font></b></i></p>
+<p><font color="#808080" size="2">3. 标志寄存器P进栈指令 PHP</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp; </font><font size="2">PHP是隐含寻址方式的单字节指令，操作码是 08</font></p>
+<p><font size="2">&nbsp;&nbsp; 功能是把标志寄存器P的内容按堆栈指针S所指示的位置送入堆栈，然后堆栈指针减1</font></p>
+<p><font size="2">&nbsp; </font> <i><b><font size="2">&nbsp;该指令不影响标志寄存器P的状态</font></b></i></p>
+<p><font color="#808080" size="2"><b><i>4. </i></b>标志寄存器P出栈指令 PLP</font></p>
+<p><font size="2" color="#808080">&nbsp;&nbsp; </font><font size="2">PLP是隐含寻址方式的单字节指令，操作码是 28</font></p>
+<p><font size="2">&nbsp;&nbsp; 功能是先让堆栈指针S+1，然后取加过1的S所指向的单元的内容，把它送标志寄存器P</font></p>
 
-<p><font color="#808080" size="2">5. ��ջ�÷�����</font></p>
+<p><font color="#808080" size="2">5. 堆栈用法举例</font></p>
 
 <p><span lang="zh-cn"> <font size="2">
 &nbsp;&nbsp;
-��ջ��һ���洢����,������ŵ����ӳ������Ӧ�ж�ʱ��������ϵ�,�Լ������Ĵ�����洢��������.</font></span></p>
+堆栈是一个存储区域,用来存放调用子程序或响应中断时的主程序断点,以及其他寄存器或存储器的内容.</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 
-����������Ҫ�����ӳ���ʱ,��һ���м�������־λ��״̬��ֱ����ڼĴ����ͱ�־�Ĵ�����</font></span></p>
+当主程序需要调用子程序时,有一组中间结果及标志位的状态需分别保留在寄存器和标志寄存器中</font></span></p>
 <p><span lang="zh-cn"><font size="2">
-�������õ��ӳ���ִ��ʱ,Ҳ��Ҫռ����Щ�Ĵ�����Ӱ���־�Ĵ���,����������ִ�е���ָ��ʱ���ϵ�</font></span></p>
+但被调用的子程序执行时,也需要占用这些寄存器并影响标志寄存器,这样除了在执行调用指令时将断点</font></span></p>
 <p><span lang="zh-cn"><font size="2">
-(����ָ�������ŵ�һ��ָ���ַ)�����ڶ�ջ����,�����뽫ԭ�������б����ڼĴ������м�����</font></span></p>
+(调用指令后紧接着的一条指令地址)保存在堆栈中外,还必须将原主程序中保留在寄存器中中间结果和</font></span></p>
 <p><span lang="zh-cn"><font size="2">
-��־λ��״̬�����ڶ�ջ��,ֱ���ӳ������,����������ʱ,�ٽ���Щ�м�������־λ״̬�ͻؼĴ���</font></span></p>
-<p><span lang="zh-cn"><font size="2">�ͱ�־�Ĵ�����.</font></span></p>
+标志位的状态保留在堆栈中,直到子程序结束,返回主程序时,再将这些中间结果及标志位状态送回寄存器</font></span></p>
+<p><span lang="zh-cn"><font size="2">和标志寄存器中.</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 
-6502�Ķ�ջ��ַ��0100-01FF,������ʵ����ϵͳҲռ���˶�ջ,���Զ�ջָ�벢����ָ��ջ��,���ǿ���</font></span></p>
-<p><span lang="zh-cn"><font size="2">������һ��.</font></span></p>
-<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; ���� NCTOOLS��,A 2000</font></span></p>
+6502的堆栈地址是0100-01FF,但由于实际上系统也占用了堆栈,所以堆栈指针并不是指向栈底,我们可以</font></span></p>
+<p><span lang="zh-cn"><font size="2">来测试一下.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 进入 NCTOOLS下,A 2000</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 2000: TSX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-��ջָ���8λ�ͼĴ���X</font></span></p>
+堆栈指针低8位送寄存器X</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 2001: RTS</font></span></p>
-<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; Ȼ�� G 2000,�� R �鿴�Ĵ���״̬,������� (X) 
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 然后 G 2000,按 R 查看寄存器状态,结果发现 (X) 
 = B4</font></span></p>
-<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; ����˵����ջָ���ֵ�� 01B4,�����ǿɱ��</font></span></p>
-<p>��</p>
-<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; ����������������ջָ�����ջ�ͳ�ջ�ı仯���:</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 这里说明堆栈指针的值是 01B4,但这是可变的</font></span></p>
+<p>　</p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 下面我们来看看堆栈指针随进栈和出栈的变化情况:</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; A 2000</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 2000: TSX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;��ջ��ʼ��ַ��8λ�ͼĴ��� X</font></span></p>
+;堆栈初始地址低8位送寄存器 X</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 2001: STX $3000</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 2004: PHA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;�Ĵ���A������ѹ���ջ</font></span></p>
+;寄存器A的数据压入堆栈</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 2005: TSX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;����ʱ��ջ��ַ��8λ�ͼĴ��� X</font></span></p>
+;把这时堆栈地址低8位送寄存器 X</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 2006: STX #3001&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;����͵�ַ3001</font></span></p>
+;结果送地址3001</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 2009: PHA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;�Ĵ���A������ѹ���ջ</font></span></p>
+;寄存器A的数据压入堆栈</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 200A: TSX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;����ʱ��ջ��ַ��8λ�ͼĴ��� X</font></span></p>
+;把这时堆栈地址低8位送寄存器 X</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 200B: STX $3002&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;����͵�ַ3002</font></span></p>
+;结果送地址3002</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 200E: PLA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;�Ӷ�ջ�е���һ������</font></span></p>
+;从堆栈中弹出一个数据</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 200F: TSX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;����ʱ��ջ��ַ��8λ�ͼĴ��� X</font></span></p>
+;把这时堆栈地址低8位送寄存器 X</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 2010: STX $3003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;����͵�ַ3003</font></span></p>
+;结果送地址3003</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 2013: PLA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;�Ӷ�ջ�е���һ������</font></span></p>
+;从堆栈中弹出一个数据</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 2014: TSX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;����ʱ��ջ��ַ��8λ�ͼĴ��� X</font></span></p>
+;把这时堆栈地址低8位送寄存器 X</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 2015: STX $3004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;����͵�ַ3004</font></span></p>
+;结果送地址3004</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 2018: RTS</font></span></p>
-<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; Ȼ������ G 2000</font></span></p>
-<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; Ȼ�� V 3000</font></span></p>
-<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; ������ַ3000-3004�����ݷֱ���&nbsp; B4 
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 然后我们 G 2000</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 然后 V 3000</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 看见地址3000-3004的内容分别是&nbsp; B4 
 B3 B2 B3 B4</font></span></p>
-<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; ˵����ջָ���ַ �� 01B4 01B3 01B2 01B3 
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 说明堆栈指针地址 是 01B4 01B3 01B2 01B3 
 01B4</font></span></p>
-<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; ��ҿɼ�,����һ�����ݽ�ջ��,��ջָ���ַ �� 
-1��,�ʼ��ջָ���ַ�� 01B4,���������� 01B3��</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 大家可见,当把一个数据进栈后,堆栈指针地址 减 
+1了,最开始堆栈指针地址是 01B4,后来不就是 01B3了</font></span></p>
 <p><span lang="zh-cn"><font size="2">
-����һ�����ݳ�ջ��,�ǰ����ѹ���ջ�������ȳ�ջ,��ҿ��Կ���,����ѹ��һ�����ݽ�ջ���ջָ���ַΪ</font></span></p>
-<p><span lang="zh-cn"><font size="2">&nbsp;01B2,���ǵ����ǵ���һ�����ݺ�,��ջָ��Ϊ 
-01B3,˵���������һ�����ݵ�����.</font></span></p>
-<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; ����6502��ջ�� ��ѭ 
-&quot;�Ƚ����&quot;��ԭ��,�ͺ������ǰ���һ��һ���Ĳ��,�����������ʱ��,�õ�ȴ��������</font></span></p>
-<p><span lang="zh-cn"><font size="2">���Ǳ�.</font></span></p>
-<p><span lang="zh-cn"><font size="2">&nbsp; �Ҿٸ�����:</font></span></p>
+但把一个数据出栈后,是把最近压入堆栈的数据先出栈,大家可以看到,当又压入一个数据进栈后堆栈指针地址为</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;01B2,但是当我们弹出一个数据后,堆栈指针为 
+01B3,说明把最近的一个数据弹出了.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp;&nbsp; 所以6502堆栈是 遵循 
+&quot;先进后出&quot;的原则,就好象我们把书一本一本的层叠,但我们拿书的时候,拿的却是最上面</font></span></p>
+<p><span lang="zh-cn"><font size="2">的那本.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 我举个例子:</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; A 2000</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 2000: LDA $00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;��ַ 00������ѹ���ջ</font></span></p>
+;地址 00的内容压入堆栈</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 2002: PHA</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 2003: LDA $0A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;��ַ 0A������ѹ���ջ</font></span></p>
+;地址 0A的内容压入堆栈</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 2005: PHA</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 2006: LDA $0D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;��ַ 0D ������ѹ���ջ</font></span></p>
+;地址 0D 的内容压入堆栈</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 2008: PHA</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 2009: PLA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;ע��:��ջʱ,�ȳ����ǵ�ַ0D ������,�����ǰѽ���͵�ַ0D,���ǵ�ַ00</font></span></p>
+;注意:出栈时,先出的是地址0D 的内容,所以是把结果送地址0D,不是地址00</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 200A: STA $0D</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 200C: PLA</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 200D: STA $0A</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 200F: PLA</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 2010: STA $00</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 2012: RTS</font></span></p>
-<p>��</p>
-<p><font size="2"><span lang="zh-cn">&nbsp; �������ӳ���ʱ,ϵͳ�Զ����ӳ���</span> <span lang="zh-cn">��һָ��ĵ�ַ</span> 
-- 1 <span lang="zh-cn">�Ͷ�ջ,���Ǿ���˵��:</span></font></p>
-<p><span lang="zh-cn"><font size="2">&nbsp; �ӳ���ӵ�ַ2100��ʼ:</font></span></p>
+<p>　</p>
+<p><font size="2"><span lang="zh-cn">&nbsp; 当调用子程序时,系统自动将子程序</span> <span lang="zh-cn">后一指令的地址</span> 
+- 1 <span lang="zh-cn">送堆栈,我们举例说明:</span></font></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 子程序从地址2100开始:</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; A 2100</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 2100: LDY #$00</font></span></p>
 <p><font size="2"><span lang="zh-cn">&nbsp; 2102: LDA #$01</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;<span lang="zh-cn">��ջָ���ַ�� 8 λ �͵�ַ46</span></font></p>
+;<span lang="zh-cn">堆栈指针地址高 8 位 送地址46</span></font></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 2104: STA $46</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 2106: TSX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;��ջָ���ַ�� 8 λ �ͼĴ���X</font></span></p>
+;堆栈指针地址低 8 位 送寄存器X</font></span></p>
 <p><font size="2"><span lang="zh-cn">&nbsp; 2107:  </span>INX<span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;�Ĵ���X���ݼ�1</span></font></p>
+;寄存器X内容加1</span></font></p>
 <p><font size="2">&nbsp; 2108: STX $45<span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;�͵�ַ 45</span></font></p>
+;送地址 45</span></font></p>
 <p><font size="2"><span lang="zh-cn">&nbsp;  </span>210A: LDA ($45), Y<span lang="zh-cn">&nbsp;&nbsp;&nbsp; 
-;��ȡĿ���ֵַ�͵�ַ3000</span></font></p>
+;读取目标地址值送地址3000</span></font></p>
 <p><font size="2">&nbsp; 210C: STA $3000</font></p>
 <p><font size="2">&nbsp; 210F: INC $45<span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;��ջָ�� �� 8λ�� 1</span></font></p>
+;堆栈指针 低 8位加 1</span></font></p>
 <p><font size="2">&nbsp; 2111: LDA ($45), Y<span lang="zh-cn">&nbsp;&nbsp;&nbsp; 
-;��ȡĿ���ֵַ�͵�ַ3001</span></font></p>
+;读取目标地址值送地址3001</span></font></p>
 <p><font size="2">&nbsp; 2113: STA $3001<span lang="zh-cn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></font></p>
 <p><font size="2">&nbsp; 2116: RTS</font></p>
-<p><span lang="zh-cn"><font size="2">&nbsp; ������ӵ�ַ2000��ʼ:</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 主程序从地址2000开始:</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; A 2000</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 2000: JSR $2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-;�����ӳ��� $2100</font></span></p>
+;调用子程序 $2100</font></span></p>
 <p><span lang="zh-cn"><font size="2">&nbsp; 2003: RTS</font></span></p>
-<p>��</p>
-<p><span lang="zh-cn">&nbsp; <font size="2">�������� G 2000,V 3000,����(3000) = 
+<p>　</p>
+<p><span lang="zh-cn">&nbsp; <font size="2">这里我们 G 2000,V 3000,发现(3000) = 
 02,(3001) = 20</font></span></p>
-<p><span lang="zh-cn"><font size="2">ִ����JSR $2100��,Ӧ��ִ�� ��ַ 2003��ָ��,Ϊʲô�� 2002��?</font></span></p>
-<p><span lang="zh-cn"><font size="2">��Ϊ���غ�,��������������Զ��� 1.</font></span></p>
-<p><span lang="zh-cn"><font size="2">&nbsp; �����ڵ��� �ӳ���ʱ,�ᱣ�� ��һָ���ַ -1,����ջ,�����˳���� 
-�ȴ��ַ ��8λ</font></span></p>
-<p><span lang="zh-cn"><font size="2">�ٴ��ַ ��8λ.</font></span></p>
+<p><span lang="zh-cn"><font size="2">执行完JSR $2100后,应该执行 地址 2003的指令,为什么是 2002呢?</font></span></p>
+<p><span lang="zh-cn"><font size="2">因为返回后,程序计数器还会自动加 1.</font></span></p>
+<p><span lang="zh-cn"><font size="2">&nbsp; 程序在调用 子程序时,会保存 下一指令地址 -1,到堆栈,保存的顺序是 
+先存地址 高8位</font></span></p>
+<p><span lang="zh-cn"><font size="2">再存地址 低8位.</font></span></p>
 
 </body>
 

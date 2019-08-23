@@ -1,93 +1,91 @@
 <html>
 
 <head>
-<meta charset="GBK">
-<meta http-equiv="Content-Language" content="zh-cn">
-<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
-<meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=gbk">
-<title>�½���ҳ 1</title>
+<meta charset="utf-8">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>新建网页 1</title>
 </head>
 
 <body text="#FFFFFF" bgcolor="#000000">
 
-<p align="left"><i><b><font size="2">//ѭ���������</font></b></i></p>
+<p align="left"><i><b><font size="2">//循环程序设计</font></b></i></p>
 <hr>
-<p><font size="2">��1��//�����ֵ&nbsp; �ӵ�ַ2100-��ַ21FF�������ֵ������͵�ַ2200</font></p>
+<p><font size="2">例1：//找最大值&nbsp; 从地址2100-地址21FF中找最大值，结果送地址2200</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2000:LDX #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//��ʼ��������X������=00</font></p>
+//初始化计数器X的内容=00</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2002:LDA #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//�ȼ������ֵ=00��������С�Ŀ���ֵ</font></p>
-<p>��</p>
+//先假设最大值=00，这是最小的可能值</font></p>
+<p>　</p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2004:CMP $2100,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//��һ�����ȵ�ǰ���ֵ����</font></p>
+//下一个数比当前最大值大吗？</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2007:BCS $200C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//��ά�ּĴ���A��ֵ����</font></p>
+//否，维持寄存器A的值不变</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2009:LDA $2100,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//�ǣ��ø����������ֵ</font></p>
-<p>��</p>
+//是，用该数代替最大值</font></p>
+<p>　</p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200C:INX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//������X�����ݼ�1</font></p>
+//计数器X的内容加1</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200D:BNE $2004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//����ѭ���Ƚϣ�ֱ��ȫ���Ƚ����</font></p>
+//继续循环比较，直到全部比较完毕</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200F:STA $2200&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//����͵�ַ2200</font></p>
-<p>��</p>
+//结果送地址2200</font></p>
+<p>　</p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2012:RTS</font></p>
-<p><font size="2">ͨ������ĳ������ǿ���֪����һ��ѭ������һ������4���������</font></p>
-<p><font size="2">�ٳ�ʼ������.&nbsp;&nbsp;&nbsp; �������������ĳ�ֵ��������������ʼֵ</font></p>
+<p><font size="2">通过上面的程序，我们可以知道，一个循环程序一般是由4个部分组成</font></p>
+<p><font size="2">①初始化部分.&nbsp;&nbsp;&nbsp; 它建立计数器的初值和其他变量的起始值</font></p>
 <p><font size="2">2000:LDX #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//��ʼ��������X������=00</font></p>
+//初始化计数器X的内容=00</font></p>
 <p><font size="2">2002:LDA #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//�ȼ������ֵ=00��������С�Ŀ���ֵ</font></p>
-<p><font size="2">�ڴ�������.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ���ⲿ�ֽ���ʵ�ʵ����ݴ���������ѭ��������Ҫ���ظ�ִ�е��Ƕδ���</font></p>
+//先假设最大值=00，这是最小的可能值</font></p>
+<p><font size="2">②处理部分.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在这部分进行实际的数据处理，这是循环程序中要求重复执行的那段代码</font></p>
 <p><font size="2">2004:CMP $2100,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//��һ�����ȵ�ǰ���ֵ����</font></p>
+//下一个数比当前最大值大吗？</font></p>
 <p><font size="2">2007:BCS $200C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//��ά�ּĴ���A��ֵ����</font></p>
+//否，维持寄存器A的值不变</font></p>
 <p><font size="2">2009:LDA $2100,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//�ǣ��ø����������ֵ</font></p>
-<p><font size="2">��ѭ�����Ʋ���.&nbsp; ��Ϊ��һ��ѭ������������������׼���������ж��Ƿ�ѭ������</font></p>
+//是，用该数代替最大值</font></p>
+<p><font size="2">③循环控制部分.&nbsp; 它为下一轮循环做好修正计数器的准备，并且判断是否循环结束</font></p>
 <p><font size="2">200C:INX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//������X�����ݼ�1</font></p>
+//计数器X的内容加1</font></p>
 <p><font size="2">200D:BNE $2004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//����ѭ���Ƚϣ�ֱ��ȫ���Ƚ����</font></p>
-<p><font size="2">�ܽ�������.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; �������ʹ�Ž��</font></p>
-<p>��</p>
-<p><font size="2">��2��//���ݿ���&nbsp;&nbsp;&nbsp; ��ַ2100-21FF�������͵�ַ2200-22FF</font></p>
+//继续循环比较，直到全部比较完毕</font></p>
+<p><font size="2">④结束部分.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 它分析和存放结果</font></p>
+<p>　</p>
+<p><font size="2">例2：//数据块搬家&nbsp;&nbsp;&nbsp; 地址2100-21FF的内容送地址2200-22FF</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2000:LDX #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//��ʼ������</font></p>
-<p>��</p>
+//初始化部分</font></p>
+<p>　</p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2002:LDA $2100,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//��������</font></p>
+//处理部分</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2005:STA $2200,X</font></p>
-<p>��</p>
+<p>　</p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2008:INX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//ѭ�����Ʋ���</font></p>
+//循环控制部分</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2009:BNE $2002</font></p>
-<p>��</p>
+<p>　</p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200B:RTS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-//��������</font></p>
-<p>��</p>
-<p><font size="2">��3. �������ǵĳ�����,����ʹ�������������ѭ����ʽ,�뿴</font></p>
+//结束部分</font></p>
+<p>　</p>
+<p><font size="2">例3. 在文曲星的程序中,大量使用了下面的这种循环方式,请看</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2000: LDX #$9C</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2002: LDA $3FFF,X</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2005: STA $1FFF,X</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2008: DEX</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2009: BNE $2002</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200B: RTS</font></p>
-<p>��</p>
-<p><font size="2">&nbsp;&nbsp;&nbsp; ��γ���ʵ�ֵ��ǽ���ַ 4000-409B �������͵�ַ 2000-209B</font></p>
-<p><font size="2">&nbsp;&nbsp;&nbsp; ���͵��ֽ����� 9C��</font></p>
-<p><font size="2">&nbsp;&nbsp;&nbsp; ��ѧ�߿��ܻ�˵,Ϊʲô�� LDA $3FFF,X&nbsp;&nbsp;&nbsp; 
-STA $1FFF,X ��,Ϊʲô���� LDA $4000,X&nbsp;&nbsp; STA $2000,X ��?</font></p>
-<p><font size="2">���� 3FFF + 9C = 309B,��Ϊ���ĵ�ַ��309B,����� LDA $4000,X,��ô���ĵ�ַ���� 
-4000 + 9C = 409C��?</font></p>
-<p><font size="2">��Ȼ�Ǵ����.���Ե�ַҪ�� 1</font></p>
+<p>　</p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 这段程序实现的是将地址 4000-409B 的内容送地址 2000-209B</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 发送的字节数是 9C个</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp; 初学者可能会说,为什么是 LDA $3FFF,X&nbsp;&nbsp;&nbsp; 
+STA $1FFF,X 呢,为什么不是 LDA $4000,X&nbsp;&nbsp; STA $2000,X 呢?</font></p>
+<p><font size="2">这里 3FFF + 9C = 309B,因为最后的地址是309B,如果是 LDA $4000,X,那么最后的地址岂不是 
+4000 + 9C = 409C吗?</font></p>
+<p><font size="2">显然是错误的.所以地址要减 1</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; </font></p>
-<p><font size="2">��4��������ǰ�����������ݴ��������У�ֻ��ʵ���������ݵĴ��ͣ��������ǽ������ʵ�ִ������ݵĴ���</font></p>
-<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; //�������ݵİ��&nbsp;&nbsp;&nbsp; 
-��ַ2000-2FFF�������͵�ַ3000-3FFF</font></p>
+<p><font size="2">例4：在我们前面所讲的数据传送例子中，只能实现少量数据的传送，这里我们讲讲如何实现大量数据的传送</font></p>
+<p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; //大量数据的搬家&nbsp;&nbsp;&nbsp; 
+地址2000-2FFF的内容送地址3000-3FFF</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2000:LDY #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </font>
 </p>
@@ -99,10 +97,10 @@ STA $1FFF,X ��,Ϊʲô���� LDA $4000,X&nbsp;&nbsp; STA $2000,X ��?</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200C:STA $42</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200E:LDA #$30</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2010:STA $43</font></p>
-<p>��</p>
+<p>　</p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2012:LDA ($40),Y</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2014:STA ($42),Y</font></p>
-<p>��</p>
+<p>　</p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2016:LDA $40</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2018:CMP #$FF</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 201A:BNE $2023</font></p>
@@ -110,21 +108,21 @@ STA $1FFF,X ��,Ϊʲô���� LDA $4000,X&nbsp;&nbsp; STA $2000,X ��?</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 201E:CMP #$2F</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2020:BNE $2023</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2022:RTS</font></p>
-<p>��</p>
+<p>　</p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2023:INC $40</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2025:BNE $2029</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2027:INC $41</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2029:INC $42</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 202B:BNE $202F</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 202D:INC $43</font></p>
-<p>��</p>
+<p>　</p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 202F:JMP $2012</font></p>
-<p><font size="2">�������Ĵ�����΢����Щ���������Ƿ���һ�£����ֲ�������</font></p>
-<p><font size="2">����Ҫ˵��һ�£����������������ʹ���� ���ַY��ַ ��Ѱַ��ʽ</font></p>
-<p><font size="2">��ַ40 41&nbsp;&nbsp; ��Դ��ַ</font></p>
-<p><font size="2">��ַ42 43&nbsp;&nbsp; ��Ŀ���ַ</font></p>
-<p><font size="2">��ʼ��ʱ�򣬶Ե�ַ40��41��42��43���г�ʼ��Ϊ 40:00 20 00 30,�����üĴ���Y��ֵ=00</font></p>
-<p><font size="2">�öδ������£�</font></p>
+<p><font size="2">这个程序的代码稍微长了些，但是我们分析一下，发现并不复杂</font></p>
+<p><font size="2">首先要说明一下，在这个程序中我们使用了 后变址Y间址 的寻址方式</font></p>
+<p><font size="2">地址40 41&nbsp;&nbsp; 放源地址</font></p>
+<p><font size="2">地址42 43&nbsp;&nbsp; 放目标地址</font></p>
+<p><font size="2">开始的时候，对地址40，41，42，43进行初始化为 40:00 20 00 30,并且让寄存器Y的值=00</font></p>
+<p><font size="2">该段代码如下：</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2000:LDY #$00</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2002:LDA #$00</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2004:STA $40</font></p>
@@ -134,24 +132,24 @@ STA $1FFF,X ��,Ϊʲô���� LDA $4000,X&nbsp;&nbsp; STA $2000,X ��?</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200C:STA $42</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 200E:LDA #$30</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2010:STA $43</font></p>
-<p><font size="2">Ȼ������ ���ַY��ַ ��Ѱַ��ʽ���ȶ�ȡ��ַ40 41��ֵ���ѵ�ַ40��ֵ��ΪԴ��ַ�ĵ�8λ����ַ41��ֵΪ��8λ</font></p>
-<p><font size="2">����һ��ʼ(40)=00,(41)=20,��ô���ǽ���ַ[2000+Y]�������ͼĴ���A������һ��ʼ���üĴ���Y��ֵ=00</font></p>
-<p><font size="2">����ִ�и�ָ��Ľ�����ǽ���ַ2000��ֵ�ͼĴ���A</font></p>
-<p><font size="2">Ȼ�� ͬ���� ���ַY��ַ ��Ѱַ��ʽ �ȶ�ȡ��ַ42 43��ֵ���ѵ�ַ42��ֵ��ΪĿ���ַ�ĵ�8λ����ַ43��ֵΪ��8λ</font></p>
-<p><font size="2">����һ��ʼ(42)=00,(43)=30,��ô���ǽ��Ĵ���A��ֵ�͵�ַ[3000+Y]������A��ֵ�͵�ַ3000</font></p>
-<p><font size="2">�öδ������£�</font></p>
+<p><font size="2">然后运用 后变址Y间址 的寻址方式，先读取地址40 41的值，把地址40的值作为源地址的低8位，地址41的值为高8位</font></p>
+<p><font size="2">这里一开始(40)=00,(41)=20,那么就是将地址[2000+Y]的内容送寄存器A，由于一开始就让寄存器Y的值=00</font></p>
+<p><font size="2">所以执行该指令的结果就是将地址2000的值送寄存器A</font></p>
+<p><font size="2">然后 同样用 后变址Y间址 的寻址方式 先读取地址42 43的值，把地址42的值作为目标地址的低8位，地址43的值为高8位</font></p>
+<p><font size="2">这里一开始(42)=00,(43)=30,那么就是将寄存器A的值送地址[3000+Y]，即将A的值送地址3000</font></p>
+<p><font size="2">该段代码如下：</font></p>
 <p><font size="2">&nbsp;2012:LDA ($40),Y</font></p>
 <p><font size="2">&nbsp;2014:STA ($42),Y</font></p>
-<p><font size="2">Ȼ������жϵ�ַ40��41�������ǲ��ǣ�40��=FF����41��=2F�������ȣ�˵�������Ѿ��������.</font></p>
-<p><font size="2">�������ȣ���ô�ѵ�ַ40��42��ֵ��1����������.�����жδ���������˲�����</font></p>
+<p><font size="2">然后就是判断地址40，41的内容是不是（40）=FF，（41）=2F，如果相等，说明数据已经传送完成.</font></p>
+<p><font size="2">如果不相等，那么把地址40，42的值加1，继续传送.这里有段代码可能有人不明白</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2023:INC $40</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2025:BNE $2029&nbsp;&nbsp; </font> </p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2027:INC $41</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 2029:INC $42</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 202B:BNE $202F</font></p>
 <p><font size="2">&nbsp;&nbsp;&nbsp;&nbsp; 202D:INC $43</font></p>
-<p><font size="2">�����ַ40��ֵ��1�󣬵�ַ40��ֵ=00����ô��ַ41��ֵ��Ӧ�ü�1�����翪ʼ(40)=FF,(41)=20</font></p>
-<p><font size="2">��ַ40��ֵ��1�󣬣�40��=00�������ʱ��ַ41��ֵ����1����ô��40��=00����41��=20����ô��Ȼ�Ǵ����</font></p>
+<p><font size="2">如果地址40的值加1后，地址40的值=00，那么地址41的值就应该加1，比如开始(40)=FF,(41)=20</font></p>
+<p><font size="2">地址40的值加1后，（40）=00，如果此时地址41的值不加1，那么（40）=00，（41）=20，那么显然是错误的</font></p>
 
 </body>
 
