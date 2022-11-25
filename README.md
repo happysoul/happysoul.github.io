@@ -12,3 +12,4 @@ csdn 文章对应的代码下载地址是 https://happysoul.github.io/nes/nesdou
 
 FC游戏开发交流Q群：790224822 (入门加这个) 43371391 (有基础的加这个)
 
+项目github地址：https://github.com/happysoul/happysoul.github.io
