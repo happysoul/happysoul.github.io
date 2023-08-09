@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8" />
+<link rel="shortcut icon" href="https://www.socialworldsresearch.org/sites/default/themes/swr_theme/favicon.ico" type="image/vnd.microsoft.icon" />
+<meta name="viewport" content="width=device-width" />
+<link rel="canonical" href="/eecs/ackerm" />
+<meta name="Generator" content="Drupal 7 (http://drupal.org)" />
+<link rel="shortlink" href="/node/21" />
+<title>Mark S. Ackerman | SocialWorlds Research Group @ University of Michigan</title>
+<style type="text/css" media="all">
+@import url("https://www.socialworldsresearch.org/modules/system/system.base.css?pr77xi");
+@import url("https://www.socialworldsresearch.org/modules/system/system.menus.css?pr77xi");
+@import url("https://www.socialworldsresearch.org/modules/system/system.messages.css?pr77xi");
+@import url("https://www.socialworldsresearch.org/modules/system/system.theme.css?pr77xi");
+</style>
+<style type="text/css" media="all">
+@import url("https://www.socialworldsresearch.org/modules/comment/comment.css?pr77xi");
+@import url("https://www.socialworldsresearch.org/modules/field/theme/field.css?pr77xi");
+@import url("https://www.socialworldsresearch.org/modules/node/node.css?pr77xi");
+@import url("https://www.socialworldsresearch.org/modules/search/search.css?pr77xi");
+@import url("https://www.socialworldsresearch.org/modules/user/user.css?pr77xi");
+@import url("https://www.socialworldsresearch.org/sites/default/modules/views/css/views.css?pr77xi");
+</style>
+<style type="text/css" media="all">
+@import url("https://www.socialworldsresearch.org/sites/default/modules/ctools/css/ctools.css?pr77xi");
+@import url("https://www.socialworldsresearch.org/sites/default/modules/biblio/biblio.css?pr77xi");
+@import url("https://www.socialworldsresearch.org/sites/default/libraries/nivo-slider/themes/light/light.css?pr77xi");
+@import url("https://www.socialworldsresearch.org/sites/default/libraries/nivo-slider/nivo-slider.css?pr77xi");
+</style>
+<style type="text/css" media="all">
+@import url("https://www.socialworldsresearch.org/sites/default/themes/swr_theme/style.css?pr77xi");
+@import url("https://www.socialworldsresearch.org/sites/default/themes/creative_responsive_theme/media.css?pr77xi");
+</style>
+<script type="text/javascript" src="https://www.socialworldsresearch.org/sites/default/files/js/js_0RyHJ63yYLuaWsodCPCgSD8dcTIA0dqcDf8-7c2XdBw.js"></script>
+<script type="text/javascript" src="https://www.socialworldsresearch.org/sites/default/files/js/js_83zgtainmduQnRa2jfOFtruyeffZh_Max2KVjUAFsxM.js"></script>
+<script type="text/javascript" src="https://www.socialworldsresearch.org/sites/default/files/js/js_O2_RWQ27fTzPCxe7BS7y_Q-HwZi-_whcDMHSHu40YLE.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"swr_theme","theme_token":"vODWNF1wXSBHQni1tzp8xFOOQSN5VlO-_1c23QH9jV4","js":{"sites\/default\/modules\/jquery_update\/replace\/jquery\/1.7\/jquery.min.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/default\/modules\/nivo_slider\/js\/nivo_slider.js":1,"sites\/default\/libraries\/nivo-slider\/jquery.nivo.slider.pack.js":1,"sites\/default\/themes\/creative_responsive_theme\/js\/custom.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/comment\/comment.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"sites\/default\/modules\/views\/css\/views.css":1,"sites\/default\/modules\/ctools\/css\/ctools.css":1,"sites\/default\/modules\/biblio\/biblio.css":1,"sites\/default\/libraries\/nivo-slider\/themes\/light\/light.css":1,"sites\/default\/libraries\/nivo-slider\/nivo-slider.css":1,"sites\/default\/themes\/swr_theme\/style.css":1,"sites\/default\/themes\/creative_responsive_theme\/media.css":1}},"nivo_slider":{"effect":"random","slices":15,"boxCols":8,"boxRows":4,"animSpeed":500,"pauseTime":3000,"startSlide":0,"directionNav":true,"controlNav":false,"controlNavThumbs":false,"pauseOnHover":true,"manualAdvance":true,"prevText":"Prev","nextText":"Next","randomStart":true}});
+//--><!]]>
+</script>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body class="html not-front not-logged-in two-sidebars page-node page-node- page-node-21 node-type-page">
+    
+<div id="header_wrapper">
+  <div id="inner_header_wrapper">
+
+    
+    <header id="header" role="banner">
+            <h1 id="site-title">
+        <a href="/" title="Home"></a>
+        <div id="site-description"></div>
+      </h1>
+      <div class="clear"></div>
+    </header>
+
+    <div class="menu_wrapper">
+      <nav id="main-menu"  role="navigation">
+        <a class="nav-toggle" href="#">Navigation</a>
+        <div class="menu-navigation-container">
+          <ul class="menu"><li class="first leaf"><a href="/">Home</a></li>
+<li class="leaf"><a href="/people">People</a></li>
+<li class="leaf"><a href="/publications" title="">Papers</a></li>
+<li class="leaf"><a href="/projects">Projects</a></li>
+<li class="leaf"><a href="/funding">Funding</a></li>
+<li class="last leaf"><a href="/contactinfo">Contact</a></li>
+</ul>        </div>
+        <div class="clear"></div>
+      </nav><!-- end main-menu -->
+    </div>
+  </div>
+</div>
+
+  <div id="container">
+
+          <div class="region region-slideshow">
+  <div id="block-nivo-slider-nivo-slider" class="block block-nivo-slider">
+
+      
+  <div class="content">
+      <div class="slider-wrapper theme-light">
+    <div class="ribbon"></div>
+    <div id="slider" class="nivoSlider">
+      <img class="slide" id="slide-0" data-thumb="https://www.socialworldsresearch.org/sites/default/files/banner/burnsparkAysePerryTao.jpg" data-transition="" typeof="foaf:Image" src="https://www.socialworldsresearch.org/sites/default/files/banner/burnsparkAysePerryTao.jpg" alt="The SocialWorlds Research Group, University of Michigan" title="" /><img class="slide" id="slide-1" data-thumb="https://www.socialworldsresearch.org/sites/default/files/banner/burnsparkPerryTaoLiz.jpg" data-transition="" typeof="foaf:Image" src="https://www.socialworldsresearch.org/sites/default/files/banner/burnsparkPerryTaoLiz.jpg" alt="The SocialWorlds Research Group, University of Michigan" title="" /><img class="slide" id="slide-2" data-thumb="https://www.socialworldsresearch.org/sites/default/files/banner/burnsparkAysePerryLiz.jpg" data-transition="" typeof="foaf:Image" src="https://www.socialworldsresearch.org/sites/default/files/banner/burnsparkAysePerryLiz.jpg" alt="The SocialWorlds Research Group, University of Michigan" title="" /><img class="slide" id="slide-3" data-thumb="https://www.socialworldsresearch.org/sites/default/files/banner/burnsparkD7_withstudents_nogaps.jpg" data-transition="" typeof="foaf:Image" src="https://www.socialworldsresearch.org/sites/default/files/banner/burnsparkD7_withstudents_nogaps.jpg" alt="The SocialWorlds Research Group, University of Michigan" title="" />    </div>
+  </div>
+    </div>
+  
+</div> <!-- /.block -->
+</div>
+ <!-- /.region -->
+       <!-- Banner -->
+
+           
+    <div class="content-sidebar-wrap">
+
+    <div id="content">
+            <section id="post-content" role="main">
+                        <h1 class="page-title">Mark S. Ackerman</h1>                                        <div class="region region-content">
+  <div id="block-system-main" class="block block-system">
+
+      
+  <div class="content">
+                          <span property="dc:title" content="Mark S. Ackerman" class="rdf-meta element-hidden"></span>  
+      
+    
+  <div class="content node-page">
+    <div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p> </p>
+<p><img alt="Mark Ackerman" src="http://www.eecs.umich.edu/~ackerm/ackerm49.jpg" style="width: 250px; float: left; height: 195px; " /></p>
+<p><strong>Professor <br />Division of Computer Science and Engineering</strong><br /><strong>   and </strong><br /><strong>School of Information</strong>  </p>
+<p><strong>ackerm <em>at</em> umich <em>dot</em> edu</strong></p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p><strong>Overview -</strong> See the <a href="http://socialworldsresearch.org/">SocialWorlds research group's </a>webpages for a description of my research streams, as well as our <a href="http://socialworldsresearch.org/projects">projects </a>and <a href="http://socialworldsresearch.org/papers">publications</a>.</p>
+<ul><li><a href="http://socialworldsresearch.org/prospective_students">Prospective student? Interested in working with us?</a></li>
+<li><a href="http://socialworldsresearch.org/ackerman-contactinfo">Current contact info</a></li>
+<li><a href="http://www.eecs.umich.edu/~ackerm/vita.ackerman.pdf">My vita (updated 1/19)</a></li>
+</ul><p><strong>Short bio - </strong>Mark Ackerman is is the George Herbert Mead Collegiate Professor of Human-Computer Interaction and a Professor in the School of Information and in the Department of Electrical Engineering and Computer Science at the University of Michigan, Ann Arbor. His major research area is Human-Computer Interaction (HCI), primarily Computer-Supported Cooperative Work (CSCW). He has published widely in HCI and CSCW, investigating collaborative information access in online knowledge communities, medical settings, expertise sharing, and most recently, pervasive environments. Mark is a member of the CHI Academy (HCI Fellow) and an ACM Fellow.</p>
+<p>Previously, Mark was a faculty member at the University of California, Irvine, and a research scientist at MIT's Laboratory for Computer Science (now CSAIL). Before becoming an academic, Mark led the development of the first home banking system, had three Billboard Top-10 games for the Atari 2600, and worked on the X Window System's first user-interface widget set. Mark has degrees from the University of Chicago, Ohio State, and MIT.</p>
+<p> </p>
+</div></div></div>  </div>
+
+      <footer>
+          </footer>
+  
+    </div>
+  
+</div> <!-- /.block -->
+</div>
+ <!-- /.region -->
+      </section> <!-- /#main -->
+    </div>
+
+          <aside id="sidebar-first" role="complementary">
+        <div class="region region-sidebar-first">
+  <div id="block-block-2" class="block block-block">
+
+      
+  <div class="content">
+    <p><img alt="" src="/sites/default/files/spacer.png" style="width: 1px; height: 1px;" /></p>
+  </div>
+  
+</div> <!-- /.block -->
+</div>
+ <!-- /.region -->
+      </aside>  <!-- /#sidebar-first -->
+    
+    </div>
+
+          <aside id="sidebar-second" role="complementary">
+        <div class="region region-sidebar-second">
+  <div id="block-block-3" class="block block-block">
+
+      
+  <div class="content">
+    <p style="padding-top: 40px; width: 12%;"><img alt="" src="/sites/default/files/spacer.png" style="width: 40px; height: 40px;" /></p>
+  </div>
+  
+</div> <!-- /.block -->
+</div>
+ <!-- /.region -->
+      </aside>  <!-- /#sidebar-first -->
+    
+</div>
+
+<div id="footer">
+  <div id="footer_wrapper">
+      </div>
+  <div class="footer_credit">
+    <div class="footer_inner_credit">
+    
+    <div id="copyright">
+     <p class="copyright">Copyright &copy; 2019,  </p> <p class="credits"> Theme by  <a href="http://www.zymphonies.com">Zymphonies</a></p>
+    <div class="clear"></div>
+    </div>
+  </div>
+  </div>
+</div>
+  </body>
+</html>

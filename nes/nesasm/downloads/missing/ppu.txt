@@ -1,0 +1,184 @@
+EASY WAY TO FIND SOME DATA IN NES ROMS
+----------------------------------------
+
+Did I say easy. Ya that's right I did ^_^ . There is a way to find the pattern tables,
+name table(possibly level data), attribute tables, And palettes. All you do is fire up the NES emulator Nesten.
+Go to View then to the debugger. And make sure your in the right area in the game you want to
+locate the data for. Then dump the PPU. PPU is Picture Processing Unit for short.
+
+Ok you have a nice and somewhat smaller file to mess with. Where do you start well I will 
+explain. The PPU file you dumped is divided into sections. What I am going to do is present
+the following table for you to look at. And by the way this table is lifted nearly verbatim
+from Yoshi's Nintendo Entertainment System Documentation. 
+
+
+        Programmer Memory Map
+      +---------+-------+-------+--------------------+
+      | Address | Size  | Flags | Description        |
+      +---------+-------+-------+--------------------+
+      | $0000   | $1000 | C     | Pattern Table #0   |
+      | $1000   | $1000 | C     | Pattern Table #1   |
+      | $2000   | $3C0  |       | Name Table #0      |
+      | $23C0   | $40   |  N    | Attribute Table #0 |
+      | $2400   | $3C0  |  N    | Name Table #1      |
+      | $27C0   | $40   |  N    | Attribute Table #1 |
+      | $2800   | $3C0  |  N    | Name Table #2      |
+      | $2BC0   | $40   |  N    | Attribute Table #2 |
+      | $2C00   | $3C0  |  N    | Name Table #3      |
+      | $2FC0   | $40   |  N    | Attribute Table #3 |
+      | $3000   | $F00  |   R   |                    |
+      | $3F00   | $10   |       | Image Palette #1   |
+      | $3F10   | $10   |       | Sprite Palette #1  |
+      | $3F20   | $E0   |    P  |                    |
+      | $4000   | $C000 |     F |                    |
+      +---------+-------+-------+--------------------+
+                          C = Possibly CHR-ROM
+                          N = Mirrored (see Subsection G)
+                          P = Mirrored (see Subsection H)
+                          R = Mirror of $2000-2EFF (VRAM)
+                          F = Mirror of $0000-3FFF (VRAM)
+
+You see this table. Well you can take each area in the PPU file that you dumped and possibly 
+find the data in the rom if the data is not compressed or using some other odd type of data
+storage commonly used with some mappers. What you do is take about a dozen or so bytes from 
+the PPU file and use the search function in most hex editors to locate the bytes in the
+rom that you want to find the data. And once you find a match you simply look at the 
+surrounding data to make sure it matches up properly.
+
+
+1.)Pattern Table #0
+This is the current pattern table loaded. This could be sprites or background or both. This table is
+usually background tiles. The size of this section is $1000 in hex or 4KB which is half of
+the standard 8KB of CHR. This is the data that you can view in a tile editor. This may be usefull
+if you want to make a program to edit tiles. This is what you see in the Nesticle tile editor.
+This is the first half of the table.
+
+2.)Pattern Table #1
+This is the second half of the pattern table that is currently loaded and is the same size as
+Pattern Table #0. This table usually contains sprites. 
+
+3.)Name Table #0
+Ok here is the Name Table #0. This section is what contains your tile map data. Like for title 
+screens, non scrolling one screen overhead maps, And also is used for parts of scrolling maps
+that is combined with the other name tables when using mappers. This table is 960 bytes large.
+
+4.)Attribute Table #0
+Ok this is sorta a tricky one to explain. You ever edited a screen and you ran into one where
+you changed a tile and it ended up NOT being the color you wanted. well Attribute Tables 
+have something to do with that. Each byte in this table controls the current 4 color set used
+from the 16 byte palette. Thus if you change certain bits in the byte this will control what
+colors from the palette will be used for a 4x4 section of tiles. Yes that's 16 total tiles.
+Attribute tables are sorta limited as you have to use only 4 colors for a entire 4 tile 
+section. Thus you can change any 4 tile section to a different color set if you wish. I did this 
+with the Asmik Kun overhead map to expand the signs. Also I am going to paste in here a table
+from the Nintendo Entertainment System Documentation once again to give you a visual demonstration.
+
+It's quite confusing; two graphical diagrams may help:
+
+      +------------+------------+
+      |  Square 0  |  Square 1  |  #0-F represents an 8x8 tile
+      |   #0  #1   |   #4  #5   |
+      |   #2  #3   |   #6  #7   |  Square [x] represents four (4) 8x8 tiles
+      +------------+------------+   (i.e. a 16x16 pixel grid)
+      |  Square 2  |  Square 3  |
+      |   #8  #9   |   #C  #D   |
+      |   #A  #B   |   #E  #F   |
+      +------------+------------+
+
+    The actual format of the attribute byte is the following (and corris-
+    ponds to the above example):
+
+       Attribute Byte
+         (Square #)
+      ----------------
+          33221100
+          ||||||+--- Upper two (2) colour bits for Square 0 (Tiles #0,1,2,3)
+          ||||+----- Upper two (2) colour bits for Square 1 (Tiles #4,5,6,7)
+          ||+------- Upper two (2) colour bits for Square 2 (Tiles #8,9,A,B)
+          +--------- Upper two (2) colour bits for Square 3 (Tiles #C,D,E,F)
+
+Ok and this ends the visual. The size of the attribute table is 64 bytes large and the byte that
+controls the first 4x4 tile section starts at the top of the screen starting from the left and 
+it goes to the right untill you end at the far right side and you go to the next level below that
+and once again to the left and work to your right. 
+
+Now here is a much larger visual that I am going to attempt to give a better understanding of the
+table. The entire table covers 32x30 tiles or 256x240 pixels. This differs from PAL to NTSC 
+resolution. 
+
+                                      TOP OF SCREEN
+  +----------+----------+----------+----------+----------+----------+---------------------------------
+  | 4X4 Tile | 4X4 Tile | 4X4 Tile | 4X4 Tile | 4X4 Tile | 4X4 Tile |
+  | section  | section  | section  | section  | section  | section  |
+  |  23C0    |  23C1    |  23C2    |  23C3    |  23C4    |  23C5    |
+  +----------+----------+----------+----------+----------+----------+
+  |
+  |
+  |
+  |
+  |
+  |
+
+Also keep in mind that attribute tables are disabled by some mappers like MMC5 for instance. So 
+you may not find them. 
+
+This raps this section up. I might finish the table in the future perhaps. 
+
+5.)Name Table #1
+This is one of the many mirrored sections of NES games. Most always this data is exactly the same
+as Name Table #0. This section can be used by mappers. However you should examine this area for 
+data. 
+
+6.)Attribute Table #1 
+This is another mirrored section from the attribute table #0 
+
+7.)Name Table #2
+This is also another mirrored section.
+
+8.)Attribute Table #2
+Mirrored section
+
+9.)Name Table #3
+Also a mirrored section
+
+10.)Attribute Table #3
+Also a mirrored section
+
+11.)Image Palette #1
+This is the 16 byte palette used for background graphics and this palette is usually for the
+section in the game that you want to hack. 
+
+12.)Sprite Palette #1
+This is the 16 byte palette used for sprites. And once again is usually used for the section
+you want to hack.
+
+The point to this doc is that I tried to explain how you can find areas in your game that you
+want to hack. Doing this may save you hours of work. All you have to do is find the general 
+area write that down. And then you use a table for palettes and you can easily tell what is 
+what in only 16 bytes. For the larger areas like name tables you simply write down the area
+and you may use Nesticle to get the tile index numbers and search in that area. Keep in mind
+the area may still use some type of RLE compression and some other wierd ordering. However
+it is alot easier to deduce the exact location.
+
+Note:About the name tables. It is good to search them all for screens that scroll in any direction
+or even in all directions. 
+
+This about raps this document up. However just one last note. This isnt a sure fire method of finding
+data. However I have found data more times then not using this method and in less time. Also this
+document is not aimed to be technical at all but more to help rom hackers. 
+
+Contact Info
+--------------
+You can contact me Gil_Galad75@hotmail.com for any questions or comments. Constructive advice is much 
+better recieved. Thanks for reading and hope this helps you out.
+
+Credits
+---------
+Thanks goes to in no particular order.
+Yoshi for his NES Tech doc, All others for the previous research, Keven Horton because one day I was
+hacking the Asmik Kun overhead map and ran into the problem of the different colors and then after
+reading Yoshi's NES Tech doc I figured out that I needed to change the attribute table and I noted
+the location of the table in memory. however I didnt know how to locate the attribute table in the rom so I
+asked the channel and Keven told me to dump the PPU in Nesten and that got the ball rolling so to 
+speak. So thanks to him. 
+
